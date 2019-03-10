@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="Hexo, NexT">
+  <meta name="keywords" content="深度学习,卷积神经网络,">
 
 
 
@@ -79,17 +79,21 @@
 
 
 
-<meta name="description" content="在校计算机研究生一个，主要做视觉和机器学习。专业打酱油。">
-<meta property="og:type" content="website">
-<meta property="og:title" content="tags">
-<meta property="og:url" content="http://yoursite.com/tags/index.html">
+<meta name="description" content="VGG这篇文章通过增加卷积神经网络的深度和减小卷积核的方法，训练了一个更大的拥有更好效果的卷积神经网络。做了多组对照试验，对卷积网络的深度，训练时数据集的选择，测试时数据集的选择，LRN的效果等都做了探讨。 贡献点 深度提升了性能  采用了小卷积核和小池化核  在测试的时候用卷积来代替全连接层   值得注意的一些做法以及解释 小卷积的好处（与大卷积的对比） 在达到相同感受野的前提下，卷积核越小的卷">
+<meta name="keywords" content="深度学习,卷积神经网络">
+<meta property="og:type" content="article">
+<meta property="og:title" content="VGG论文解读">
+<meta property="og:url" content="http://yoursite.com/2019/02/21/VGG论文解读/index.html">
 <meta property="og:site_name" content="摸鱼博客">
-<meta property="og:description" content="在校计算机研究生一个，主要做视觉和机器学习。专业打酱油。">
+<meta property="og:description" content="VGG这篇文章通过增加卷积神经网络的深度和减小卷积核的方法，训练了一个更大的拥有更好效果的卷积神经网络。做了多组对照试验，对卷积网络的深度，训练时数据集的选择，测试时数据集的选择，LRN的效果等都做了探讨。 贡献点 深度提升了性能  采用了小卷积核和小池化核  在测试的时候用卷积来代替全连接层   值得注意的一些做法以及解释 小卷积的好处（与大卷积的对比） 在达到相同感受野的前提下，卷积核越小的卷">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-03-10T13:02:45.124Z">
+<meta property="og:image" content="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%B7%B1%E5%BA%A6%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E6%9E%B6%E6%9E%84/VGG_%E6%84%9F%E5%8F%97%E9%87%8E.png">
+<meta property="og:image" content="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%B7%B1%E5%BA%A6%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E6%9E%B6%E6%9E%84/VGG%E6%A8%A1%E5%9E%8B%E6%A6%82%E8%BF%B0.png">
+<meta property="og:updated_time" content="2019-02-21T03:36:54.713Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="tags">
-<meta name="twitter:description" content="在校计算机研究生一个，主要做视觉和机器学习。专业打酱油。">
+<meta name="twitter:title" content="VGG论文解读">
+<meta name="twitter:description" content="VGG这篇文章通过增加卷积神经网络的深度和减小卷积核的方法，训练了一个更大的拥有更好效果的卷积神经网络。做了多组对照试验，对卷积网络的深度，训练时数据集的选择，测试时数据集的选择，LRN的效果等都做了探讨。 贡献点 深度提升了性能  采用了小卷积核和小池化核  在测试的时候用卷积来代替全连接层   值得注意的一些做法以及解释 小卷积的好处（与大卷积的对比） 在达到相同感受野的前提下，卷积核越小的卷">
+<meta name="twitter:image" content="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%B7%B1%E5%BA%A6%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E6%9E%B6%E6%9E%84/VGG_%E6%84%9F%E5%8F%97%E9%87%8E.png">
 
 
 
@@ -119,13 +123,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/tags/">
+  <link rel="canonical" href="http://yoursite.com/2019/02/21/VGG论文解读/">
 
 
 
 
 
-  <title>tags | 摸鱼博客</title>
+  <title>VGG论文解读 | 摸鱼博客</title>
   
 
 
@@ -272,33 +276,212 @@
 
   <div id="posts" class="posts-expand">
     
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/02/21/VGG论文解读/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="郭某人">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="摸鱼博客">
+    </span>
+
     
-    
-    <div class="post-block page">
       <header class="post-header">
 
-	<h1 class="post-title" itemprop="name headline">tags</h1>
-
-
-
-</header>
-
-      
-      
-      
-      <div class="post-body">
         
         
+          <h1 class="post-title" itemprop="name headline">VGG论文解读</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-02-21T11:28:12+08:00">
+                2019-02-21
+              </time>
+            
+
+            
+
+            
+          </span>
+
           
-        
-      </div>
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/深度学习模型/" itemprop="url" rel="index">
+                    <span itemprop="name">深度学习模型</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
       
       
+
+      
+        <p>VGG这篇文章通过增加卷积神经网络的深度和减小卷积核的方法，训练了一个更大的拥有更好效果的卷积神经网络。做了多组对照试验，对卷积网络的深度，训练时数据集的选择，测试时数据集的选择，LRN的效果等都做了探讨。</p>
+<h3 id="贡献点"><a href="#贡献点" class="headerlink" title="贡献点"></a>贡献点</h3><ul>
+<li><p>深度提升了性能</p>
+</li>
+<li><p>采用了小卷积核和小池化核</p>
+</li>
+<li><p>在测试的时候用卷积来代替全连接层</p>
+</li>
+</ul>
+<h3 id="值得注意的一些做法以及解释"><a href="#值得注意的一些做法以及解释" class="headerlink" title="值得注意的一些做法以及解释"></a>值得注意的一些做法以及解释</h3><ul>
+<li><p>小卷积的好处（与大卷积的对比）</p>
+<p>在达到相同感受野的前提下，卷积核越小的卷积参数和计算量都越小。同时更小的卷积核拥有更多的非线性修正层，使决策函数更具有判别性。</p>
+<a id="more"></a>
+<p>另外在论文中，作者提到两个$3 \times 3​$的卷积的感受野大小等于一个$5 \times 5​$的感受野大小，三个$3 \times 3​$的卷积的感受野大小等于一个$7 \times 7​$的感受野大小。大概解释如下图</p>
+<p><img src="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%B7%B1%E5%BA%A6%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E6%9E%B6%E6%9E%84/VGG_%E6%84%9F%E5%8F%97%E9%87%8E.png" alt="感受野"></p>
+</li>
+<li><p>预处理时为什么要减去RGB的均值</p>
+<p>​    如果不处理的话，输入层的输入就相对较大，经过BP传播传回来的值就相对较大，这时候的学习率就不能太大，否则会错过局部最小。所以说学习率的选择需要参考输入层的数值，不如直接将数据归一化，就不用对学习率进行过多判断和处理。</p>
+</li>
+<li><p>预训练时能用的部分都用前面低层次网络训练所得的参数</p>
+</li>
+<li><p>多尺度训练时 参数怎么办</p>
+<p>​    多尺度训练是说截取的图片是多尺度，之后还是要归一化为固定的大小如（$224 \times 224)$</p>
+</li>
+<li><p>训练集 验证集和测试集</p>
+<p>​    训练集是用来训练模型内的参数的；验证集一开始还觉得和训练集差不多，其实它是用来调整超参数，不涉及网络权重的调整 ，也用来判断过拟合；测试集，评价模型的泛化能力。</p>
+<p>​    有个比喻，训练集就是上课听老师讲课，验证集是平时做作业，测试集是最后的考试</p>
+</li>
+</ul>
+<h3 id="网络架构"><a href="#网络架构" class="headerlink" title="网络架构"></a>网络架构</h3><p>设计了六个模型，具体如下图</p>
+<p><img src="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%B7%B1%E5%BA%A6%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E6%9E%B6%E6%9E%84/VGG%E6%A8%A1%E5%9E%8B%E6%A6%82%E8%BF%B0.png" alt="VGG"></p>
+<p>深度递增，共有五个池化层，每次池化之后，卷积核数目增加直到512.卷积大小基本都是$3 \times 3$，步长为1,填充像素为1.在C中验证最小卷积核$1 \times 1$的效果。池化层都是$2 \times 2$大小，步长为2。在A-LRN中，作者验证了AlexNet使用的LRN基本没有用，而且增加无用的计算。</p>
+<p><strong>部分结果：</strong>C的结果不如D,虽然小卷积增加了非线性成分，但是感受域下降了。</p>
+<h3 id="具体训练和测试的操作"><a href="#具体训练和测试的操作" class="headerlink" title="具体训练和测试的操作"></a>具体训练和测试的操作</h3><h4 id="选取训练图像的大小有两种方式。"><a href="#选取训练图像的大小有两种方式。" class="headerlink" title="选取训练图像的大小有两种方式。"></a>选取训练图像的大小有两种方式。</h4><p>第一种就是常用的固定大小尺度的训练，本文选择了两种边的大小（记为S)，一个是256.一个是384，而且为了加速，在训练S=384的网络用了S=256的权重来初始化。</p>
+<p>第二种就是多尺度训练，对每张训练图片的大小在一定范围内采取随机采样S，在一定意义扩充了数据集，并且符合现实中物体大小不一。</p>
+<p><strong>注意</strong>：网络的输入都是224，不管S是多少，最后都要裁剪成$224 \times 224$。（之前还在想随机S,网络结构不得一直变）</p>
+<p><strong>实验结果：</strong>第二种训练方法在实践里有更好的表现</p>
+<h4 id="测试图像的两个可变条件"><a href="#测试图像的两个可变条件" class="headerlink" title="测试图像的两个可变条件"></a>测试图像的两个可变条件</h4><p>第一种条件是是否测试多个尺度。需要决定测试图像的大小Q是否固定。若Q固定的话，在固定的S时，Q=S;不固定S的话，$Q=0.5*(S_{min}+S_{max})$。若Q不固定的话，在S固定时，$Q={S-32,S,S+32}$;S不固定时，$Q={S_{min},0.5 \times(S_{min}+S_{max},S_{max})}$.</p>
+<p><strong>实验结果：</strong>测试时的尺度抖动有更好的结果。</p>
+<p>第二种条件就是对测试图片多个采样或者采用全卷积网络，将全部的全连接层转化为卷积层，后者称为密集评估。不需要对测试图片进行采样。</p>
+<p><strong>实验结果：</strong>多裁剪的处理方式比密集评估效果越好，两者的结合有更好的结果。</p>
+
       
     </div>
     
     
     
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/深度学习/" rel="tag"># 深度学习</a>
+          
+            <a href="/tags/卷积神经网络/" rel="tag"># 卷积神经网络</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/02/19/ZFNet论文解读/" rel="next" title="ZFNet论文解读">
+                <i class="fa fa-chevron-left"></i> ZFNet论文解读
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/02/22/GoogLeNet论文解读/" rel="prev" title="GoogLeNet论文解读">
+                GoogLeNet论文解读 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
   </div>
 
 
@@ -331,8 +514,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -394,6 +586,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#贡献点"><span class="nav-number">1.</span> <span class="nav-text">贡献点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#值得注意的一些做法以及解释"><span class="nav-number">2.</span> <span class="nav-text">值得注意的一些做法以及解释</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#网络架构"><span class="nav-number">3.</span> <span class="nav-text">网络架构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#具体训练和测试的操作"><span class="nav-number">4.</span> <span class="nav-text">具体训练和测试的操作</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#选取训练图像的大小有两种方式。"><span class="nav-number">4.1.</span> <span class="nav-text">选取训练图像的大小有两种方式。</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#测试图像的两个可变条件"><span class="nav-number">4.2.</span> <span class="nav-text">测试图像的两个可变条件</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       

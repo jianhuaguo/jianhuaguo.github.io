@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="Hexo, NexT">
+  <meta name="keywords" content="深度学习,卷积神经网络,">
 
 
 
@@ -79,17 +79,18 @@
 
 
 
-<meta name="description" content="在校计算机研究生一个，主要做视觉和机器学习。专业打酱油。">
-<meta property="og:type" content="website">
-<meta property="og:title" content="tags">
-<meta property="og:url" content="http://yoursite.com/tags/index.html">
+<meta name="description" content="ZFNet这篇侧重点在于分析卷积神经网络的工作原理和试图改进，做了不少的对照实验，实现卷积网络可视化。改进了AlexNet，并有了更好的表现。 1.贡献点 提出了ZFNet 用一套的步骤实现了卷积网络的可视化 利用可视化，分析了卷积神经工作网络的诸多工作原理 主要的工作有遮挡部分图片和删除部分层做比对实验  2.具体做法 可视化方法 一般的卷积层通过卷积，Relus和池化来提取特征，要想反卷积就要">
+<meta name="keywords" content="深度学习,卷积神经网络">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ZFNet论文解读">
+<meta property="og:url" content="http://yoursite.com/2019/02/19/ZFNet论文解读/index.html">
 <meta property="og:site_name" content="摸鱼博客">
-<meta property="og:description" content="在校计算机研究生一个，主要做视觉和机器学习。专业打酱油。">
+<meta property="og:description" content="ZFNet这篇侧重点在于分析卷积神经网络的工作原理和试图改进，做了不少的对照实验，实现卷积网络可视化。改进了AlexNet，并有了更好的表现。 1.贡献点 提出了ZFNet 用一套的步骤实现了卷积网络的可视化 利用可视化，分析了卷积神经工作网络的诸多工作原理 主要的工作有遮挡部分图片和删除部分层做比对实验  2.具体做法 可视化方法 一般的卷积层通过卷积，Relus和池化来提取特征，要想反卷积就要">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-03-10T13:02:45.124Z">
+<meta property="og:updated_time" content="2019-02-19T03:52:58.416Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="tags">
-<meta name="twitter:description" content="在校计算机研究生一个，主要做视觉和机器学习。专业打酱油。">
+<meta name="twitter:title" content="ZFNet论文解读">
+<meta name="twitter:description" content="ZFNet这篇侧重点在于分析卷积神经网络的工作原理和试图改进，做了不少的对照实验，实现卷积网络可视化。改进了AlexNet，并有了更好的表现。 1.贡献点 提出了ZFNet 用一套的步骤实现了卷积网络的可视化 利用可视化，分析了卷积神经工作网络的诸多工作原理 主要的工作有遮挡部分图片和删除部分层做比对实验  2.具体做法 可视化方法 一般的卷积层通过卷积，Relus和池化来提取特征，要想反卷积就要">
 
 
 
@@ -119,13 +120,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/tags/">
+  <link rel="canonical" href="http://yoursite.com/2019/02/19/ZFNet论文解读/">
 
 
 
 
 
-  <title>tags | 摸鱼博客</title>
+  <title>ZFNet论文解读 | 摸鱼博客</title>
   
 
 
@@ -272,33 +273,201 @@
 
   <div id="posts" class="posts-expand">
     
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/02/19/ZFNet论文解读/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="郭某人">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="摸鱼博客">
+    </span>
+
     
-    
-    <div class="post-block page">
       <header class="post-header">
 
-	<h1 class="post-title" itemprop="name headline">tags</h1>
-
-
-
-</header>
-
-      
-      
-      
-      <div class="post-body">
         
         
+          <h1 class="post-title" itemprop="name headline">ZFNet论文解读</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-02-19T11:18:56+08:00">
+                2019-02-19
+              </time>
+            
+
+            
+
+            
+          </span>
+
           
-        
-      </div>
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/深度学习模型/" itemprop="url" rel="index">
+                    <span itemprop="name">深度学习模型</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
       
       
+
+      
+        <p>ZFNet这篇侧重点在于分析卷积神经网络的工作原理和试图改进，做了不少的对照实验，实现卷积网络可视化。改进了AlexNet，并有了更好的表现。</p>
+<h3 id="1-贡献点"><a href="#1-贡献点" class="headerlink" title="1.贡献点"></a>1.贡献点</h3><ul>
+<li>提出了ZFNet</li>
+<li>用一套的步骤实现了卷积网络的可视化</li>
+<li>利用可视化，分析了卷积神经工作网络的诸多工作原理</li>
+<li>主要的工作有遮挡部分图片和删除部分层做比对实验</li>
+</ul>
+<h3 id="2-具体做法"><a href="#2-具体做法" class="headerlink" title="2.具体做法"></a>2.具体做法</h3><ul>
+<li><p>可视化方法</p>
+<p>一般的卷积层通过卷积，Relus和池化来提取特征，要想反卷积就要一步步实现逆过程</p>
+<p>分别实现Unpooling.Rectification和Filtering</p>
+<p>Unpooling:在池化时候记下当前最大值的位置，在反池化时将最大值标注回来，其他位置填0</p>
+<p>Rectification:为了保证特征有效性，采用Relus,卷积时参数不为负，在反卷积时实行相同步骤即可</p>
+<p>Filtering:现在的卷积核为之前卷积核的转置，就是讲之前的卷积矩阵进行垂直和水平的翻转。</p>
+</li>
+</ul>
+<a id="more"></a>
+<ul>
+<li><p>数据集处理和网络架构</p>
+<p>本文的数据集处理和AlexNet基本相同，但是这个是在一个GPU上训练的。</p>
+<p>在第一层可视化中发现由于卷积步长过大产生了不少混乱的特征，所以将第一层的卷积核由11改为7，将步长由4改为2，其他基本和Alexnet差不多</p>
+</li>
+</ul>
+<h3 id="3-做的对照试验"><a href="#3-做的对照试验" class="headerlink" title="3.做的对照试验"></a>3.做的对照试验</h3><p>首先关于特征可视化，输入图片差异很大但是输出的特征相差很少。在ZFNet中，第一卷积层偏重于颜色，第二卷积层展示了物体的边缘和轮廓，第三层展示相似的纹理，第四层开始体现类与类之间的差异，第五层展示姿态不同的同一类。可以得到结论，层次越高，不变性越强，原始输入图片具有强辨识度可以更好帮助学习。</p>
+<p>特征在训练过程中一直发生变化，经过一定次数的迭代之后，特征才趋于稳定。</p>
+<p>对图片做了平移，旋转和缩放，在一定层次之后，平移和尺度变化对最终结果的影响比较小。</p>
+<p>对不同的部位进行遮挡，当遮挡关键部位时，分类性能和响应强度急剧下降。说明神经网络是通过学习关键部位来进行分类的</p>
+<p>做了图片的部分遮挡探究物体部件之间的关系，发现了深度网络非显式地计算了这些关系。            </p>
+<p>抽取了几个层看各个层的作用，抽取6、7层的全连接层，对整体影响不大，虽然他们有大量的参数；抽取了3、4层两层卷积层，影响也不大。如果抽取3、4、6、7层，效果就急剧下降。改变全连接层的节点个数对分类性能影响不大，改变中间卷积层的节点数对训练结果有帮助，但是加大了过拟合的可能。</p>
+<p>之后仅用少数图片重新训练softmax层，在不同数据集上将imagenet训练所得的卷积网络当做特征提取器。都表现良好，有种迁移学习的感觉。除了PASCAL,因为当前网络只提供一个预测，而PASCAL数据库的图片都有多个物体</p>
+
       
     </div>
     
     
     
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/深度学习/" rel="tag"># 深度学习</a>
+          
+            <a href="/tags/卷积神经网络/" rel="tag"># 卷积神经网络</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/02/17/AlexNet/" rel="next" title="AlexNet论文解读">
+                <i class="fa fa-chevron-left"></i> AlexNet论文解读
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/02/21/VGG论文解读/" rel="prev" title="VGG论文解读">
+                VGG论文解读 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
   </div>
 
 
@@ -331,8 +500,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -394,6 +572,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-贡献点"><span class="nav-number">1.</span> <span class="nav-text">1.贡献点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-具体做法"><span class="nav-number">2.</span> <span class="nav-text">2.具体做法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-做的对照试验"><span class="nav-number">3.</span> <span class="nav-text">3.做的对照试验</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       

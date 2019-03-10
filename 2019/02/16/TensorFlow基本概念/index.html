@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="Hexo, NexT">
+  <meta name="keywords" content="深度学习,tensorflow,">
 
 
 
@@ -79,17 +79,18 @@
 
 
 
-<meta name="description" content="在校计算机研究生一个，主要做视觉和机器学习。专业打酱油。">
-<meta property="og:type" content="website">
-<meta property="og:title" content="tags">
-<meta property="og:url" content="http://yoursite.com/tags/index.html">
+<meta name="description" content="tensorflow基本概念最近打算重新看一遍一些深度学习的模型，并跑一跑他们的代码，需要重新复习tensorflow并看一看，做此记录。 tensorflow这个名字包含了自身最重要的两个词，tensor和flow,tensor叫做张量，在tensorflow里可以被简单理解为多维数组，flow表达了张量之间通过计算相互转换。tensorflow是通过计算图的形式表述计算的编程系统，它的每一个计">
+<meta name="keywords" content="深度学习,tensorflow">
+<meta property="og:type" content="article">
+<meta property="og:title" content="TensorFlow基本概念">
+<meta property="og:url" content="http://yoursite.com/2019/02/16/TensorFlow基本概念/index.html">
 <meta property="og:site_name" content="摸鱼博客">
-<meta property="og:description" content="在校计算机研究生一个，主要做视觉和机器学习。专业打酱油。">
+<meta property="og:description" content="tensorflow基本概念最近打算重新看一遍一些深度学习的模型，并跑一跑他们的代码，需要重新复习tensorflow并看一看，做此记录。 tensorflow这个名字包含了自身最重要的两个词，tensor和flow,tensor叫做张量，在tensorflow里可以被简单理解为多维数组，flow表达了张量之间通过计算相互转换。tensorflow是通过计算图的形式表述计算的编程系统，它的每一个计">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-03-10T13:02:45.124Z">
+<meta property="og:updated_time" content="2019-02-16T03:51:08.888Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="tags">
-<meta name="twitter:description" content="在校计算机研究生一个，主要做视觉和机器学习。专业打酱油。">
+<meta name="twitter:title" content="TensorFlow基本概念">
+<meta name="twitter:description" content="tensorflow基本概念最近打算重新看一遍一些深度学习的模型，并跑一跑他们的代码，需要重新复习tensorflow并看一看，做此记录。 tensorflow这个名字包含了自身最重要的两个词，tensor和flow,tensor叫做张量，在tensorflow里可以被简单理解为多维数组，flow表达了张量之间通过计算相互转换。tensorflow是通过计算图的形式表述计算的编程系统，它的每一个计">
 
 
 
@@ -119,13 +120,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/tags/">
+  <link rel="canonical" href="http://yoursite.com/2019/02/16/TensorFlow基本概念/">
 
 
 
 
 
-  <title>tags | 摸鱼博客</title>
+  <title>TensorFlow基本概念 | 摸鱼博客</title>
   
 
 
@@ -272,33 +273,211 @@
 
   <div id="posts" class="posts-expand">
     
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/02/16/TensorFlow基本概念/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="郭某人">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="摸鱼博客">
+    </span>
+
     
-    
-    <div class="post-block page">
       <header class="post-header">
 
-	<h1 class="post-title" itemprop="name headline">tags</h1>
-
-
-
-</header>
-
-      
-      
-      
-      <div class="post-body">
         
         
+          <h1 class="post-title" itemprop="name headline">TensorFlow基本概念</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-02-16T10:18:24+08:00">
+                2019-02-16
+              </time>
+            
+
+            
+
+            
+          </span>
+
           
-        
-      </div>
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/tensorflow/" itemprop="url" rel="index">
+                    <span itemprop="name">tensorflow</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
       
       
+
+      
+        <h2 id="tensorflow基本概念"><a href="#tensorflow基本概念" class="headerlink" title="tensorflow基本概念"></a>tensorflow基本概念</h2><p>最近打算重新看一遍一些深度学习的模型，并跑一跑他们的代码，需要重新复习tensorflow并看一看，做此记录。</p>
+<p>tensorflow这个名字包含了自身最重要的两个词，tensor和flow,tensor叫做张量，在tensorflow里可以被简单理解为多维数组，flow表达了张量之间通过计算相互转换。tensorflow是通过计算图的形式表述计算的编程系统，它的每一个计算都可以称为计算图上的一个节点，节点之间的边则描述了计算之间的依赖关系。计算图一般有两个阶段，第一个阶段是定义计算图中的计算，第二个是执行计算。可以设定多个计算图，用来隔离张量，计算甚至设备。</p>
+<a id="more"></a>
+<ul>
+<li><h5 id="张量"><a href="#张量" class="headerlink" title="张量"></a>张量</h5></li>
+</ul>
+<p>实际上张量保存的是对结果的引用，而不是像数组一样，保存数字。一个张量主要保存了三个属性，名字、维度和类型。张量和计算图上所代表的计算结果是对应的。</p>
+<p>张量的用途主要就两个方面，一个是对中间计算结果的引用，二是当计算图构造完成之后，张量可以用来获得计算结果。</p>
+<ul>
+<li><h5 id="会话（session"><a href="#会话（session" class="headerlink" title="会话（session)"></a>会话（session)</h5></li>
+</ul>
+<p>会话拥有并管理tensorflow程序运行时的所有资源，只有在会话里才能真正进行计算。会话需要创建和关闭，可以使用Python的上下文管理器就可以不用去手动关闭。通过ConfigProto可以配置会话的诸多性质。</p>
+<ul>
+<li><h5 id="变量"><a href="#变量" class="headerlink" title="变量"></a>变量</h5></li>
+</ul>
+<p>变量（tf.Variable)的作用是保存和更新神经网络中的参数，变量需要初始化，可以使用随机数，常数或者其他变量的值。一个变量的值在被使用之前，这个变量的初始化过程需要被明确的调用。初始化每一个变量是很麻烦的，如下可以初始化所有变量，当然如何初始化还是需要各自指定。</p>
+<p><code>init_op = tf.global_variables_initializer()</code></p>
+<p><code>sess.run(init_op)</code></p>
+<p>本质来说变量是一种特殊的的张量，因为tf.Variable是一个运算，它的输出结果是一个张量。</p>
+<p>另外可以通过placeholder和feed_dict的配合减少使用常量来表示的次数</p>
+<ul>
+<li><h5 id="损失函数"><a href="#损失函数" class="headerlink" title="损失函数"></a>损失函数</h5></li>
+</ul>
+<p>交叉熵：常用于分类的损失函数的评估，它表征两个概率分布之间的距离</p>
+<p>均方误差（MSE):常用于回归的损失函数</p>
+<p>可以根据不同问题需求自定义损失函数，将损失函数写入相应位置即可</p>
+<ul>
+<li><h5 id="神经网络进一步优化"><a href="#神经网络进一步优化" class="headerlink" title="神经网络进一步优化"></a>神经网络进一步优化</h5></li>
+</ul>
+<p>可以通过指数衰减的方法设置梯度下降的学习率 <code>tf.train.exponential_decay</code></p>
+<p>为了缓解过拟合问题，常用正则化，在损失函数中加上模型复杂度。实际中，模型复杂度是用所有权重的L1或者L2。相关函数为 <code>tf.contrib.layers.l1(l2)_regularizer()</code>.可以用集合（collection）来处理过大神经网络的参数的正则化。</p>
+<p>滑动平均模型，就是使变量的变化更多的参考于之前的变量。</p>
+<ul>
+<li><h5 id="变量管理"><a href="#变量管理" class="headerlink" title="变量管理"></a>变量管理</h5></li>
+</ul>
+<p>创建变量除了tf.Variable,还有tf.get_variable，后者更注重变量的名称和位置。可通过tf.variable_scope生成一个上下文管理器，配合后者来创建或者获取变量。</p>
+<ul>
+<li><h5 id="模型持久化"><a href="#模型持久化" class="headerlink" title="模型持久化"></a>模型持久化</h5></li>
+</ul>
+<p><code>tf.train.Saver()</code>保存模型。</p>
+
       
     </div>
     
     
     
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/深度学习/" rel="tag"># 深度学习</a>
+          
+            <a href="/tags/tensorflow/" rel="tag"># tensorflow</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/02/11/第十章 认识与学习BASH/" rel="next" title="linux私房菜第10章学习总结">
+                <i class="fa fa-chevron-left"></i> linux私房菜第10章学习总结
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/02/17/AlexNet/" rel="prev" title="AlexNet论文解读">
+                AlexNet论文解读 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
   </div>
 
 
@@ -331,8 +510,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -394,6 +582,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#tensorflow基本概念"><span class="nav-number">1.</span> <span class="nav-text">tensorflow基本概念</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#张量"><span class="nav-number">1.0.0.1.</span> <span class="nav-text">张量</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#会话（session"><span class="nav-number">1.0.0.2.</span> <span class="nav-text">会话（session)</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#变量"><span class="nav-number">1.0.0.3.</span> <span class="nav-text">变量</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#损失函数"><span class="nav-number">1.0.0.4.</span> <span class="nav-text">损失函数</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#神经网络进一步优化"><span class="nav-number">1.0.0.5.</span> <span class="nav-text">神经网络进一步优化</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#变量管理"><span class="nav-number">1.0.0.6.</span> <span class="nav-text">变量管理</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#模型持久化"><span class="nav-number">1.0.0.7.</span> <span class="nav-text">模型持久化</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
