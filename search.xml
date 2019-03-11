@@ -1,513 +1,237 @@
 <?xml version="1.0" encoding="utf-8"?>
-<search> 
-  
-  
-    
-    <entry>
-      <title>机器学习笔记_李宏毅（0-3）</title>
-      <link href="/2019/03/10/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0_%E6%9D%8E%E5%AE%8F%E6%AF%85%EF%BC%880-3%EF%BC%89/"/>
-      <url>/2019/03/10/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0_%E6%9D%8E%E5%AE%8F%E6%AF%85%EF%BC%880-3%EF%BC%89/</url>
-      
-        <content type="html"><![CDATA[<h2 id="Lecture-0-Introduction-of-Machine-Learning"><a href="#Lecture-0-Introduction-of-Machine-Learning" class="headerlink" title="Lecture 0 Introduction of Machine Learning"></a>Lecture 0 Introduction of Machine Learning</h2><h3 id="机器学习三大任务"><a href="#机器学习三大任务" class="headerlink" title="机器学习三大任务"></a>机器学习三大任务</h3><ul><li><p>regression（回归）</p></li><li><p>classification（分类）</p></li><li><p>structured learning (结构化学习) </p><p>​    输入和输出不是向量 可能是结构化 树或者列表</p></li></ul><a id="more"></a><h3 id="Reinforcement-Learning-强化学习"><a href="#Reinforcement-Learning-强化学习" class="headerlink" title="Reinforcement Learning(强化学习)"></a>Reinforcement Learning(强化学习)</h3><pre><code> 不同于监督学习，会给输出评分，不会明确给机器正确的标签。从评价中学习，知道做的好坏，但是不知道哪里好，哪里坏。</code></pre><p>​    Alpha GO的训练是先利用监督学习，再通过强化学习</p><h2 id="Lecture-1-Regression"><a href="#Lecture-1-Regression" class="headerlink" title="Lecture 1 Regression"></a>Lecture 1 Regression</h2><h3 id="基本应用"><a href="#基本应用" class="headerlink" title="基本应用"></a>基本应用</h3><ul><li>股市预测</li><li>自动驾驶</li><li>推荐系统 </li></ul><h3 id="回归常用步骤"><a href="#回归常用步骤" class="headerlink" title="回归常用步骤"></a>回归常用步骤</h3><p>备注：表示数据时，下标表示该数据的一部分，上标表示完整的该个体，并给之编号</p><h4 id="先给定一个模型-比如线性模型-y-w-times-x-b"><a href="#先给定一个模型-比如线性模型-y-w-times-x-b" class="headerlink" title="先给定一个模型 比如线性模型$y=w \times x+b$"></a>先给定一个模型 比如线性模型$y=w \times x+b$</h4><h4 id="根据训练数据，求出模型的参数"><a href="#根据训练数据，求出模型的参数" class="headerlink" title="根据训练数据，求出模型的参数"></a>根据训练数据，求出模型的参数</h4><p>用损失函数和梯度下降方法求出损失较小的参数，其中损失函数加上正则化</p><h4 id="注意点：大类中有不同的小类，用不一样的模型或参数去分别拟合，再线性组合。-w-和-b-也可以用不一样学习率，adagrad"><a href="#注意点：大类中有不同的小类，用不一样的模型或参数去分别拟合，再线性组合。-w-和-b-也可以用不一样学习率，adagrad" class="headerlink" title="注意点：大类中有不同的小类，用不一样的模型或参数去分别拟合，再线性组合。$w$和$b$也可以用不一样学习率，adagrad"></a>注意点：大类中有不同的小类，用不一样的模型或参数去分别拟合，再线性组合。$w$和$b$也可以用不一样学习率，adagrad</h4><h2 id="Lecture-2-Where-does-the-error-come-from"><a href="#Lecture-2-Where-does-the-error-come-from" class="headerlink" title="Lecture 2 Where does the error come from"></a>Lecture 2 Where does the error come from</h2><p>错误来自两个方向，一个是bias,另一个是来自于variance</p><h3 id="bias："><a href="#bias：" class="headerlink" title="bias："></a>bias：</h3><p>目标函数和估计的函数之间的距离（类似于模型的选择）</p><p>简单的模型一般有比较大的bias 复杂的模型虽然看起来比较乱 平均之后反而有比较小的bias</p><p><img src="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0_%E6%9D%8E%E5%AE%8F%E6%AF%85_lec2_1.png" alt="bias"></p><h3 id="variance"><a href="#variance" class="headerlink" title="variance:"></a>variance:</h3><p>实际的值算出的函数和估计函数之间的距离（噪声数据的存在）</p><h3 id="注意点"><a href="#注意点" class="headerlink" title="注意点"></a>注意点</h3><ul><li><p>目标就是要找到一个权衡点，当bias大的时候，模型都没有办法拟合训练数据，叫作underfitting；当variance比较大的时候，就会出现过拟合。</p><p>当bias大的时候，需要重新设计模型，再加点特征或者增加变量的多项式的次数。</p><p>当variance大的时候，要么增加训练数据；或者加入正则化，但是这时候有可能会增加bias。</p></li><li><p>用验证集来选择模型，直接用测试集在选择模型的话，测试集和实际真正数据分布也不一样。测试集的功能只是大致检验模型，而不是用来选择模型。这样在实际中得到的错误率才有可能和测试集差不多。</p></li><li>在划分训练集和验证集的时候，可以采取N-fold Cross Validation,交叉验证</li></ul><h2 id="Lecture-3-Gradient-Descent"><a href="#Lecture-3-Gradient-Descent" class="headerlink" title="Lecture 3  Gradient Descent"></a>Lecture 3  Gradient Descent</h2><h3 id="TIP-1-学习率"><a href="#TIP-1-学习率" class="headerlink" title="TIP 1 学习率"></a>TIP 1 学习率</h3><p>由于学习率不好提前设定的原因，在训练用梯度下降的方法时，可以把损失函数的图像画出来，要是损失越来越大就很有可能是因为学习率太高了。</p><h4 id="Adagrad"><a href="#Adagrad" class="headerlink" title="Adagrad"></a>Adagrad</h4><ul><li><p>不同的参数有不一样的学习率</p></li><li><p>它的学习率是实时变化，并且是η（随着时间变化的参数）除以之前所有求得微分的平方和的平均数的根号。具体如下图</p><p><img src="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/adagrad.png" alt="adagrad"></p></li></ul><p><img src="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/adagrad1.png" alt="adagrad1"></p><ul><li>adagrad的原理，不仅考虑一次微分还考虑了二次微分，虽然没有直接算出二次微分，但是大概估计了二次微分的相对大小</li></ul><h3 id="TIP-2-Stochastic-Gradient-Descent"><a href="#TIP-2-Stochastic-Gradient-Descent" class="headerlink" title="TIP 2 Stochastic Gradient Descent"></a>TIP 2 Stochastic Gradient Descent</h3><p>不用所有的loss求导，用部分数据进行计算</p><h3 id="TIP-3-Feature-Scaling"><a href="#TIP-3-Feature-Scaling" class="headerlink" title="TIP 3 Feature Scaling"></a>TIP 3 Feature Scaling</h3><p>多个特征的话，建议把所有特征的取值范围变化到大致相同的范围，比如$x_1$从-1到1之间波动，$x_2$从-100到500之间变化，这样他们的学习率就肯定不能一样了。没有scaling的话，显然更新比较复杂。</p><p>做scaling的方法，有多种。要注意考虑方差和均值</p><h3 id="Gradient-Descent-Theory"><a href="#Gradient-Descent-Theory" class="headerlink" title="Gradient Descent Theory"></a>Gradient Descent Theory</h3><p>就损失函数而言，在当前点的位置，用泰勒展开。</p><p><img src="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/bp%E6%95%B0%E5%AD%A61.png" alt="bp数学1"></p><p><img src="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/bp%E6%95%B0%E5%AD%A62.png" alt="bp数学2"></p><p>前提是这个红色的圆足够小，泰勒展开才能近似。η是使$△θ_1和△θ_2$的值等于$u和V$,其中$U和V$是梯度大小。也就是要η足够小。也就是learnrate要足够小。</p><p>当然可以计算二次微分，更加拟合损失函数，比如牛顿法，只是运算成本太大</p><h3 id="Gradient-Descent的缺点"><a href="#Gradient-Descent的缺点" class="headerlink" title="Gradient Descent的缺点"></a>Gradient Descent的缺点</h3><ul><li><p>可能卡在局部最小值</p></li><li><p>也也可能卡在微分值为0的地方，saddle point</p></li><li><p>在梯度平缓的地方非常慢，plateau</p><p><img src="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/bp%E7%BC%BA%E7%82%B9.png" alt="bp缺点"></p></li></ul>]]></content>
-      
-      
+<search>
+  <entry>
+    <title><![CDATA[机器学习笔记_李宏毅（0-3）]]></title>
+    <url>%2F2019%2F03%2F10%2F%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0_%E6%9D%8E%E5%AE%8F%E6%AF%85%EF%BC%880-3%EF%BC%89%2F</url>
+    <content type="text"><![CDATA[Lecture 0 Introduction of Machine Learning机器学习三大任务 regression（回归） classification（分类） structured learning (结构化学习) ​ 输入和输出不是向量 可能是结构化 树或者列表 Reinforcement Learning(强化学习) 不同于监督学习，会给输出评分，不会明确给机器正确的标签。从评价中学习，知道做的好坏，但是不知道哪里好，哪里坏。 ​ Alpha GO的训练是先利用监督学习，再通过强化学习 Lecture 1 Regression基本应用 股市预测 自动驾驶 推荐系统 回归常用步骤备注：表示数据时，下标表示该数据的一部分，上标表示完整的该个体，并给之编号 先给定一个模型 比如线性模型$y=w \times x+b$根据训练数据，求出模型的参数用损失函数和梯度下降方法求出损失较小的参数，其中损失函数加上正则化 注意点：大类中有不同的小类，用不一样的模型或参数去分别拟合，再线性组合。$w$和$b$也可以用不一样学习率，adagradLecture 2 Where does the error come from错误来自两个方向，一个是bias,另一个是来自于variance bias：目标函数和估计的函数之间的距离（类似于模型的选择） 简单的模型一般有比较大的bias 复杂的模型虽然看起来比较乱 平均之后反而有比较小的bias variance:实际的值算出的函数和估计函数之间的距离（噪声数据的存在） 注意点 目标就是要找到一个权衡点，当bias大的时候，模型都没有办法拟合训练数据，叫作underfitting；当variance比较大的时候，就会出现过拟合。 当bias大的时候，需要重新设计模型，再加点特征或者增加变量的多项式的次数。 当variance大的时候，要么增加训练数据；或者加入正则化，但是这时候有可能会增加bias。 用验证集来选择模型，直接用测试集在选择模型的话，测试集和实际真正数据分布也不一样。测试集的功能只是大致检验模型，而不是用来选择模型。这样在实际中得到的错误率才有可能和测试集差不多。 在划分训练集和验证集的时候，可以采取N-fold Cross Validation,交叉验证 Lecture 3 Gradient DescentTIP 1 学习率由于学习率不好提前设定的原因，在训练用梯度下降的方法时，可以把损失函数的图像画出来，要是损失越来越大就很有可能是因为学习率太高了。 Adagrad 不同的参数有不一样的学习率 它的学习率是实时变化，并且是η（随着时间变化的参数）除以之前所有求得微分的平方和的平均数的根号。具体如下图 adagrad的原理，不仅考虑一次微分还考虑了二次微分，虽然没有直接算出二次微分，但是大概估计了二次微分的相对大小 TIP 2 Stochastic Gradient Descent不用所有的loss求导，用部分数据进行计算 TIP 3 Feature Scaling多个特征的话，建议把所有特征的取值范围变化到大致相同的范围，比如$x_1$从-1到1之间波动，$x_2$从-100到500之间变化，这样他们的学习率就肯定不能一样了。没有scaling的话，显然更新比较复杂。 做scaling的方法，有多种。要注意考虑方差和均值 Gradient Descent Theory就损失函数而言，在当前点的位置，用泰勒展开。 前提是这个红色的圆足够小，泰勒展开才能近似。η是使$△θ_1和△θ_2$的值等于$u和V$,其中$U和V$是梯度大小。也就是要η足够小。也就是learnrate要足够小。 当然可以计算二次微分，更加拟合损失函数，比如牛顿法，只是运算成本太大 Gradient Descent的缺点 可能卡在局部最小值 也也可能卡在微分值为0的地方，saddle point 在梯度平缓的地方非常慢，plateau]]></content>
       <categories>
-          
-          <category> 机器学习 </category>
-          
+        <category>机器学习</category>
       </categories>
-      
-      
-        <tags>
-            
-            <tag> 机器学习 </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>2019_2_24-3_09周报</title>
-      <link href="/2019/03/09/2019_2_24-3_09%E5%91%A8%E6%8A%A5/"/>
-      <url>/2019/03/09/2019_2_24-3_09%E5%91%A8%E6%8A%A5/</url>
-      
-        <content type="html"><![CDATA[<p>这两周先是落枕，落枕好了环岛骑车又摔了。。好像基本没做成什么事</p><h3 id="这两周完成的事"><a href="#这两周完成的事" class="headerlink" title="这两周完成的事"></a>这两周完成的事</h3><a id="more"></a><ul><li>跑了一次五千米</li><li>又环岛一次</li><li>看了BN的论文</li><li>复习了一些python基本知识，主要根据莫烦的教程</li><li>开始接触pytorch，把官网的基础教程看了一遍</li><li>重新学习一下机器学习，看了两节李宏毅的课，讲的挺好</li><li>看了几部电影，大腕，手机，神奇动物2，头号玩家</li><li>看了一些浮生六记，沈复真是个有趣的人</li></ul><h3 id="下周计划"><a href="#下周计划" class="headerlink" title="下周计划"></a>下周计划</h3><ul><li><p>看完莫烦的pytorch教程</p></li><li><p>把inception v3和v4 论文看了</p></li><li><p>跑一跑alexnet和vgg的代码</p></li><li><p>李宏毅的课看到第十九，也就是SVM前</p></li><li><p>要是腿好了天气允许就跑一跑步，不过我感觉得再两周才能彻底好</p></li><li><p>把浮生六记看完，这个不强求</p></li><li><p>那两门课的作业就不用多说了吧</p></li></ul><h3 id="若干感想"><a href="#若干感想" class="headerlink" title="若干感想"></a>若干感想</h3><p>马上就研二了，再不针对性学点东西马上就毕业了。最多再两周，也就是清明回来要开始接触三维分类了。现在学java也太蠢了，找工作的事先不急。深度学习的还是蛮有趣的，先一心专研自己的方向。等九十月份再开始考虑面试和具体技术的问题。</p><p>所以最近两三个月的大方向要达成的目标</p><ul><li><p>熟悉基本的机器学习方法，起码到能自己推导，看懂别人代码的地步</p></li><li><p>能运行并且修改深度学习模型</p></li><li><p>关于三维分类方向至少要看二三十篇论文</p></li><li><p>然后好好锻炼，五千米跑进21就参加明年校运会</p></li></ul>]]></content>
-      
-      
+      <tags>
+        <tag>机器学习</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[2019_2_24-3_09周报]]></title>
+    <url>%2F2019%2F03%2F09%2F2019_2_24-3_09%E5%91%A8%E6%8A%A5%2F</url>
+    <content type="text"><![CDATA[这两周先是落枕，落枕好了环岛骑车又摔了。。好像基本没做成什么事 这两周完成的事 跑了一次五千米 又环岛一次 看了BN的论文 复习了一些python基本知识，主要根据莫烦的教程 开始接触pytorch，把官网的基础教程看了一遍 重新学习一下机器学习，看了两节李宏毅的课，讲的挺好 看了几部电影，大腕，手机，神奇动物2，头号玩家 看了一些浮生六记，沈复真是个有趣的人 下周计划 看完莫烦的pytorch教程 把inception v3和v4 论文看了 跑一跑alexnet和vgg的代码 李宏毅的课看到第十九，也就是SVM前 要是腿好了天气允许就跑一跑步，不过我感觉得再两周才能彻底好 把浮生六记看完，这个不强求 那两门课的作业就不用多说了吧 若干感想马上就研二了，再不针对性学点东西马上就毕业了。最多再两周，也就是清明回来要开始接触三维分类了。现在学java也太蠢了，找工作的事先不急。深度学习的还是蛮有趣的，先一心专研自己的方向。等九十月份再开始考虑面试和具体技术的问题。 所以最近两三个月的大方向要达成的目标 熟悉基本的机器学习方法，起码到能自己推导，看懂别人代码的地步 能运行并且修改深度学习模型 关于三维分类方向至少要看二三十篇论文 然后好好锻炼，五千米跑进21就参加明年校运会]]></content>
       <categories>
-          
-          <category> 周报 </category>
-          
+        <category>周报</category>
       </categories>
-      
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>python入门系列（1）_基于莫烦教程</title>
-      <link href="/2019/03/08/python%E5%85%A5%E9%97%A8%E7%B3%BB%E5%88%97%EF%BC%881%EF%BC%89_%E8%8E%AB%E7%83%A6/"/>
-      <url>/2019/03/08/python%E5%85%A5%E9%97%A8%E7%B3%BB%E5%88%97%EF%BC%881%EF%BC%89_%E8%8E%AB%E7%83%A6/</url>
-      
-        <content type="html"><![CDATA[<h3 id="基本语法"><a href="#基本语法" class="headerlink" title="基本语法"></a>基本语法</h3><ul><li><p>python的没有多次方符号^,二次方$<strong>$，三次方$</strong>3$，以此类推</p></li><li><p>如果0作为while的条件，将被视为false；其他数字都是true</p></li><li><p>如果集合，如list,tuple,dict等作为while的条件，如果集合中的元素数量为0，那么将被视为false;否则被视为true;</p></li><li><p>range()可以产生一个序列</p><p>​    如果是range(start,stop),则左边是闭区间，左边是开区间，如range(1,10)会产生1到9</p><p>​    如果省略了start,则将从0开始</p><p>​    如果是range(start,stop,step),表示间隔取数，直到大于或者等于stop</p><a id="more"></a></li><li><p>python内置了list,tuple,dict,set四种基本集合，dic有key,set集合会去除重复项。都可以迭代</p></li><li><p>实际上我们也可以设计有_iter_()和_next_()函数就可以生成迭代对象，如</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># define a Fib class</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Fib</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, max)</span>:</span></span><br><span class="line">        self.max = max</span><br><span class="line">        self.n, self.a, self.b = <span class="number">0</span>, <span class="number">0</span>, <span class="number">1</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__iter__</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> self</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__next__</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">if</span> self.n &lt; self.max:</span><br><span class="line">            r = self.b</span><br><span class="line">            self.a, self.b = self.b, self.a + self.b</span><br><span class="line">            self.n = self.n + <span class="number">1</span></span><br><span class="line">            <span class="keyword">return</span> r</span><br><span class="line">        <span class="keyword">raise</span> StopIteration()</span><br><span class="line"></span><br><span class="line"><span class="comment"># using Fib object</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> Fib(<span class="number">5</span>):</span><br><span class="line">    print(i)</span><br></pre></td></tr></table></figure></li></ul><ul><li><p>也可以用yield实现类似功能，yield执行的时候将立即返回结果给上层调用者，而当前的状态仍然保留。例如：</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">fib</span><span class="params">(max)</span>:</span></span><br><span class="line">    a, b = <span class="number">0</span>, <span class="number">1</span></span><br><span class="line">    <span class="keyword">while</span> max:</span><br><span class="line">        r = b</span><br><span class="line">        a, b = b, a+b</span><br><span class="line">        max -= <span class="number">1</span></span><br><span class="line">        <span class="keyword">yield</span> r</span><br><span class="line"></span><br><span class="line"><span class="comment"># using generator</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> fib(<span class="number">5</span>):</span><br><span class="line">    print(i)</span><br></pre></td></tr></table></figure><p>将同样生成1，1，2，3，5</p></li><li><p>python中有if-else行内表达式</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">var = var1 <span class="keyword">if</span> condition <span class="keyword">else</span> var2</span><br></pre></td></tr></table></figure><p>如果condition为真，把var1赋值给var,否则把var2赋值给var</p></li><li><p>python的else if是连在一起写的，记作elif</p></li><li><p>函数定义的时候可以设置默认参数，即参数有默认值。但是需要注意的是所有的默认参数不能出现在非默认参数的前面</p></li><li><p>python的自调用</p><p>当想对当前的子模块进行测试时，可以加上以下</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    <span class="comment">#code_here</span></span><br></pre></td></tr></table></figure></li><li><p>可变参数 接收的是tuple</p><p>当传入参数的数目不确定时候，可以用可变参数，但是注意可变参数不能出现在特点参数和默认参数前面</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">report</span><span class="params">(name, *grades)</span>:</span></span><br><span class="line">    total_grade = <span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span> grade <span class="keyword">in</span> grades:</span><br><span class="line">        total_grade += grade</span><br><span class="line">    print(name, <span class="string">'total grade is '</span>, total_grade)</span><br></pre></td></tr></table></figure></li><li><p>关键字参数</p><p>关键字参数可以传入0个或者任意个含参数名的参数，这些参数在函数内部可以自动封装成一个字典dict.西藏形状为**参数。</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">portrait</span><span class="params">(name, **kw)</span>:</span></span><br><span class="line">    print(<span class="string">'name is'</span>, name)</span><br><span class="line">    <span class="keyword">for</span> k,v <span class="keyword">in</span> kw.items():</span><br><span class="line">        print(k, v)</span><br></pre></td></tr></table></figure></li></ul><p>执行</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">portrait(<span class="string">'Mike'</span>, age=<span class="number">24</span>, country=<span class="string">'China'</span>, education=<span class="string">'bachelor'</span>)</span><br></pre></td></tr></table></figure><p>可以输出    </p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">name <span class="keyword">is</span> Mike</span><br><span class="line">age <span class="number">24</span></span><br><span class="line">country China</span><br><span class="line">education bachelor</span><br></pre></td></tr></table></figure><ul><li><p>定义变量的位置决定了是全局变量还是局部变量。可以在通过加global,在函数中修改全局参数</p></li><li><p>open（）能够读取或者写入一文件</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">my_file=open(<span class="string">'my file.txt'</span>,<span class="string">'w'</span>)   <span class="comment">#用法: open('文件名','形式'), 其中形式有'w':write;'r':read;'a':添加</span></span><br><span class="line">my_file.write(text)               <span class="comment">#该语句会写入先前定义好的 text</span></span><br><span class="line">my_file.close()                   <span class="comment">#关闭文件</span></span><br><span class="line">append_text=<span class="string">'\nThis is appended file.'</span>  <span class="comment"># 为这行文字提前空行 "\n"</span></span><br><span class="line">my_file=open(<span class="string">'my file.txt'</span>,<span class="string">'a'</span>)   <span class="comment"># 'a'=append 以增加内容的形式打开</span></span><br><span class="line">my_file.write(append_text)</span><br><span class="line">my_file.close()</span><br></pre></td></tr></table></figure></li><li><p>文件的读取有几种方式，如read(),readline()或者radlines()</p></li></ul><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line">file= open(<span class="string">'my file.txt'</span>,<span class="string">'r'</span>) </span><br><span class="line">content=file.read()  </span><br><span class="line">print(content)</span><br><span class="line"></span><br><span class="line"><span class="string">""""</span></span><br><span class="line"><span class="string">This is my first test.</span></span><br><span class="line"><span class="string">This is the second line.</span></span><br><span class="line"><span class="string">This the third line.</span></span><br><span class="line"><span class="string">This is appended file.    </span></span><br><span class="line"><span class="string">"""</span><span class="string">"</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">file= open('my file.txt','r')  </span></span><br><span class="line"><span class="string">content=file.readline()  # 读取第一行</span></span><br><span class="line"><span class="string">print(content)</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">"</span><span class="string">"""</span></span><br><span class="line"><span class="string">This is my first test.</span></span><br><span class="line"><span class="string">"""</span><span class="string">"</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">second_read_time=file.readline()  # 读取第二行</span></span><br><span class="line"><span class="string">print(second_read_time)</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">"</span><span class="string">""</span></span><br><span class="line">This <span class="keyword">is</span> the second line.</span><br><span class="line"><span class="string">"""</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">file= open('my file.txt','r') </span></span><br><span class="line"><span class="string">content=file.readlines() # python_list 形式</span></span><br><span class="line"><span class="string">print(content)</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">"""</span><span class="string">"</span></span><br><span class="line"><span class="string">['This is my first test.\n', 'This is the second line.\n', 'This the third line.\n', 'This is appended file.']</span></span><br><span class="line"><span class="string">"</span><span class="string">"""</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string"># 之后如果使用 for 来迭代输出:</span></span><br><span class="line"><span class="string">for item in content:</span></span><br><span class="line"><span class="string">    print(item)</span></span><br><span class="line"><span class="string">    </span></span><br><span class="line"><span class="string">"""</span></span><br><span class="line">This <span class="keyword">is</span> my first test.</span><br><span class="line"></span><br><span class="line">This <span class="keyword">is</span> the second line.</span><br><span class="line"></span><br><span class="line">This the third line.</span><br><span class="line"></span><br><span class="line">This <span class="keyword">is</span> appended file.</span><br><span class="line"><span class="string">"""</span></span><br></pre></td></tr></table></figure><ul><li>用class定义一个类时，首字母要大写。想要类的内部属性不被外部访问，在属性名称前加上两个下划线，但是需要注意的是在变量前以双划线开头，并且以双划线结尾的是特殊变量，不是private变量。如__init__()。</li><li><p>大多数在类里定义的self代表的是类的实例。在定义函数的时候在参数中一般不能省略</p></li><li><h3 id="元组"><a href="#元组" class="headerlink" title="元组"></a>元组</h3><p>tuple,用小括号或者无括号来表示，是一串有顺序的数字</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">a_tuple = (<span class="number">12</span>, <span class="number">3</span>, <span class="number">5</span>, <span class="number">15</span> , <span class="number">6</span>)</span><br><span class="line">another_tuple = <span class="number">12</span>, <span class="number">3</span>, <span class="number">5</span>, <span class="number">15</span> , <span class="number">6</span></span><br></pre></td></tr></table></figure><p>tuple指向的位置不能变，当它指向基本类型时它的值自然不能变化，但是当它指向一个list的话，list里的值自然是能变的</p></li><li><h3 id="列表"><a href="#列表" class="headerlink" title="列表"></a>列表</h3><p>list;用中括号来命名；不需要元素为同一类型</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">a_list=[<span class="number">12</span>,<span class="number">3</span>,<span class="number">5</span>,<span class="number">15</span>,<span class="number">6</span>]</span><br></pre></td></tr></table></figure><p>列表多了一些方法，如</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">a_list.append（a）<span class="comment">#在列表最后加上'a'</span></span><br><span class="line">a_list.insert(<span class="number">1</span>,<span class="number">2</span>)<span class="comment">#在列表位置1，插入常量2</span></span><br><span class="line">a_list.pop()<span class="comment">#删除列表最后一个元素 也可加入参数 删除指定位置的元素 这时候和remove（）一样了</span></span><br><span class="line">a_list.sort()<span class="comment">#对列表进行排序</span></span><br></pre></td></tr></table></figure><p>list可以拓展为多维列表</p></li><li><p>字典</p><p>dic;字典是无序的，有key和value两种元素，也不要求所有的key或者value有相同的形式。从一定角度来说，list是key为有序数列的dic。</p></li><li><p>错误处理</p><p>举例：</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span>:</span><br><span class="line">    file=open(<span class="string">'eeee.txt'</span>,<span class="string">'r'</span>)  <span class="comment">#会报错的代码</span></span><br><span class="line"><span class="keyword">except</span> Exception <span class="keyword">as</span> e:  <span class="comment"># 将报错存储在 e 中</span></span><br><span class="line">    print(e)</span><br><span class="line"><span class="string">"""</span></span><br><span class="line"><span class="string">[Errno 2] No such file or directory: 'eeee.txt'</span></span><br><span class="line"><span class="string">"""</span></span><br></pre></td></tr></table></figure></li><li><p>zip</p><p>接受任意个序列作为参数，合并之后返回一个tuple列表。例：</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">a=[<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>]</span><br><span class="line">b=[<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>]</span><br><span class="line">ab=zip(a,b)</span><br><span class="line">print(list(ab))  <span class="comment">#需要加list来可视化这个功能</span></span><br><span class="line"><span class="string">"""</span></span><br><span class="line"><span class="string">[(1, 4), (2, 5), (3, 6)]</span></span><br><span class="line"><span class="string">"""</span></span><br></pre></td></tr></table></figure></li><li><p>lambda</p><p>匿名函数，简化函数。如</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">fun= <span class="keyword">lambda</span> x,y:x+y</span><br><span class="line">x=int(input(<span class="string">'x='</span>))    <span class="comment">#这里要定义int整数，否则会默认为字符串</span></span><br><span class="line">y=int(input(<span class="string">'y='</span>))</span><br><span class="line">print(fun(x,y))</span><br><span class="line"></span><br><span class="line"><span class="string">"""</span></span><br><span class="line"><span class="string">x=6</span></span><br><span class="line"><span class="string">y=6</span></span><br><span class="line"><span class="string">12</span></span><br><span class="line"><span class="string">"""</span></span><br></pre></td></tr></table></figure></li><li><p>map</p><p>map是把函数和参数绑定在一起，第一个参数是 function ，以参数序列中的每一个元素调用 function 函数，返回包含每次 function 函数返回值的新列表。</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="function"><span class="keyword">def</span> <span class="title">fun</span><span class="params">(x,y)</span>:</span></span><br><span class="line"><span class="keyword">return</span> (x+y)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>list(map(fun,[<span class="number">1</span>],[<span class="number">2</span>]))</span><br><span class="line"><span class="string">"""</span></span><br><span class="line"><span class="string">[3]</span></span><br><span class="line"><span class="string">"""</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>list(map(fun,[<span class="number">1</span>,<span class="number">2</span>],[<span class="number">3</span>,<span class="number">4</span>]))</span><br><span class="line"><span class="string">"""</span></span><br><span class="line"><span class="string">[4,6]</span></span><br><span class="line"><span class="string">"""</span></span><br></pre></td></tr></table></figure></li><li><p>深拷贝和浅拷贝 import copy</p><p>deepcopy：对外围和内部元素都进行了拷贝对象本身，而不是对象的引用。也就是拷贝的和被拷贝的地址不一样了。</p><p>copy:拷贝了最外围的对象本身，内部的元素都只是拷贝了一个引用而已。就是对于复杂的元素只是拷贝他们的地址，变化会引起本来对象相应值的变化</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>a=[<span class="number">1</span>,<span class="number">2</span>,[<span class="number">3</span>,<span class="number">4</span>]]  <span class="comment">#第三个值为列表[3,4],即内部元素</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>d=copy.copy(a) <span class="comment">#浅拷贝a中的[3，4]内部元素的引用，非内部元素对象的本身</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>id(a)==id(d)</span><br><span class="line"><span class="literal">False</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>id(a[<span class="number">2</span>])==id(d[<span class="number">2</span>])</span><br><span class="line"><span class="literal">True</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>a[<span class="number">2</span>][<span class="number">0</span>]=<span class="number">3333</span>  <span class="comment">#改变a中内部原属列表中的第一个值</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>d             <span class="comment">#这时d中的列表元素也会被改变</span></span><br><span class="line">[<span class="number">1</span>, <span class="number">2</span>, [<span class="number">3333</span>, <span class="number">4</span>]]</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">#copy.deepcopy()</span></span><br><span class="line"></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>e=copy.deepcopy(a) <span class="comment">#e为深拷贝了a</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>a[<span class="number">2</span>][<span class="number">0</span>]=<span class="number">333</span> <span class="comment">#改变a中内部元素列表第一个的值</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>e</span><br><span class="line">[<span class="number">1</span>, <span class="number">2</span>, [<span class="number">3333</span>, <span class="number">4</span>]] <span class="comment">#因为时深拷贝，这时e中内部元素[]列表的值不会因为a中的值改变而改变</span></span><br><span class="line">&gt;&gt;&gt;</span><br></pre></td></tr></table></figure></li></ul><ul><li><p>pickle</p><p>用来保存和提取文件的模块</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> pickle</span><br><span class="line"></span><br><span class="line">a_dict = &#123;<span class="string">'da'</span>: <span class="number">111</span>, <span class="number">2</span>: [<span class="number">23</span>,<span class="number">1</span>,<span class="number">4</span>], <span class="string">'23'</span>: &#123;<span class="number">1</span>:<span class="number">2</span>,<span class="string">'d'</span>:<span class="string">'sad'</span>&#125;&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment"># pickle a variable to a file</span></span><br><span class="line">file = open(<span class="string">'pickle_example.pickle'</span>, <span class="string">'wb'</span>)</span><br><span class="line">pickle.dump(a_dict, file)</span><br><span class="line">file.close()</span><br><span class="line"></span><br><span class="line"><span class="comment"># reload a file to a variable</span></span><br><span class="line"><span class="keyword">with</span> open(<span class="string">'pickle_example.pickle'</span>, <span class="string">'rb'</span>) <span class="keyword">as</span> file:</span><br><span class="line">    a_dict1 =pickle.load(file)</span><br><span class="line"></span><br><span class="line">print(a_dict1)</span><br></pre></td></tr></table></figure></li></ul><ul><li><p>set</p><p>set最基本的功能就是来找list中或者句子中不同的元素</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">char_list = [<span class="string">'a'</span>, <span class="string">'b'</span>, <span class="string">'c'</span>, <span class="string">'c'</span>, <span class="string">'d'</span>, <span class="string">'d'</span>, <span class="string">'d'</span>]</span><br><span class="line"></span><br><span class="line">print(set(char_list))</span><br><span class="line"><span class="comment"># &#123;'b', 'd', 'a', 'c'&#125;</span></span><br></pre></td></tr></table></figure><p>我们还能进行一些筛选操作, 比如对比另一个东西, 看看原来的 set 里有没有和他不同的 (<code>difference</code>). 或者对比另一个东西, 看看 set 里有没有相同的 (<code>intersection</code>).</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">unique_char = set(char_list)</span><br><span class="line">print(unique_char.difference(&#123;<span class="string">'a'</span>, <span class="string">'e'</span>, <span class="string">'i'</span>&#125;))</span><br><span class="line"><span class="comment"># &#123;'b', 'd', 'c'&#125;</span></span><br><span class="line"></span><br><span class="line">print(unique_char.intersection(&#123;<span class="string">'a'</span>, <span class="string">'e'</span>, <span class="string">'i'</span>&#125;))</span><br><span class="line"><span class="comment"># &#123;'a'&#125;</span></span><br></pre></td></tr></table></figure></li></ul><h3 id="正则表达式"><a href="#正则表达式" class="headerlink" title="正则表达式"></a>正则表达式</h3><p>  python中用来匹配字符的工具，广泛用于网页爬虫、文稿整理和数据筛选。包含于python的内置模块re中。</p><ul><li><p>简单匹配</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> re</span><br><span class="line"></span><br><span class="line"><span class="comment"># regular expression</span></span><br><span class="line">pattern1 = <span class="string">"cat"</span></span><br><span class="line">pattern2 = <span class="string">"bird"</span></span><br><span class="line">string = <span class="string">"dog runs to cat"</span></span><br><span class="line">print(re.search(pattern1, string))  <span class="comment"># &lt;_sre.SRE_Match object; span=(12, 15), match='cat'&gt;</span></span><br><span class="line">print(re.search(pattern2, string))  <span class="comment"># None</span></span><br></pre></td></tr></table></figure></li><li><p>可以用[]来模糊匹配，建立规则需要在规则前加上一个r</p><p><code>[A-Z]</code> 表示的就是所有大写的英文字母. <code>[0-9a-z]</code> 表示可以是数字也可以是任何小写字母</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">ptn = <span class="string">r"r[au]n"</span>       <span class="comment"># start with "r" means raw string</span></span><br><span class="line">print(re.search(ptn, <span class="string">"dog runs to cat"</span>))    <span class="comment"># &lt;_sre.SRE_Match object; span=(4, 7), match='run'&gt;</span></span><br><span class="line"></span><br><span class="line">print(re.search(<span class="string">r"r[A-Z]n"</span>, <span class="string">"dog runs to cat"</span>))     <span class="comment"># None</span></span><br><span class="line">print(re.search(<span class="string">r"r[a-z]n"</span>, <span class="string">"dog runs to cat"</span>))     <span class="comment"># &lt;_sre.SRE_Match object; span=(4, 7), match='run'&gt;</span></span><br><span class="line">print(re.search(<span class="string">r"r[0-9]n"</span>, <span class="string">"dog r2ns to cat"</span>))     <span class="comment"># &lt;_sre.SRE_Match object; span=(4, 7), match='r2n'&gt;</span></span><br><span class="line">print(re.search(<span class="string">r"r[0-9a-z]n"</span>, <span class="string">"dog runs to cat"</span>))  <span class="comment"># &lt;_sre.SRE_Match object; span=(4, 7), match='run'&gt;</span></span><br></pre></td></tr></table></figure><p>还有很多规则 有空回来补</p></li></ul>]]></content>
-      
-      
+  </entry>
+  <entry>
+    <title><![CDATA[python入门系列（1）_基于莫烦教程]]></title>
+    <url>%2F2019%2F03%2F08%2Fpython%E5%85%A5%E9%97%A8%E7%B3%BB%E5%88%97%EF%BC%881%EF%BC%89_%E8%8E%AB%E7%83%A6%2F</url>
+    <content type="text"><![CDATA[基本语法 python的没有多次方符号^,二次方$$，三次方$3$，以此类推 如果0作为while的条件，将被视为false；其他数字都是true 如果集合，如list,tuple,dict等作为while的条件，如果集合中的元素数量为0，那么将被视为false;否则被视为true; range()可以产生一个序列 ​ 如果是range(start,stop),则左边是闭区间，左边是开区间，如range(1,10)会产生1到9 ​ 如果省略了start,则将从0开始 ​ 如果是range(start,stop,step),表示间隔取数，直到大于或者等于stop python内置了list,tuple,dict,set四种基本集合，dic有key,set集合会去除重复项。都可以迭代 实际上我们也可以设计有_iter_()和_next_()函数就可以生成迭代对象，如 1234567891011121314151617181920# define a Fib classclass Fib(object): def __init__(self, max): self.max = max self.n, self.a, self.b = 0, 0, 1 def __iter__(self): return self def __next__(self): if self.n &lt; self.max: r = self.b self.a, self.b = self.b, self.a + self.b self.n = self.n + 1 return r raise StopIteration()# using Fib objectfor i in Fib(5): print(i) 也可以用yield实现类似功能，yield执行的时候将立即返回结果给上层调用者，而当前的状态仍然保留。例如： 1234567891011def fib(max): a, b = 0, 1 while max: r = b a, b = b, a+b max -= 1 yield r# using generatorfor i in fib(5): print(i) 将同样生成1，1，2，3，5 python中有if-else行内表达式 1var = var1 if condition else var2 如果condition为真，把var1赋值给var,否则把var2赋值给var python的else if是连在一起写的，记作elif 函数定义的时候可以设置默认参数，即参数有默认值。但是需要注意的是所有的默认参数不能出现在非默认参数的前面 python的自调用 当想对当前的子模块进行测试时，可以加上以下 12if __name__ == '__main__': #code_here 可变参数 接收的是tuple 当传入参数的数目不确定时候，可以用可变参数，但是注意可变参数不能出现在特点参数和默认参数前面 12345def report(name, *grades): total_grade = 0 for grade in grades: total_grade += grade print(name, 'total grade is ', total_grade) 关键字参数 关键字参数可以传入0个或者任意个含参数名的参数，这些参数在函数内部可以自动封装成一个字典dict.西藏形状为**参数。 1234def portrait(name, **kw): print('name is', name) for k,v in kw.items(): print(k, v) 执行 1portrait('Mike', age=24, country='China', education='bachelor') 可以输出 1234name is Mikeage 24country Chinaeducation bachelor 定义变量的位置决定了是全局变量还是局部变量。可以在通过加global,在函数中修改全局参数 open（）能够读取或者写入一文件 1234567my_file=open('my file.txt','w') #用法: open('文件名','形式'), 其中形式有'w':write;'r':read;'a':添加my_file.write(text) #该语句会写入先前定义好的 textmy_file.close() #关闭文件append_text='\nThis is appended file.' # 为这行文字提前空行 "\n"my_file=open('my file.txt','a') # 'a'=append 以增加内容的形式打开my_file.write(append_text)my_file.close() 文件的读取有几种方式，如read(),readline()或者radlines() 1234567891011121314151617181920212223242526272829303132333435363738394041424344454647file= open('my file.txt','r') content=file.read() print(content)""""This is my first test.This is the second line.This the third line.This is appended file. """"file= open('my file.txt','r') content=file.readline() # 读取第一行print(content)""""This is my first test.""""second_read_time=file.readline() # 读取第二行print(second_read_time)"""This is the second line."""file= open('my file.txt','r') content=file.readlines() # python_list 形式print(content)""""['This is my first test.\n', 'This is the second line.\n', 'This the third line.\n', 'This is appended file.']""""# 之后如果使用 for 来迭代输出:for item in content: print(item) """This is my first test.This is the second line.This the third line.This is appended file.""" 用class定义一个类时，首字母要大写。想要类的内部属性不被外部访问，在属性名称前加上两个下划线，但是需要注意的是在变量前以双划线开头，并且以双划线结尾的是特殊变量，不是private变量。如__init__()。 大多数在类里定义的self代表的是类的实例。在定义函数的时候在参数中一般不能省略 元组tuple,用小括号或者无括号来表示，是一串有顺序的数字 12a_tuple = (12, 3, 5, 15 , 6)another_tuple = 12, 3, 5, 15 , 6 tuple指向的位置不能变，当它指向基本类型时它的值自然不能变化，但是当它指向一个list的话，list里的值自然是能变的 列表list;用中括号来命名；不需要元素为同一类型 1a_list=[12,3,5,15,6] 列表多了一些方法，如 1234a_list.append（a）#在列表最后加上'a'a_list.insert(1,2)#在列表位置1，插入常量2a_list.pop()#删除列表最后一个元素 也可加入参数 删除指定位置的元素 这时候和remove（）一样了a_list.sort()#对列表进行排序 list可以拓展为多维列表 字典 dic;字典是无序的，有key和value两种元素，也不要求所有的key或者value有相同的形式。从一定角度来说，list是key为有序数列的dic。 错误处理 举例： 1234567try: file=open('eeee.txt','r') #会报错的代码except Exception as e: # 将报错存储在 e 中 print(e)"""[Errno 2] No such file or directory: 'eeee.txt'""" zip 接受任意个序列作为参数，合并之后返回一个tuple列表。例： 1234567a=[1,2,3]b=[4,5,6]ab=zip(a,b)print(list(ab)) #需要加list来可视化这个功能"""[(1, 4), (2, 5), (3, 6)]""" lambda 匿名函数，简化函数。如 12345678910fun= lambda x,y:x+yx=int(input('x=')) #这里要定义int整数，否则会默认为字符串y=int(input('y='))print(fun(x,y))"""x=6y=612""" map map是把函数和参数绑定在一起，第一个参数是 function ，以参数序列中的每一个元素调用 function 函数，返回包含每次 function 函数返回值的新列表。 12345678910&gt;&gt;&gt; def fun(x,y): return (x+y)&gt;&gt;&gt; list(map(fun,[1],[2]))"""[3]"""&gt;&gt;&gt; list(map(fun,[1,2],[3,4]))"""[4,6]""" 深拷贝和浅拷贝 import copy deepcopy：对外围和内部元素都进行了拷贝对象本身，而不是对象的引用。也就是拷贝的和被拷贝的地址不一样了。 copy:拷贝了最外围的对象本身，内部的元素都只是拷贝了一个引用而已。就是对于复杂的元素只是拷贝他们的地址，变化会引起本来对象相应值的变化 123456789101112131415161718&gt;&gt;&gt; a=[1,2,[3,4]] #第三个值为列表[3,4],即内部元素&gt;&gt;&gt; d=copy.copy(a) #浅拷贝a中的[3，4]内部元素的引用，非内部元素对象的本身&gt;&gt;&gt; id(a)==id(d)False&gt;&gt;&gt; id(a[2])==id(d[2])True&gt;&gt;&gt; a[2][0]=3333 #改变a中内部原属列表中的第一个值&gt;&gt;&gt; d #这时d中的列表元素也会被改变[1, 2, [3333, 4]]#copy.deepcopy()&gt;&gt;&gt; e=copy.deepcopy(a) #e为深拷贝了a&gt;&gt;&gt; a[2][0]=333 #改变a中内部元素列表第一个的值&gt;&gt;&gt; e[1, 2, [3333, 4]] #因为时深拷贝，这时e中内部元素[]列表的值不会因为a中的值改变而改变&gt;&gt;&gt; pickle 用来保存和提取文件的模块 1234567891011121314import picklea_dict = &#123;'da': 111, 2: [23,1,4], '23': &#123;1:2,'d':'sad'&#125;&#125;# pickle a variable to a filefile = open('pickle_example.pickle', 'wb')pickle.dump(a_dict, file)file.close()# reload a file to a variablewith open('pickle_example.pickle', 'rb') as file: a_dict1 =pickle.load(file)print(a_dict1) set set最基本的功能就是来找list中或者句子中不同的元素 1234char_list = ['a', 'b', 'c', 'c', 'd', 'd', 'd']print(set(char_list))# &#123;'b', 'd', 'a', 'c'&#125; 我们还能进行一些筛选操作, 比如对比另一个东西, 看看原来的 set 里有没有和他不同的 (difference). 或者对比另一个东西, 看看 set 里有没有相同的 (intersection). 123456unique_char = set(char_list)print(unique_char.difference(&#123;'a', 'e', 'i'&#125;))# &#123;'b', 'd', 'c'&#125;print(unique_char.intersection(&#123;'a', 'e', 'i'&#125;))# &#123;'a'&#125; 正则表达式 python中用来匹配字符的工具，广泛用于网页爬虫、文稿整理和数据筛选。包含于python的内置模块re中。 简单匹配 12345678import re# regular expressionpattern1 = "cat"pattern2 = "bird"string = "dog runs to cat"print(re.search(pattern1, string)) # &lt;_sre.SRE_Match object; span=(12, 15), match='cat'&gt;print(re.search(pattern2, string)) # None 可以用[]来模糊匹配，建立规则需要在规则前加上一个r [A-Z] 表示的就是所有大写的英文字母. [0-9a-z] 表示可以是数字也可以是任何小写字母 1234567ptn = r"r[au]n" # start with "r" means raw stringprint(re.search(ptn, "dog runs to cat")) # &lt;_sre.SRE_Match object; span=(4, 7), match='run'&gt;print(re.search(r"r[A-Z]n", "dog runs to cat")) # Noneprint(re.search(r"r[a-z]n", "dog runs to cat")) # &lt;_sre.SRE_Match object; span=(4, 7), match='run'&gt;print(re.search(r"r[0-9]n", "dog r2ns to cat")) # &lt;_sre.SRE_Match object; span=(4, 7), match='r2n'&gt;print(re.search(r"r[0-9a-z]n", "dog runs to cat")) # &lt;_sre.SRE_Match object; span=(4, 7), match='run'&gt; 还有很多规则 有空回来补]]></content>
       <categories>
-          
-          <category> python学习 </category>
-          
+        <category>python学习</category>
       </categories>
-      
-      
-        <tags>
-            
-            <tag> python </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>Inception-V2(BN论文解读）</title>
-      <link href="/2019/03/07/Inception-V2(BN%E8%AE%BA%E6%96%87%E8%A7%A3%E8%AF%BB%EF%BC%89/"/>
-      <url>/2019/03/07/Inception-V2(BN%E8%AE%BA%E6%96%87%E8%A7%A3%E8%AF%BB%EF%BC%89/</url>
-      
-        <content type="html"><![CDATA[<p>Batch Normalization是加速深度学习的重要方法，被广泛应用在各种网络中。简单来说，训练数据分布大致相同对训练来说很有帮助，而且BN就是在帮助数据归一化，提高泛化能力。</p><h3 id="名词解释"><a href="#名词解释" class="headerlink" title="名词解释"></a>名词解释</h3><ul><li><p>internal convariate shift</p><p>当底层的参数变化时，相应输出变化，并将作用在上层的参数并被放大。论文中表述，在深层网络训练的过程中，由于网络中参数变化而引起内部结点数据分布发生变化的这一过程被称作Internal Covariate Shift。</p></li><li><p>whitening</p><p>以前用以归一化的方法，让输入数据具有相同的方差，均值为0，同时去掉特征之间的相关性（具体怎么做，论文并没有提到）</p><p>但是白化有两个很大缺点，一是数据量太大，需要对每一轮训练的每一层都进行白化；二是改变了网络的每一次的分布</p><a id="more"></a></li></ul><h3 id="提出背景"><a href="#提出背景" class="headerlink" title="提出背景"></a>提出背景</h3><ul><li>训练模型需要仔细调整各个超参数，特别是初始学习率</li><li>训练的时候导致的梯度消失</li></ul><h3 id="算法做法"><a href="#算法做法" class="headerlink" title="算法做法"></a>算法做法</h3><ul><li><p>由于训练一般用mini-batch上训练，所以BN也自然是针对mini-batch</p></li><li><p>对于一次训练的一个batch的一层中的一个神经元节点（也就是当前层的一个输入端，或者是一个维度）</p><p><img src="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%B7%B1%E5%BA%A6%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E6%9E%B6%E6%9E%84/BN%E8%AE%A1%E7%AE%97%EF%BC%881%EF%BC%89.png" alt="bn计算图"></p><p>其中m是这个batch的大小  ε是避免方差为0 从而分母为0</p></li><li><p>归一化之后可能会破坏本来数据的表达能力，又引进了两个可学习的参数γ和β，表达式如下</p><p><img src="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%B7%B1%E5%BA%A6%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E6%9E%B6%E6%9E%84/BN%E8%AE%A1%E7%AE%97%EF%BC%882%EF%BC%89.png" alt="表达式"></p><p>当<img src="https://www.zhihu.com/equation?tex=%5Cgamma%5E2%3D%5Csigma%5E2%2C%5Cbeta%3D%5Cmu" alt="\gamma^2=\sigma^2,\beta=\mu"></p><p>显然Z又等于之前的Z了，如果效果不好就恢复成原始网络所要学习的特征分布。</p></li><li><p>测试时用到的μ和σ是用全部训练集的数据得来的，在训练batch时，把他们的相关参数存下来，然后测试的时候拿出来用（叫做无偏估计）</p><p><img src="https://www.zhihu.com/equation?tex=%5Csigma%5E2_%7Btest%7D%3D%5Cfrac%7Bm%7D%7Bm-1%7D%5Cmathbb%7BE%7D%28%5Csigma%5E2_%7Bbatch%7D%29" alt></p></li></ul><p><img src="https://www.zhihu.com/equation?tex=%5Cmu_%7Btest%7D%3D%5Cmathbb%7BE%7D+%28%5Cmu_%7Bbatch%7D%29" alt="\mu_{test}=\mathbb{E} (\mu_{batch})"></p><ul><li>在实际训练中BN需要的参数还是很多，所以使用了权重共享，把一张特征图当做一个神经元进行处理</li><li>论文还解释了为什么是BN Wu+b,而不是直接BN u,也就是上一层的输出，简单来说，这时候的数据比较稳定，非稀疏。</li></ul><h3 id="BN的好处"><a href="#BN的好处" class="headerlink" title="BN的好处"></a>BN的好处</h3><ul><li><p>可以选择较大的初始学习率，从而加快学习</p></li><li><p>拥有一定正则化的功能，减少了使用dropout的需求</p></li><li><p>允许使用饱和性激活函数（sigmoif,tanh等），不一定是之前统一的RELU</p></li></ul><h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3>]]></content>
-      
-      
+      <tags>
+        <tag>python</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Inception-V2(BN论文解读）]]></title>
+    <url>%2F2019%2F03%2F07%2FInception-V2(BN%E8%AE%BA%E6%96%87%E8%A7%A3%E8%AF%BB%EF%BC%89%2F</url>
+    <content type="text"><![CDATA[Batch Normalization是加速深度学习的重要方法，被广泛应用在各种网络中。简单来说，训练数据分布大致相同对训练来说很有帮助，而且BN就是在帮助数据归一化，提高泛化能力。 名词解释 internal convariate shift 当底层的参数变化时，相应输出变化，并将作用在上层的参数并被放大。论文中表述，在深层网络训练的过程中，由于网络中参数变化而引起内部结点数据分布发生变化的这一过程被称作Internal Covariate Shift。 whitening 以前用以归一化的方法，让输入数据具有相同的方差，均值为0，同时去掉特征之间的相关性（具体怎么做，论文并没有提到） 但是白化有两个很大缺点，一是数据量太大，需要对每一轮训练的每一层都进行白化；二是改变了网络的每一次的分布 提出背景 训练模型需要仔细调整各个超参数，特别是初始学习率 训练的时候导致的梯度消失 算法做法 由于训练一般用mini-batch上训练，所以BN也自然是针对mini-batch 对于一次训练的一个batch的一层中的一个神经元节点（也就是当前层的一个输入端，或者是一个维度） 其中m是这个batch的大小 ε是避免方差为0 从而分母为0 归一化之后可能会破坏本来数据的表达能力，又引进了两个可学习的参数γ和β，表达式如下 当 显然Z又等于之前的Z了，如果效果不好就恢复成原始网络所要学习的特征分布。 测试时用到的μ和σ是用全部训练集的数据得来的，在训练batch时，把他们的相关参数存下来，然后测试的时候拿出来用（叫做无偏估计） 在实际训练中BN需要的参数还是很多，所以使用了权重共享，把一张特征图当做一个神经元进行处理 论文还解释了为什么是BN Wu+b,而不是直接BN u,也就是上一层的输出，简单来说，这时候的数据比较稳定，非稀疏。 BN的好处 可以选择较大的初始学习率，从而加快学习 拥有一定正则化的功能，减少了使用dropout的需求 允许使用饱和性激活函数（sigmoif,tanh等），不一定是之前统一的RELU 参考]]></content>
       <categories>
-          
-          <category> 深度学习模型 </category>
-          
+        <category>深度学习模型</category>
       </categories>
-      
-      
-        <tags>
-            
-            <tag> 深度学习 </tag>
-            
-            <tag> 卷积神经网络 </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>Linux服务器安装anaconda，cuda和pytorch</title>
-      <link href="/2019/03/01/Linux%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%AE%89%E8%A3%85anaconda,cuda,pytorch/"/>
-      <url>/2019/03/01/Linux%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%AE%89%E8%A3%85anaconda,cuda,pytorch/</url>
-      
-        <content type="html"><![CDATA[<p>之前用的是学姐的anaconda，安装一些包时候，很多文件权限老是访问不了。所以需要在自己的文件目录下安装anaconda。</p><h3 id="安装anaconda"><a href="#安装anaconda" class="headerlink" title="安装anaconda"></a>安装anaconda</h3><a id="more"></a><p>先去官网下载相应版本，放在指定位置后，cd进相应位置，执行以下</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bash 安装包名.sh</span><br></pre></td></tr></table></figure><p>然后看相应许可证，问你是否同意，之后默认路径如果不想改变，就yes，进入安装流程</p><p>之后询问是否加入系统路径 是否安装vscode</p><p>没有例外的可以都选yes</p><h3 id="安装cuda和cudnn"><a href="#安装cuda和cudnn" class="headerlink" title="安装cuda和cudnn"></a>安装cuda和cudnn</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cat /usr/local/cuda/version.txt</span><br><span class="line">cat /usr/local/cuda/include/cudnn.h | grep CUDNN_MAJOR -A 2</span><br></pre></td></tr></table></figure><p>先查看是否安装了cuda和cudnn，实验室服务器装了我就不用装了</p><h3 id="安装pytorch"><a href="#安装pytorch" class="headerlink" title="安装pytorch"></a>安装pytorch</h3><p>在官网选择指定的cuda 和python的版本之后，会提示命令行是什么 运行命令行 就可以 就是我的</p><p>由于正常操作的话太慢了，需要给conda更换镜像源，首先运行</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">conda config</span><br></pre></td></tr></table></figure><p>会产生.condarc文件，然后编辑该文件，增加几个镜像源，最后结果如下</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">channels:</span><br><span class="line">  - https://mirrors.ustc.edu.cn/anaconda/pkgs/main/</span><br><span class="line">  - https://mirrors.ustc.edu.cn/anaconda/cloud/conda-forge/</span><br><span class="line">  - https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/free/</span><br><span class="line">  - defaults</span><br><span class="line">show_channel_urls: true</span><br></pre></td></tr></table></figure><p>不过这几个源好像没有我需要的pytorch版本，pytorch这个包还是下载超级慢</p><p>改用pip的话 会提示错误 类似于</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">torch-0.1.6.post22-cp27-cp27mu-linux_x86_64.whl is not a supported wheel on this platform</span><br></pre></td></tr></table></figure><p>是因为服务器上有多个python版本 需要指定版本 改为  就是在命令前指定用python几</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ python2 -m pip install torch-0.2.0.post3-cp27-cp27mu-manylinux1_x86_64.whl  </span><br><span class="line">$ python2 -m pip install torchvision-0.1.8-py2.py3-none-any.whl</span><br></pre></td></tr></table></figure><p>但是pip好像不如conda管理包来的方便 所有还是建议使用conda</p><p>使用conda的话 把网站给的参考中的把-c去掉 不使用指定的来源 这样就能使用我们之前导入的镜像地址，也就是把</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">conda install pytorch torchvision cudatoolkit=8.0 -c pytorch</span><br></pre></td></tr></table></figure><p>改成以下即可</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">conda install pytorch torchvision cudatoolkit=8.0</span><br></pre></td></tr></table></figure><h3 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"># CUDA TEST</span><br><span class="line">import torch</span><br><span class="line">x = torch.Tensor([1.0])</span><br><span class="line">xx = x.cuda()</span><br><span class="line">print(xx)</span><br><span class="line"> </span><br><span class="line"># CUDNN TEST</span><br><span class="line">from torch.backends import cudnn</span><br><span class="line">print(cudnn.is_acceptable(xx))</span><br></pre></td></tr></table></figure><hr><h3 id="额外的尝试"><a href="#额外的尝试" class="headerlink" title="额外的尝试"></a>额外的尝试</h3><p>自己去清华镜像里找相应版本下载</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud/pytorch/</span><br></pre></td></tr></table></figure><p>然后把下载的文件放到anaconda/pkgs  在cd到相应位置执行以下命令 包的名字注意相应变化</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">conda install --use-local pytorch-0.4.0-py35_cuda8.0.61_cudnn7.1.2_1.tar.bz2</span><br></pre></td></tr></table></figure><p>解压完之后再执行 官网给的那句命令行 因为包已经下好了 就会进入安装步骤 不用龟速下载 这里下载的包必须的版本一样 不然它会让你再下一个最新的</p>]]></content>
-      
-      
+      <tags>
+        <tag>深度学习</tag>
+        <tag>卷积神经网络</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Linux服务器安装anaconda，cuda和pytorch]]></title>
+    <url>%2F2019%2F03%2F01%2FLinux%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%AE%89%E8%A3%85anaconda%2Ccuda%2Cpytorch%2F</url>
+    <content type="text"><![CDATA[之前用的是学姐的anaconda，安装一些包时候，很多文件权限老是访问不了。所以需要在自己的文件目录下安装anaconda。 安装anaconda 先去官网下载相应版本，放在指定位置后，cd进相应位置，执行以下 1bash 安装包名.sh 然后看相应许可证，问你是否同意，之后默认路径如果不想改变，就yes，进入安装流程 之后询问是否加入系统路径 是否安装vscode 没有例外的可以都选yes 安装cuda和cudnn12cat /usr/local/cuda/version.txtcat /usr/local/cuda/include/cudnn.h | grep CUDNN_MAJOR -A 2 先查看是否安装了cuda和cudnn，实验室服务器装了我就不用装了 安装pytorch在官网选择指定的cuda 和python的版本之后，会提示命令行是什么 运行命令行 就可以 就是我的 由于正常操作的话太慢了，需要给conda更换镜像源，首先运行 1conda config 会产生.condarc文件，然后编辑该文件，增加几个镜像源，最后结果如下 123456channels: - https://mirrors.ustc.edu.cn/anaconda/pkgs/main/ - https://mirrors.ustc.edu.cn/anaconda/cloud/conda-forge/ - https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/free/ - defaultsshow_channel_urls: true 不过这几个源好像没有我需要的pytorch版本，pytorch这个包还是下载超级慢 改用pip的话 会提示错误 类似于 1torch-0.1.6.post22-cp27-cp27mu-linux_x86_64.whl is not a supported wheel on this platform 是因为服务器上有多个python版本 需要指定版本 改为 就是在命令前指定用python几 12$ python2 -m pip install torch-0.2.0.post3-cp27-cp27mu-manylinux1_x86_64.whl $ python2 -m pip install torchvision-0.1.8-py2.py3-none-any.whl 但是pip好像不如conda管理包来的方便 所有还是建议使用conda 使用conda的话 把网站给的参考中的把-c去掉 不使用指定的来源 这样就能使用我们之前导入的镜像地址，也就是把 1conda install pytorch torchvision cudatoolkit=8.0 -c pytorch 改成以下即可 1conda install pytorch torchvision cudatoolkit=8.0 测试123456789# CUDA TESTimport torchx = torch.Tensor([1.0])xx = x.cuda()print(xx) # CUDNN TESTfrom torch.backends import cudnnprint(cudnn.is_acceptable(xx)) 额外的尝试自己去清华镜像里找相应版本下载 1https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud/pytorch/ 然后把下载的文件放到anaconda/pkgs 在cd到相应位置执行以下命令 包的名字注意相应变化 1conda install --use-local pytorch-0.4.0-py35_cuda8.0.61_cudnn7.1.2_1.tar.bz2 解压完之后再执行 官网给的那句命令行 因为包已经下好了 就会进入安装步骤 不用龟速下载 这里下载的包必须的版本一样 不然它会让你再下一个最新的]]></content>
       <categories>
-          
-          <category> linux学习 </category>
-          
+        <category>linux学习</category>
       </categories>
-      
-      
-        <tags>
-            
-            <tag> linux </tag>
-            
-            <tag> pytorch </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>了解Anaconda和Conda</title>
-      <link href="/2019/02/25/%E4%BA%86%E8%A7%A3Anaconda%E5%92%8CConda/"/>
-      <url>/2019/02/25/%E4%BA%86%E8%A7%A3Anaconda%E5%92%8CConda/</url>
-      
-        <content type="html"><![CDATA[<p><strong>特别注意：在实验室服务器中装了anaconda2和anaconda3。可以在当前目录的根目录下.bashrc中改变。</strong></p><h3 id="Anaconda和conda的介绍"><a href="#Anaconda和conda的介绍" class="headerlink" title="Anaconda和conda的介绍"></a>Anaconda和conda的介绍</h3><p>Anaconda相当于一个包管理器，可以对环境进行统一管理，包含了包括python和conda在内的超过180个科学包及其依赖包。专业地说，叫做Anaconda是一个包含180+的科学包及其依赖项的发行版本。</p><p>conda是包及其依赖项和环境的管理工具，包含在Anaconda中。可以理解为一个工具，而anaconda是一个打包好的集合。</p><p>另外pip也是用于安装和管理软件包的包管理器。</p><p>简单来说，conda在诸多方面都比pip强</p><a id="more"></a><h3 id="使用conda管理环境"><a href="#使用conda管理环境" class="headerlink" title="使用conda管理环境"></a>使用conda管理环境</h3><h4 id="创建新环境"><a href="#创建新环境" class="headerlink" title="创建新环境"></a>创建新环境</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">conda create --name &lt;env_name&gt; &lt;package_names&gt;</span><br><span class="line">例如： conda create --name python2 python=2.7</span><br><span class="line">多个包的话：conda create -n python3 python=3.5 numpy pandas</span><br></pre></td></tr></table></figure><h4 id="切换环境"><a href="#切换环境" class="headerlink" title="切换环境"></a>切换环境</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">source activate &lt;env_name&gt;</span><br></pre></td></tr></table></figure><h4 id="退出环境到root"><a href="#退出环境到root" class="headerlink" title="退出环境到root"></a>退出环境到root</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">source deactivate</span><br><span class="line">或者 source activate base</span><br></pre></td></tr></table></figure><h4 id="显示已经创建的环境"><a href="#显示已经创建的环境" class="headerlink" title="显示已经创建的环境"></a>显示已经创建的环境</h4><p>结果中的*号，即当前所在环境</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">conda info --envs</span><br><span class="line">或：conda env list</span><br></pre></td></tr></table></figure><h4 id="复制环境"><a href="#复制环境" class="headerlink" title="复制环境"></a>复制环境</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">conda create --name &lt;new_env_name&gt; --clone &lt;copied_env_name&gt;</span><br><span class="line">例如：conda create --name py2 --clone python2</span><br></pre></td></tr></table></figure><h4 id="删除环境"><a href="#删除环境" class="headerlink" title="删除环境"></a>删除环境</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">conda remove --name &lt;env_name&gt; --all</span><br></pre></td></tr></table></figure><h3 id="在环境中管理包"><a href="#在环境中管理包" class="headerlink" title="在环境中管理包"></a>在环境中管理包</h3><h4 id="精确查找包"><a href="#精确查找包" class="headerlink" title="精确查找包"></a>精确查找包</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">conda search --full-name &lt;package_full_name&gt;</span><br></pre></td></tr></table></figure><h4 id="模糊查找"><a href="#模糊查找" class="headerlink" title="模糊查找"></a>模糊查找</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">conda search &lt;text&gt;</span><br></pre></td></tr></table></figure><h4 id="获取当前环境中的包"><a href="#获取当前环境中的包" class="headerlink" title="获取当前环境中的包"></a>获取当前环境中的包</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">conda list</span><br></pre></td></tr></table></figure><h4 id="安装包"><a href="#安装包" class="headerlink" title="安装包"></a>安装包</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">具体：conda install --name &lt;env_name&gt; &lt;package_name&gt;</span><br><span class="line">在当前环境安装：conda install &lt;package_name&gt;</span><br></pre></td></tr></table></figure><p>需要注意的是，有些包conda不能安装，只能通过pip,pip不能管理环境，所以需要切换到当前环境再安装</p><p>除了pip之外，还可以从Anaconda.org中下载</p><h4 id="卸载包"><a href="#卸载包" class="headerlink" title="卸载包"></a>卸载包</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">严谨的：conda remove --name &lt;env_name&gt; &lt;package_name&gt;</span><br><span class="line">卸载当前环境的包：conda remove &lt;package_name&gt;</span><br></pre></td></tr></table></figure><h4 id="更新包"><a href="#更新包" class="headerlink" title="更新包"></a>更新包</h4><h5 id="更新所有包"><a href="#更新所有包" class="headerlink" title="更新所有包"></a>更新所有包</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">conda update --all</span><br><span class="line">或conda upgrade --all</span><br></pre></td></tr></table></figure><h5 id="更新指定包"><a href="#更新指定包" class="headerlink" title="更新指定包"></a>更新指定包</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">conda update &lt;package_name&gt;</span><br><span class="line">或</span><br><span class="line">conda upgrade &lt;package_name&gt;</span><br></pre></td></tr></table></figure>]]></content>
-      
-      
+      <tags>
+        <tag>linux</tag>
+        <tag>pytorch</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[了解Anaconda和Conda]]></title>
+    <url>%2F2019%2F02%2F25%2F%E4%BA%86%E8%A7%A3Anaconda%E5%92%8CConda%2F</url>
+    <content type="text"><![CDATA[特别注意：在实验室服务器中装了anaconda2和anaconda3。可以在当前目录的根目录下.bashrc中改变。 Anaconda和conda的介绍Anaconda相当于一个包管理器，可以对环境进行统一管理，包含了包括python和conda在内的超过180个科学包及其依赖包。专业地说，叫做Anaconda是一个包含180+的科学包及其依赖项的发行版本。 conda是包及其依赖项和环境的管理工具，包含在Anaconda中。可以理解为一个工具，而anaconda是一个打包好的集合。 另外pip也是用于安装和管理软件包的包管理器。 简单来说，conda在诸多方面都比pip强 使用conda管理环境创建新环境123conda create --name &lt;env_name&gt; &lt;package_names&gt;例如： conda create --name python2 python=2.7多个包的话：conda create -n python3 python=3.5 numpy pandas 切换环境1source activate &lt;env_name&gt; 退出环境到root12source deactivate或者 source activate base 显示已经创建的环境结果中的*号，即当前所在环境 12conda info --envs或：conda env list 复制环境12conda create --name &lt;new_env_name&gt; --clone &lt;copied_env_name&gt;例如：conda create --name py2 --clone python2 删除环境1conda remove --name &lt;env_name&gt; --all 在环境中管理包精确查找包1conda search --full-name &lt;package_full_name&gt; 模糊查找1conda search &lt;text&gt; 获取当前环境中的包1conda list 安装包12具体：conda install --name &lt;env_name&gt; &lt;package_name&gt;在当前环境安装：conda install &lt;package_name&gt; 需要注意的是，有些包conda不能安装，只能通过pip,pip不能管理环境，所以需要切换到当前环境再安装 除了pip之外，还可以从Anaconda.org中下载 卸载包12严谨的：conda remove --name &lt;env_name&gt; &lt;package_name&gt;卸载当前环境的包：conda remove &lt;package_name&gt; 更新包更新所有包12conda update --all或conda upgrade --all 更新指定包123conda update &lt;package_name&gt;或conda upgrade &lt;package_name&gt;]]></content>
       <categories>
-          
-          <category> python学习 </category>
-          
+        <category>python学习</category>
       </categories>
-      
-      
-        <tags>
-            
-            <tag> linux </tag>
-            
-            <tag> python </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>莫烦_关于linux服务器的使用</title>
-      <link href="/2019/02/25/%E8%8E%AB%E7%83%A6_%E5%85%B3%E4%BA%8Elinux%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%9A%84%E4%BD%BF%E7%94%A8/"/>
-      <url>/2019/02/25/%E8%8E%AB%E7%83%A6_%E5%85%B3%E4%BA%8Elinux%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%9A%84%E4%BD%BF%E7%94%A8/</url>
-      
-        <content type="html"><![CDATA[<h3 id="如何从其他系统登录远程的Linux"><a href="#如何从其他系统登录远程的Linux" class="headerlink" title="如何从其他系统登录远程的Linux"></a>如何从其他系统登录远程的Linux</h3><a id="more"></a><h4 id="ssh"><a href="#ssh" class="headerlink" title="ssh"></a>ssh</h4><p>首先在linux上安装ssh的服务器</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install openssh-server</span><br></pre></td></tr></table></figure><p>在连接中需要知道服务器的ip,可以在服务器通过ifconfig,看eno中的inet显示的网络是多少</p><h4 id="Putty（Windows）（和xshell差不多）"><a href="#Putty（Windows）（和xshell差不多）" class="headerlink" title="Putty（Windows）（和xshell差不多）"></a>Putty（Windows）（和xshell差不多）</h4><p>在windows对ssh的支持不太好，可以用putty软件来实现这个媒介功能</p><h4 id="安卓也有很多ssh的软件"><a href="#安卓也有很多ssh的软件" class="headerlink" title="安卓也有很多ssh的软件"></a>安卓也有很多ssh的软件</h4><p>使用与windows的差不多</p><h4 id="通过VNC远程操作"><a href="#通过VNC远程操作" class="headerlink" title="通过VNC远程操作"></a>通过VNC远程操作</h4><p>vnc只能连接局域网里的，但是也不会受网速影响。</p><p>teamviewer可以连外网但是受网速影响</p><p>在Linux上安装vnc服务器</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install x11vnc</span><br></pre></td></tr></table></figure><p>设置密码</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">x11vnc  -storepasswd</span><br></pre></td></tr></table></figure><p>启用密码</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">x11vnc -usepw</span><br></pre></td></tr></table></figure><h5 id="Windows"><a href="#Windows" class="headerlink" title="Windows"></a>Windows</h5><p>在window上安装vnc的客户端</p><p>有tightvnc或者realvnc</p><h5 id="Linux"><a href="#Linux" class="headerlink" title="Linux"></a>Linux</h5><p>直接在软件中搜索VNC,会有个remmina。</p><h3 id="如何在远程计算机进行运算"><a href="#如何在远程计算机进行运算" class="headerlink" title="如何在远程计算机进行运算"></a>如何在远程计算机进行运算</h3><p>例如</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh 用户名@云端ip python3 &lt; 文件在当前电脑的位置</span><br></pre></td></tr></table></figure><p>如果有多个文件的话，先复制过去</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">scp 当前位置及文件 用户名@ip地址：想粘贴的地址</span><br></pre></td></tr></table></figure><p>执行的时候，和最上面不一样了，这是在终端运行，而之前是用&lt;将文件推送到终端，这次是将命令推送到终端</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ssh 用户名@IP地址 “指令”</span><br><span class="line">例如： $ ssh jianhua@192.168.0.114 &quot;python3 ~/Desktop/a.py&quot;</span><br></pre></td></tr></table></figure><p>如果产生结果，同样可以用scp把结果复制回来</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">例如 $ scp morvan@192.168.0.114:~/Desktop/b.py ~/Desktop/result</span><br></pre></td></tr></table></figure><p>流程总结</p><ul><li>本地有要运行的文件</li><li>单个文件的话可以直接 ssh 去云端运行</li><li>多个文件可以先复制去云端, 然后在 ssh 运行</li><li>如果在云端有产生文件, 可以用 scp 复制回来</li></ul><h3 id="共享Linux上的文件"><a href="#共享Linux上的文件" class="headerlink" title="共享Linux上的文件"></a>共享Linux上的文件</h3>]]></content>
-      
-      
+      <tags>
+        <tag>linux</tag>
+        <tag>python</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[莫烦_关于linux服务器的使用]]></title>
+    <url>%2F2019%2F02%2F25%2F%E8%8E%AB%E7%83%A6_%E5%85%B3%E4%BA%8Elinux%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%9A%84%E4%BD%BF%E7%94%A8%2F</url>
+    <content type="text"><![CDATA[如何从其他系统登录远程的Linux ssh首先在linux上安装ssh的服务器 1sudo apt-get install openssh-server 在连接中需要知道服务器的ip,可以在服务器通过ifconfig,看eno中的inet显示的网络是多少 Putty（Windows）（和xshell差不多）在windows对ssh的支持不太好，可以用putty软件来实现这个媒介功能 安卓也有很多ssh的软件使用与windows的差不多 通过VNC远程操作vnc只能连接局域网里的，但是也不会受网速影响。 teamviewer可以连外网但是受网速影响 在Linux上安装vnc服务器 1sudo apt-get install x11vnc 设置密码 1x11vnc -storepasswd 启用密码 1x11vnc -usepw Windows在window上安装vnc的客户端 有tightvnc或者realvnc Linux直接在软件中搜索VNC,会有个remmina。 如何在远程计算机进行运算例如 1ssh 用户名@云端ip python3 &lt; 文件在当前电脑的位置 如果有多个文件的话，先复制过去 1scp 当前位置及文件 用户名@ip地址：想粘贴的地址 执行的时候，和最上面不一样了，这是在终端运行，而之前是用&lt;将文件推送到终端，这次是将命令推送到终端 12ssh 用户名@IP地址 “指令”例如： $ ssh jianhua@192.168.0.114 &quot;python3 ~/Desktop/a.py&quot; 如果产生结果，同样可以用scp把结果复制回来 1例如 $ scp morvan@192.168.0.114:~/Desktop/b.py ~/Desktop/result 流程总结 本地有要运行的文件 单个文件的话可以直接 ssh 去云端运行 多个文件可以先复制去云端, 然后在 ssh 运行 如果在云端有产生文件, 可以用 scp 复制回来 共享Linux上的文件]]></content>
       <categories>
-          
-          <category> linux学习 </category>
-          
+        <category>linux学习</category>
       </categories>
-      
-      
-        <tags>
-            
-            <tag> linux </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>2019 2_17-2_23周报</title>
-      <link href="/2019/02/23/2019%202_17-2_23%E5%91%A8%E6%8A%A5/"/>
-      <url>/2019/02/23/2019%202_17-2_23%E5%91%A8%E6%8A%A5/</url>
-      
-        <content type="html"><![CDATA[<h3 id="这周完成的事"><a href="#这周完成的事" class="headerlink" title="这周完成的事"></a>这周完成的事</h3><a id="more"></a><h4 id="看了AlexNet、ZFNet、VGG、GoogLenet、Resnet五篇框架的论文"><a href="#看了AlexNet、ZFNet、VGG、GoogLenet、Resnet五篇框架的论文" class="headerlink" title="看了AlexNet、ZFNet、VGG、GoogLenet、Resnet五篇框架的论文"></a>看了AlexNet、ZFNet、VGG、GoogLenet、Resnet五篇框架的论文</h4><h4 id="跑了一次五千米"><a href="#跑了一次五千米" class="headerlink" title="跑了一次五千米"></a>跑了一次五千米</h4><p><img src="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E8%B7%91%E6%AD%A5%E8%AE%B0%E5%BD%95/Screenshot_2019-02-23-19-18-51-058_com.yuedong.sp.png" alt></p><h4 id="看了三部电影"><a href="#看了三部电影" class="headerlink" title="看了三部电影"></a>看了三部电影</h4><p><img src="https://img3.doubanio.com/view/photo/l/public/p1312700576.webp" alt="当幸福来敲门"></p><p><img src="https://img3.doubanio.com/view/photo/l/public/p2544987866.webp" alt="阿丽塔：战斗天使"></p><p><img src="https://img3.doubanio.com/view/photo/l/public/p2493480880.webp" alt="顽主"></p><h3 id="这周想完成却没有完成的事"><a href="#这周想完成却没有完成的事" class="headerlink" title="这周想完成却没有完成的事"></a>这周想完成却没有完成的事</h3><p>没有</p><h3 id="下周计划"><a href="#下周计划" class="headerlink" title="下周计划"></a>下周计划</h3><p>跑一跑AlexNet和VGG的代码 python还得需要学习并多实际操作</p><p>跑两次五千米</p><p>看电影 大腕 手机</p>]]></content>
-      
-      
+      <tags>
+        <tag>linux</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[2019 2_17-2_23周报]]></title>
+    <url>%2F2019%2F02%2F23%2F2019%202_17-2_23%E5%91%A8%E6%8A%A5%2F</url>
+    <content type="text"><![CDATA[这周完成的事 看了AlexNet、ZFNet、VGG、GoogLenet、Resnet五篇框架的论文跑了一次五千米 看了三部电影 这周想完成却没有完成的事没有 下周计划跑一跑AlexNet和VGG的代码 python还得需要学习并多实际操作 跑两次五千米 看电影 大腕 手机]]></content>
       <categories>
-          
-          <category> 周报 </category>
-          
+        <category>周报</category>
       </categories>
-      
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>ResNet论文解读</title>
-      <link href="/2019/02/23/ResNet%E8%AE%BA%E6%96%87%E8%A7%A3%E8%AF%BB/"/>
-      <url>/2019/02/23/ResNet%E8%AE%BA%E6%96%87%E8%A7%A3%E8%AF%BB/</url>
-      
-        <content type="html"><![CDATA[<p>经典深度卷积网络的深度至关重要，深度带来的梯度消失问题被标准初始化和中间标准化层解决。另一个问题就是随着深度增加，准确度反而下降。作者觉得理论上网络深度的增加至少不会导致准确度下降（因为后面的层都可以设置成恒等映射），从而引进了残差网络的概念，当准确度不如低层的时候，其他非线性连接的权重偏向于0，恒等映射的权重适当增加。保证准确度至少不会下降。</p><h3 id="贡献点"><a href="#贡献点" class="headerlink" title="贡献点"></a>贡献点</h3><ul><li>在卷积网络中引进旁路（$shortcut$)，也就是深度残差学习框架。简单形式如下图</li></ul><p><img src="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%B7%B1%E5%BA%A6%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E6%9E%B6%E6%9E%84/Resnet%E7%A4%BA%E6%84%8F%E5%9B%BE.png" alt></p><a id="more"></a><h3 id="关键词"><a href="#关键词" class="headerlink" title="关键词"></a>关键词</h3><ul><li><p>shortcut connections 旁路连接</p></li><li><p>identity mapping  恒等映射</p></li></ul><h3 id="注意点"><a href="#注意点" class="headerlink" title="注意点"></a>注意点</h3><ul><li><p>构建块可以被近似地估计为 $y = F(x,W_i) +x$,x和y分别是块的输入和输出向量，函数F就是要学习的残差映射 ，由于x和y必须维度相同才能相加，当维度不同的时候有两种方法来处理。</p><p>（1）零填充</p><p>（2）用投影矩阵改变维度</p></li><li><p>bottleneck design </p><p>由$1 \times 1$的卷积组实现，在GoogLeNet中有用到，能减少计算量和参数量，具体如下图右</p><p><img src="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%B7%B1%E5%BA%A6%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E6%9E%B6%E6%9E%84/ResNet%E6%94%B9%E5%8F%98%E7%BB%B4%E5%BA%A6.png" alt></p></li><li><p>残差块至少要有两层及以上，一层没有效果</p></li><li><p>架构图和具体参数如下两图，为了做对照试验，图一中的中和右的参数数目基本一致</p><p><img src="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%B7%B1%E5%BA%A6%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E6%9E%B6%E6%9E%84/Resnet%E6%9E%B6%E6%9E%84.png" alt></p></li></ul><p><img src="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%B7%B1%E5%BA%A6%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E6%9E%B6%E6%9E%84/Resnet%E5%8F%82%E6%95%B0.png" alt></p>]]></content>
-      
-      
+  </entry>
+  <entry>
+    <title><![CDATA[ResNet论文解读]]></title>
+    <url>%2F2019%2F02%2F23%2FResNet%E8%AE%BA%E6%96%87%E8%A7%A3%E8%AF%BB%2F</url>
+    <content type="text"><![CDATA[经典深度卷积网络的深度至关重要，深度带来的梯度消失问题被标准初始化和中间标准化层解决。另一个问题就是随着深度增加，准确度反而下降。作者觉得理论上网络深度的增加至少不会导致准确度下降（因为后面的层都可以设置成恒等映射），从而引进了残差网络的概念，当准确度不如低层的时候，其他非线性连接的权重偏向于0，恒等映射的权重适当增加。保证准确度至少不会下降。 贡献点 在卷积网络中引进旁路（$shortcut$)，也就是深度残差学习框架。简单形式如下图 关键词 shortcut connections 旁路连接 identity mapping 恒等映射 注意点 构建块可以被近似地估计为 $y = F(x,W_i) +x$,x和y分别是块的输入和输出向量，函数F就是要学习的残差映射 ，由于x和y必须维度相同才能相加，当维度不同的时候有两种方法来处理。 （1）零填充 （2）用投影矩阵改变维度 bottleneck design 由$1 \times 1$的卷积组实现，在GoogLeNet中有用到，能减少计算量和参数量，具体如下图右 残差块至少要有两层及以上，一层没有效果 架构图和具体参数如下两图，为了做对照试验，图一中的中和右的参数数目基本一致]]></content>
       <categories>
-          
-          <category> 深度学习模型 </category>
-          
+        <category>深度学习模型</category>
       </categories>
-      
-      
-        <tags>
-            
-            <tag> 深度学习 </tag>
-            
-            <tag> 卷积神经网络 </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>GoogLeNet论文解读</title>
-      <link href="/2019/02/22/GoogLeNet%E8%AE%BA%E6%96%87%E8%A7%A3%E8%AF%BB/"/>
-      <url>/2019/02/22/GoogLeNet%E8%AE%BA%E6%96%87%E8%A7%A3%E8%AF%BB/</url>
-      
-        <content type="html"><![CDATA[<p>提升网络性能一般都是提高网络的深度和宽度，这将带来参数过多，难以训练等问题。本文作者想着用稀疏结构来取代传统的密集连接。由于当下硬件更为支持密集数据的计算，作者提出了<strong>Inception</strong>这一架构近似的最优局部稀疏结构，将稀疏矩阵聚类为相对密集的子矩阵。</p><p><strong>注意：Inception的作用可以近似地解释为：替代了人工确定卷积层中过滤器的类型或者是否创建卷积层和池化层，让网络自己学习它具体需要什么参数。</strong></p><h3 id="贡献点"><a href="#贡献点" class="headerlink" title="贡献点"></a>贡献点</h3><ul><li><p>提出Inception这一全新架构，是稀疏连接的代表</p></li><li><p>多尺度卷积核，最后处理聚合</p></li><li><p>通过引进$1 \times 1$小卷积核来降低维度</p></li><li><p>为了避免梯度消失，在架构中增加了两个辅助的softmax用于向前传导梯度，并以较小的权重（0.3）加到最终分类结果，有些正则化的意思</p></li></ul><a id="more"></a><h3 id="理论基础"><a href="#理论基础" class="headerlink" title="理论基础"></a>理论基础</h3><p>网络的规模的增大，有两个主要缺点。一是更大的尺寸需要更多的参数，也有着更大的过拟合的可能性。第二个缺点是更大的网络自然需要更大的训练集，而训练集的获得需要很大的成本。深度网络的实用性和性能的增长都陷入了瓶颈。</p><p>作者引进稀疏性来解决以上问题，但是由于当下的计算架构不是很支持稀疏数据结构的数值计算。Inception就是利用滤波器水平的稀疏性，但又利用密集矩阵计算来利用目前的硬件。出于便利性，架构的滤波器仅有$1 \times 1$,$3 \times 3$,$5 \times 5$,由于池化操作的良好表现，又加入一个并行的池化路径。（玄学？）初始架构如下图（a),后加入$1 \times 1​$滤波器来降维，如下图（b).</p><p><img src="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%B7%B1%E5%BA%A6%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E6%9E%B6%E6%9E%84/Inception.png" alt="1"></p><h3 id="具体架构"><a href="#具体架构" class="headerlink" title="具体架构"></a>具体架构</h3><p>GoogLeNet是Inception的一个应用，前几层是常见的卷积网络，接下来就是以上所说的Inception结构，最后为了方便泛化到其他数据集还加上一个额外的线性层。虽然移除了全连接层，还是用了70%的dropout策略。（具体在哪用，论文没表述）</p><p>为了有效的训练，同时考虑到中间层产生的特征具有一定的是别离，在中间层加了一些softmax层，并以一定权重直接加到最后的结果中，在后面的控制训练中，发现这些辅助网络影响相对较小，只需要一个就能取得一样的效果。</p><p>训练方法就是正常的BP算法，图像块的采样是随机采样，在图像的$8\%-100\%$上，方向角限制在$[\frac{3}{4},\frac{4}{3}]​$之间，光度扭曲被使用。测试时采用多尺度多方位采样，在比赛中作者采样了144个，在实际中可能不需要这么多数据。</p><p>详细框架如下图</p><p><img src="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%B7%B1%E5%BA%A6%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E6%9E%B6%E6%9E%84/googLeNet.jpg" alt></p>]]></content>
-      
-      
+      <tags>
+        <tag>深度学习</tag>
+        <tag>卷积神经网络</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[GoogLeNet论文解读]]></title>
+    <url>%2F2019%2F02%2F22%2FGoogLeNet%E8%AE%BA%E6%96%87%E8%A7%A3%E8%AF%BB%2F</url>
+    <content type="text"><![CDATA[提升网络性能一般都是提高网络的深度和宽度，这将带来参数过多，难以训练等问题。本文作者想着用稀疏结构来取代传统的密集连接。由于当下硬件更为支持密集数据的计算，作者提出了Inception这一架构近似的最优局部稀疏结构，将稀疏矩阵聚类为相对密集的子矩阵。 注意：Inception的作用可以近似地解释为：替代了人工确定卷积层中过滤器的类型或者是否创建卷积层和池化层，让网络自己学习它具体需要什么参数。 贡献点 提出Inception这一全新架构，是稀疏连接的代表 多尺度卷积核，最后处理聚合 通过引进$1 \times 1$小卷积核来降低维度 为了避免梯度消失，在架构中增加了两个辅助的softmax用于向前传导梯度，并以较小的权重（0.3）加到最终分类结果，有些正则化的意思 理论基础网络的规模的增大，有两个主要缺点。一是更大的尺寸需要更多的参数，也有着更大的过拟合的可能性。第二个缺点是更大的网络自然需要更大的训练集，而训练集的获得需要很大的成本。深度网络的实用性和性能的增长都陷入了瓶颈。 作者引进稀疏性来解决以上问题，但是由于当下的计算架构不是很支持稀疏数据结构的数值计算。Inception就是利用滤波器水平的稀疏性，但又利用密集矩阵计算来利用目前的硬件。出于便利性，架构的滤波器仅有$1 \times 1$,$3 \times 3$,$5 \times 5$,由于池化操作的良好表现，又加入一个并行的池化路径。（玄学？）初始架构如下图（a),后加入$1 \times 1​$滤波器来降维，如下图（b). 具体架构GoogLeNet是Inception的一个应用，前几层是常见的卷积网络，接下来就是以上所说的Inception结构，最后为了方便泛化到其他数据集还加上一个额外的线性层。虽然移除了全连接层，还是用了70%的dropout策略。（具体在哪用，论文没表述） 为了有效的训练，同时考虑到中间层产生的特征具有一定的是别离，在中间层加了一些softmax层，并以一定权重直接加到最后的结果中，在后面的控制训练中，发现这些辅助网络影响相对较小，只需要一个就能取得一样的效果。 训练方法就是正常的BP算法，图像块的采样是随机采样，在图像的$8\%-100\%$上，方向角限制在$[\frac{3}{4},\frac{4}{3}]​$之间，光度扭曲被使用。测试时采用多尺度多方位采样，在比赛中作者采样了144个，在实际中可能不需要这么多数据。 详细框架如下图]]></content>
       <categories>
-          
-          <category> 深度学习模型 </category>
-          
+        <category>深度学习模型</category>
       </categories>
-      
-      
-        <tags>
-            
-            <tag> 深度学习 </tag>
-            
-            <tag> 卷积神经网络 </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>VGG论文解读</title>
-      <link href="/2019/02/21/VGG%E8%AE%BA%E6%96%87%E8%A7%A3%E8%AF%BB/"/>
-      <url>/2019/02/21/VGG%E8%AE%BA%E6%96%87%E8%A7%A3%E8%AF%BB/</url>
-      
-        <content type="html"><![CDATA[<p>VGG这篇文章通过增加卷积神经网络的深度和减小卷积核的方法，训练了一个更大的拥有更好效果的卷积神经网络。做了多组对照试验，对卷积网络的深度，训练时数据集的选择，测试时数据集的选择，LRN的效果等都做了探讨。</p><h3 id="贡献点"><a href="#贡献点" class="headerlink" title="贡献点"></a>贡献点</h3><ul><li><p>深度提升了性能</p></li><li><p>采用了小卷积核和小池化核</p></li><li><p>在测试的时候用卷积来代替全连接层</p></li></ul><h3 id="值得注意的一些做法以及解释"><a href="#值得注意的一些做法以及解释" class="headerlink" title="值得注意的一些做法以及解释"></a>值得注意的一些做法以及解释</h3><ul><li><p>小卷积的好处（与大卷积的对比）</p><p>在达到相同感受野的前提下，卷积核越小的卷积参数和计算量都越小。同时更小的卷积核拥有更多的非线性修正层，使决策函数更具有判别性。</p><a id="more"></a><p>另外在论文中，作者提到两个$3 \times 3​$的卷积的感受野大小等于一个$5 \times 5​$的感受野大小，三个$3 \times 3​$的卷积的感受野大小等于一个$7 \times 7​$的感受野大小。大概解释如下图</p><p><img src="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%B7%B1%E5%BA%A6%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E6%9E%B6%E6%9E%84/VGG_%E6%84%9F%E5%8F%97%E9%87%8E.png" alt="感受野"></p></li><li><p>预处理时为什么要减去RGB的均值</p><p>​    如果不处理的话，输入层的输入就相对较大，经过BP传播传回来的值就相对较大，这时候的学习率就不能太大，否则会错过局部最小。所以说学习率的选择需要参考输入层的数值，不如直接将数据归一化，就不用对学习率进行过多判断和处理。</p></li><li><p>预训练时能用的部分都用前面低层次网络训练所得的参数</p></li><li><p>多尺度训练时 参数怎么办</p><p>​    多尺度训练是说截取的图片是多尺度，之后还是要归一化为固定的大小如（$224 \times 224)$</p></li><li><p>训练集 验证集和测试集</p><p>​    训练集是用来训练模型内的参数的；验证集一开始还觉得和训练集差不多，其实它是用来调整超参数，不涉及网络权重的调整 ，也用来判断过拟合；测试集，评价模型的泛化能力。</p><p>​    有个比喻，训练集就是上课听老师讲课，验证集是平时做作业，测试集是最后的考试</p></li></ul><h3 id="网络架构"><a href="#网络架构" class="headerlink" title="网络架构"></a>网络架构</h3><p>设计了六个模型，具体如下图</p><p><img src="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%B7%B1%E5%BA%A6%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E6%9E%B6%E6%9E%84/VGG%E6%A8%A1%E5%9E%8B%E6%A6%82%E8%BF%B0.png" alt="VGG"></p><p>深度递增，共有五个池化层，每次池化之后，卷积核数目增加直到512.卷积大小基本都是$3 \times 3$，步长为1,填充像素为1.在C中验证最小卷积核$1 \times 1$的效果。池化层都是$2 \times 2$大小，步长为2。在A-LRN中，作者验证了AlexNet使用的LRN基本没有用，而且增加无用的计算。</p><p><strong>部分结果：</strong>C的结果不如D,虽然小卷积增加了非线性成分，但是感受域下降了。</p><h3 id="具体训练和测试的操作"><a href="#具体训练和测试的操作" class="headerlink" title="具体训练和测试的操作"></a>具体训练和测试的操作</h3><h4 id="选取训练图像的大小有两种方式。"><a href="#选取训练图像的大小有两种方式。" class="headerlink" title="选取训练图像的大小有两种方式。"></a>选取训练图像的大小有两种方式。</h4><p>第一种就是常用的固定大小尺度的训练，本文选择了两种边的大小（记为S)，一个是256.一个是384，而且为了加速，在训练S=384的网络用了S=256的权重来初始化。</p><p>第二种就是多尺度训练，对每张训练图片的大小在一定范围内采取随机采样S，在一定意义扩充了数据集，并且符合现实中物体大小不一。</p><p><strong>注意</strong>：网络的输入都是224，不管S是多少，最后都要裁剪成$224 \times 224$。（之前还在想随机S,网络结构不得一直变）</p><p><strong>实验结果：</strong>第二种训练方法在实践里有更好的表现</p><h4 id="测试图像的两个可变条件"><a href="#测试图像的两个可变条件" class="headerlink" title="测试图像的两个可变条件"></a>测试图像的两个可变条件</h4><p>第一种条件是是否测试多个尺度。需要决定测试图像的大小Q是否固定。若Q固定的话，在固定的S时，Q=S;不固定S的话，$Q=0.5*(S_{min}+S_{max})$。若Q不固定的话，在S固定时，$Q={S-32,S,S+32}$;S不固定时，$Q={S_{min},0.5 \times(S_{min}+S_{max},S_{max})}$.</p><p><strong>实验结果：</strong>测试时的尺度抖动有更好的结果。</p><p>第二种条件就是对测试图片多个采样或者采用全卷积网络，将全部的全连接层转化为卷积层，后者称为密集评估。不需要对测试图片进行采样。</p><p><strong>实验结果：</strong>多裁剪的处理方式比密集评估效果越好，两者的结合有更好的结果。</p>]]></content>
-      
-      
+      <tags>
+        <tag>深度学习</tag>
+        <tag>卷积神经网络</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[VGG论文解读]]></title>
+    <url>%2F2019%2F02%2F21%2FVGG%E8%AE%BA%E6%96%87%E8%A7%A3%E8%AF%BB%2F</url>
+    <content type="text"><![CDATA[VGG这篇文章通过增加卷积神经网络的深度和减小卷积核的方法，训练了一个更大的拥有更好效果的卷积神经网络。做了多组对照试验，对卷积网络的深度，训练时数据集的选择，测试时数据集的选择，LRN的效果等都做了探讨。 贡献点 深度提升了性能 采用了小卷积核和小池化核 在测试的时候用卷积来代替全连接层 值得注意的一些做法以及解释 小卷积的好处（与大卷积的对比） 在达到相同感受野的前提下，卷积核越小的卷积参数和计算量都越小。同时更小的卷积核拥有更多的非线性修正层，使决策函数更具有判别性。 另外在论文中，作者提到两个$3 \times 3​$的卷积的感受野大小等于一个$5 \times 5​$的感受野大小，三个$3 \times 3​$的卷积的感受野大小等于一个$7 \times 7​$的感受野大小。大概解释如下图 预处理时为什么要减去RGB的均值 ​ 如果不处理的话，输入层的输入就相对较大，经过BP传播传回来的值就相对较大，这时候的学习率就不能太大，否则会错过局部最小。所以说学习率的选择需要参考输入层的数值，不如直接将数据归一化，就不用对学习率进行过多判断和处理。 预训练时能用的部分都用前面低层次网络训练所得的参数 多尺度训练时 参数怎么办 ​ 多尺度训练是说截取的图片是多尺度，之后还是要归一化为固定的大小如（$224 \times 224)$ 训练集 验证集和测试集 ​ 训练集是用来训练模型内的参数的；验证集一开始还觉得和训练集差不多，其实它是用来调整超参数，不涉及网络权重的调整 ，也用来判断过拟合；测试集，评价模型的泛化能力。 ​ 有个比喻，训练集就是上课听老师讲课，验证集是平时做作业，测试集是最后的考试 网络架构设计了六个模型，具体如下图 深度递增，共有五个池化层，每次池化之后，卷积核数目增加直到512.卷积大小基本都是$3 \times 3$，步长为1,填充像素为1.在C中验证最小卷积核$1 \times 1$的效果。池化层都是$2 \times 2$大小，步长为2。在A-LRN中，作者验证了AlexNet使用的LRN基本没有用，而且增加无用的计算。 部分结果：C的结果不如D,虽然小卷积增加了非线性成分，但是感受域下降了。 具体训练和测试的操作选取训练图像的大小有两种方式。第一种就是常用的固定大小尺度的训练，本文选择了两种边的大小（记为S)，一个是256.一个是384，而且为了加速，在训练S=384的网络用了S=256的权重来初始化。 第二种就是多尺度训练，对每张训练图片的大小在一定范围内采取随机采样S，在一定意义扩充了数据集，并且符合现实中物体大小不一。 注意：网络的输入都是224，不管S是多少，最后都要裁剪成$224 \times 224$。（之前还在想随机S,网络结构不得一直变） 实验结果：第二种训练方法在实践里有更好的表现 测试图像的两个可变条件第一种条件是是否测试多个尺度。需要决定测试图像的大小Q是否固定。若Q固定的话，在固定的S时，Q=S;不固定S的话，$Q=0.5*(S_{min}+S_{max})$。若Q不固定的话，在S固定时，$Q={S-32,S,S+32}$;S不固定时，$Q={S_{min},0.5 \times(S_{min}+S_{max},S_{max})}$. 实验结果：测试时的尺度抖动有更好的结果。 第二种条件就是对测试图片多个采样或者采用全卷积网络，将全部的全连接层转化为卷积层，后者称为密集评估。不需要对测试图片进行采样。 实验结果：多裁剪的处理方式比密集评估效果越好，两者的结合有更好的结果。]]></content>
       <categories>
-          
-          <category> 深度学习模型 </category>
-          
+        <category>深度学习模型</category>
       </categories>
-      
-      
-        <tags>
-            
-            <tag> 深度学习 </tag>
-            
-            <tag> 卷积神经网络 </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>ZFNet论文解读</title>
-      <link href="/2019/02/19/ZFNet%E8%AE%BA%E6%96%87%E8%A7%A3%E8%AF%BB/"/>
-      <url>/2019/02/19/ZFNet%E8%AE%BA%E6%96%87%E8%A7%A3%E8%AF%BB/</url>
-      
-        <content type="html"><![CDATA[<p>ZFNet这篇侧重点在于分析卷积神经网络的工作原理和试图改进，做了不少的对照实验，实现卷积网络可视化。改进了AlexNet，并有了更好的表现。</p><h3 id="1-贡献点"><a href="#1-贡献点" class="headerlink" title="1.贡献点"></a>1.贡献点</h3><ul><li>提出了ZFNet</li><li>用一套的步骤实现了卷积网络的可视化</li><li>利用可视化，分析了卷积神经工作网络的诸多工作原理</li><li>主要的工作有遮挡部分图片和删除部分层做比对实验</li></ul><h3 id="2-具体做法"><a href="#2-具体做法" class="headerlink" title="2.具体做法"></a>2.具体做法</h3><ul><li><p>可视化方法</p><p>一般的卷积层通过卷积，Relus和池化来提取特征，要想反卷积就要一步步实现逆过程</p><p>分别实现Unpooling.Rectification和Filtering</p><p>Unpooling:在池化时候记下当前最大值的位置，在反池化时将最大值标注回来，其他位置填0</p><p>Rectification:为了保证特征有效性，采用Relus,卷积时参数不为负，在反卷积时实行相同步骤即可</p><p>Filtering:现在的卷积核为之前卷积核的转置，就是讲之前的卷积矩阵进行垂直和水平的翻转。</p></li></ul><a id="more"></a><ul><li><p>数据集处理和网络架构</p><p>本文的数据集处理和AlexNet基本相同，但是这个是在一个GPU上训练的。</p><p>在第一层可视化中发现由于卷积步长过大产生了不少混乱的特征，所以将第一层的卷积核由11改为7，将步长由4改为2，其他基本和Alexnet差不多</p></li></ul><h3 id="3-做的对照试验"><a href="#3-做的对照试验" class="headerlink" title="3.做的对照试验"></a>3.做的对照试验</h3><p>首先关于特征可视化，输入图片差异很大但是输出的特征相差很少。在ZFNet中，第一卷积层偏重于颜色，第二卷积层展示了物体的边缘和轮廓，第三层展示相似的纹理，第四层开始体现类与类之间的差异，第五层展示姿态不同的同一类。可以得到结论，层次越高，不变性越强，原始输入图片具有强辨识度可以更好帮助学习。</p><p>特征在训练过程中一直发生变化，经过一定次数的迭代之后，特征才趋于稳定。</p><p>对图片做了平移，旋转和缩放，在一定层次之后，平移和尺度变化对最终结果的影响比较小。</p><p>对不同的部位进行遮挡，当遮挡关键部位时，分类性能和响应强度急剧下降。说明神经网络是通过学习关键部位来进行分类的</p><p>做了图片的部分遮挡探究物体部件之间的关系，发现了深度网络非显式地计算了这些关系。            </p><p>抽取了几个层看各个层的作用，抽取6、7层的全连接层，对整体影响不大，虽然他们有大量的参数；抽取了3、4层两层卷积层，影响也不大。如果抽取3、4、6、7层，效果就急剧下降。改变全连接层的节点个数对分类性能影响不大，改变中间卷积层的节点数对训练结果有帮助，但是加大了过拟合的可能。</p><p>之后仅用少数图片重新训练softmax层，在不同数据集上将imagenet训练所得的卷积网络当做特征提取器。都表现良好，有种迁移学习的感觉。除了PASCAL,因为当前网络只提供一个预测，而PASCAL数据库的图片都有多个物体</p>]]></content>
-      
-      
+      <tags>
+        <tag>深度学习</tag>
+        <tag>卷积神经网络</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[ZFNet论文解读]]></title>
+    <url>%2F2019%2F02%2F19%2FZFNet%E8%AE%BA%E6%96%87%E8%A7%A3%E8%AF%BB%2F</url>
+    <content type="text"><![CDATA[ZFNet这篇侧重点在于分析卷积神经网络的工作原理和试图改进，做了不少的对照实验，实现卷积网络可视化。改进了AlexNet，并有了更好的表现。 1.贡献点 提出了ZFNet 用一套的步骤实现了卷积网络的可视化 利用可视化，分析了卷积神经工作网络的诸多工作原理 主要的工作有遮挡部分图片和删除部分层做比对实验 2.具体做法 可视化方法 一般的卷积层通过卷积，Relus和池化来提取特征，要想反卷积就要一步步实现逆过程 分别实现Unpooling.Rectification和Filtering Unpooling:在池化时候记下当前最大值的位置，在反池化时将最大值标注回来，其他位置填0 Rectification:为了保证特征有效性，采用Relus,卷积时参数不为负，在反卷积时实行相同步骤即可 Filtering:现在的卷积核为之前卷积核的转置，就是讲之前的卷积矩阵进行垂直和水平的翻转。 数据集处理和网络架构 本文的数据集处理和AlexNet基本相同，但是这个是在一个GPU上训练的。 在第一层可视化中发现由于卷积步长过大产生了不少混乱的特征，所以将第一层的卷积核由11改为7，将步长由4改为2，其他基本和Alexnet差不多 3.做的对照试验首先关于特征可视化，输入图片差异很大但是输出的特征相差很少。在ZFNet中，第一卷积层偏重于颜色，第二卷积层展示了物体的边缘和轮廓，第三层展示相似的纹理，第四层开始体现类与类之间的差异，第五层展示姿态不同的同一类。可以得到结论，层次越高，不变性越强，原始输入图片具有强辨识度可以更好帮助学习。 特征在训练过程中一直发生变化，经过一定次数的迭代之后，特征才趋于稳定。 对图片做了平移，旋转和缩放，在一定层次之后，平移和尺度变化对最终结果的影响比较小。 对不同的部位进行遮挡，当遮挡关键部位时，分类性能和响应强度急剧下降。说明神经网络是通过学习关键部位来进行分类的 做了图片的部分遮挡探究物体部件之间的关系，发现了深度网络非显式地计算了这些关系。 抽取了几个层看各个层的作用，抽取6、7层的全连接层，对整体影响不大，虽然他们有大量的参数；抽取了3、4层两层卷积层，影响也不大。如果抽取3、4、6、7层，效果就急剧下降。改变全连接层的节点个数对分类性能影响不大，改变中间卷积层的节点数对训练结果有帮助，但是加大了过拟合的可能。 之后仅用少数图片重新训练softmax层，在不同数据集上将imagenet训练所得的卷积网络当做特征提取器。都表现良好，有种迁移学习的感觉。除了PASCAL,因为当前网络只提供一个预测，而PASCAL数据库的图片都有多个物体]]></content>
       <categories>
-          
-          <category> 深度学习模型 </category>
-          
+        <category>深度学习模型</category>
       </categories>
-      
-      
-        <tags>
-            
-            <tag> 深度学习 </tag>
-            
-            <tag> 卷积神经网络 </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>AlexNet论文解读</title>
-      <link href="/2019/02/17/AlexNet/"/>
-      <url>/2019/02/17/AlexNet/</url>
-      
-        <content type="html"><![CDATA[<ol><li><h3 id="贡献点"><a href="#贡献点" class="headerlink" title="贡献点"></a>贡献点</h3></li></ol><ul><li><p>训练了一个最大的卷积神经网络（截止这篇文章发表时），并且在识别任务达到了史上最好成绩。</p></li><li><p>编写了一个2D卷积的高度优化的GPU应用</p></li><li><p>为了减少过拟合采用了dropout的方法</p></li></ul><ol><li><h3 id="一些重要名词"><a href="#一些重要名词" class="headerlink" title="一些重要名词"></a>一些重要名词</h3></li></ol><ul><li><p>Relus(Rectified Linear Units),，修正线性单元，代表为max(0,x).用于替代之前传统的激活函数，如tanh(x)或者</p><script type="math/tex; mode=display">f(x)=(1+e^{(-x)})</script> <a id="more"></a></li></ul><ul><li><p>LRN(Local Response Normalization),局部响应归一化。借鉴生物的侧抑制机制，对不同核的输出创造竞争，看公式就是对相邻几个核的结果进行归一化</p><script type="math/tex; mode=display">b^i_{x,y} = a_{x,y}^i / ( k + \alpha \sum _{j = max(0, i-n / 2)} ^{min(N-1, i+n / 2)} (a_{x,y}i)2 )^\beta</script></li><li><p>Overlapping Pooling ,重叠池化，池化是为了减少数据量，传统的池化方法是步长等于池化单元的边长，重叠就是步长比边长短些，可以减少信息损失。</p></li></ul><ul><li><p>卷积层输出大小计算</p><p>设定图片大小为$M \times M ​$,滤波器大小为$F \times F​$,步长为$S​$,padding的像素值$P​$,可得输出图片的大小$N \times N​$,</p><p>其中$N =(W-F+2P)/S+1$.另外卷积层的输出深度是卷积核的个数。</p></li><li><p>在早期训练中，提供正输入加速了学习的早期阶段。</p></li></ul><ol><li><h3 id="整体架构"><a href="#整体架构" class="headerlink" title="整体架构"></a>整体架构</h3></li></ol><p><img src="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%B7%B1%E5%BA%A6%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E6%9E%B6%E6%9E%84/alexnet%E6%9E%B6%E6%9E%84.png" alt="AlexNet整体架构"></p><p>   如图所示，共有八个参数层，五层卷积层，三层全连接层，最后输送到1000-way的softmax层（关于softmax将会专门写一篇文章）。<strong>注意</strong>：图里的一个个矩阵块层是经过各个层之后得到的中间结果，我们所说的八个层是两个模块之间的那些虚线或者实线。或者说是两块之间的操作。上图有九个层次，分别是原图，和经过八个层处理之后的结构。其中在第一第二层采用LRN,在第一第二第五层之后用了最大池化层。</p><p>本架构采用的激活函数是用Relus，可以加快训练的速度数倍。同时采用多个GPU并行的方法。以下给出整个结构分析（参考[结构详解]: <a href="https://blog.csdn.net/dcrmg/article/details/79241211" target="_blank" rel="noopener">https://blog.csdn.net/dcrmg/article/details/79241211</a> ）</p><p><img src="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%B7%B1%E5%BA%A6%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E6%9E%B6%E6%9E%84/alexnet%E7%BB%93%E6%9E%84%E7%B2%BE%E7%AE%80.jpg" alt="精简"></p><p>注意的是第二到第五个卷积采用的是same padding也就是卷积大小不变，这个在论文里好像没讲到</p><ol><li><h3 id="减少过拟合的手段"><a href="#减少过拟合的手段" class="headerlink" title="减少过拟合的手段"></a>减少过拟合的手段</h3></li></ol><ul><li><p>扩大数据集，文中给了两种方法</p><p>第一种方法是通过平移和翻转的方式，在$256 \times 256$的图片上任意截取$224 \times 224$大小的图片进行训练，在测试的时候，分别在四个角和中央取样，和他们的水平翻转，共十个图片进行测试并取平均值。</p><p>第二种方法是改变RGB的强度。有点模仿物体在不同光照下本质不变的性质。</p></li></ul><ul><li><p>dropout</p><p>在每次输入时候，以一定概率对随机的神经元置0，使之既不参加前向传播也不参加后向修正，减少神经元之间的相互协作，使每次输入都是不一样的神经结构。在测试的时候使用全部神经元，但是对于输出乘以一定权重。</p><p>在alexnet中，对前两个全连接层使用了该技术，使该网络收敛的迭代次数增加了一倍，有效地减少过拟合现象。</p></li></ul>]]></content>
-      
-      
+      <tags>
+        <tag>深度学习</tag>
+        <tag>卷积神经网络</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[AlexNet论文解读]]></title>
+    <url>%2F2019%2F02%2F17%2FAlexNet%2F</url>
+    <content type="text"><![CDATA[贡献点 训练了一个最大的卷积神经网络（截止这篇文章发表时），并且在识别任务达到了史上最好成绩。 编写了一个2D卷积的高度优化的GPU应用 为了减少过拟合采用了dropout的方法 一些重要名词 Relus(Rectified Linear Units),，修正线性单元，代表为max(0,x).用于替代之前传统的激活函数，如tanh(x)或者 f(x)=(1+e^{(-x)}) LRN(Local Response Normalization),局部响应归一化。借鉴生物的侧抑制机制，对不同核的输出创造竞争，看公式就是对相邻几个核的结果进行归一化 b^i_{x,y} = a_{x,y}^i / ( k + \alpha \sum _{j = max(0, i-n / 2)} ^{min(N-1, i+n / 2)} (a_{x,y}i)2 )^\beta Overlapping Pooling ,重叠池化，池化是为了减少数据量，传统的池化方法是步长等于池化单元的边长，重叠就是步长比边长短些，可以减少信息损失。 卷积层输出大小计算 设定图片大小为$M \times M ​$,滤波器大小为$F \times F​$,步长为$S​$,padding的像素值$P​$,可得输出图片的大小$N \times N​$, 其中$N =(W-F+2P)/S+1$.另外卷积层的输出深度是卷积核的个数。 在早期训练中，提供正输入加速了学习的早期阶段。 整体架构 如图所示，共有八个参数层，五层卷积层，三层全连接层，最后输送到1000-way的softmax层（关于softmax将会专门写一篇文章）。注意：图里的一个个矩阵块层是经过各个层之后得到的中间结果，我们所说的八个层是两个模块之间的那些虚线或者实线。或者说是两块之间的操作。上图有九个层次，分别是原图，和经过八个层处理之后的结构。其中在第一第二层采用LRN,在第一第二第五层之后用了最大池化层。 本架构采用的激活函数是用Relus，可以加快训练的速度数倍。同时采用多个GPU并行的方法。以下给出整个结构分析（参考[结构详解]: https://blog.csdn.net/dcrmg/article/details/79241211 ） 注意的是第二到第五个卷积采用的是same padding也就是卷积大小不变，这个在论文里好像没讲到 减少过拟合的手段 扩大数据集，文中给了两种方法 第一种方法是通过平移和翻转的方式，在$256 \times 256$的图片上任意截取$224 \times 224$大小的图片进行训练，在测试的时候，分别在四个角和中央取样，和他们的水平翻转，共十个图片进行测试并取平均值。 第二种方法是改变RGB的强度。有点模仿物体在不同光照下本质不变的性质。 dropout 在每次输入时候，以一定概率对随机的神经元置0，使之既不参加前向传播也不参加后向修正，减少神经元之间的相互协作，使每次输入都是不一样的神经结构。在测试的时候使用全部神经元，但是对于输出乘以一定权重。 在alexnet中，对前两个全连接层使用了该技术，使该网络收敛的迭代次数增加了一倍，有效地减少过拟合现象。]]></content>
       <categories>
-          
-          <category> 深度学习模型 </category>
-          
+        <category>深度学习模型</category>
       </categories>
-      
-      
-        <tags>
-            
-            <tag> 深度学习 </tag>
-            
-            <tag> 卷积神经网络 </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>TensorFlow基本概念</title>
-      <link href="/2019/02/16/TensorFlow%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5/"/>
-      <url>/2019/02/16/TensorFlow%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5/</url>
-      
-        <content type="html"><![CDATA[<h2 id="tensorflow基本概念"><a href="#tensorflow基本概念" class="headerlink" title="tensorflow基本概念"></a>tensorflow基本概念</h2><p>最近打算重新看一遍一些深度学习的模型，并跑一跑他们的代码，需要重新复习tensorflow并看一看，做此记录。</p><p>tensorflow这个名字包含了自身最重要的两个词，tensor和flow,tensor叫做张量，在tensorflow里可以被简单理解为多维数组，flow表达了张量之间通过计算相互转换。tensorflow是通过计算图的形式表述计算的编程系统，它的每一个计算都可以称为计算图上的一个节点，节点之间的边则描述了计算之间的依赖关系。计算图一般有两个阶段，第一个阶段是定义计算图中的计算，第二个是执行计算。可以设定多个计算图，用来隔离张量，计算甚至设备。</p><a id="more"></a><ul><li><h5 id="张量"><a href="#张量" class="headerlink" title="张量"></a>张量</h5></li></ul><p>实际上张量保存的是对结果的引用，而不是像数组一样，保存数字。一个张量主要保存了三个属性，名字、维度和类型。张量和计算图上所代表的计算结果是对应的。</p><p>张量的用途主要就两个方面，一个是对中间计算结果的引用，二是当计算图构造完成之后，张量可以用来获得计算结果。</p><ul><li><h5 id="会话（session"><a href="#会话（session" class="headerlink" title="会话（session)"></a>会话（session)</h5></li></ul><p>会话拥有并管理tensorflow程序运行时的所有资源，只有在会话里才能真正进行计算。会话需要创建和关闭，可以使用Python的上下文管理器就可以不用去手动关闭。通过ConfigProto可以配置会话的诸多性质。</p><ul><li><h5 id="变量"><a href="#变量" class="headerlink" title="变量"></a>变量</h5></li></ul><p>变量（tf.Variable)的作用是保存和更新神经网络中的参数，变量需要初始化，可以使用随机数，常数或者其他变量的值。一个变量的值在被使用之前，这个变量的初始化过程需要被明确的调用。初始化每一个变量是很麻烦的，如下可以初始化所有变量，当然如何初始化还是需要各自指定。</p><p><code>init_op = tf.global_variables_initializer()</code></p><p><code>sess.run(init_op)</code></p><p>本质来说变量是一种特殊的的张量，因为tf.Variable是一个运算，它的输出结果是一个张量。</p><p>另外可以通过placeholder和feed_dict的配合减少使用常量来表示的次数</p><ul><li><h5 id="损失函数"><a href="#损失函数" class="headerlink" title="损失函数"></a>损失函数</h5></li></ul><p>交叉熵：常用于分类的损失函数的评估，它表征两个概率分布之间的距离</p><p>均方误差（MSE):常用于回归的损失函数</p><p>可以根据不同问题需求自定义损失函数，将损失函数写入相应位置即可</p><ul><li><h5 id="神经网络进一步优化"><a href="#神经网络进一步优化" class="headerlink" title="神经网络进一步优化"></a>神经网络进一步优化</h5></li></ul><p>可以通过指数衰减的方法设置梯度下降的学习率 <code>tf.train.exponential_decay</code></p><p>为了缓解过拟合问题，常用正则化，在损失函数中加上模型复杂度。实际中，模型复杂度是用所有权重的L1或者L2。相关函数为 <code>tf.contrib.layers.l1(l2)_regularizer()</code>.可以用集合（collection）来处理过大神经网络的参数的正则化。</p><p>滑动平均模型，就是使变量的变化更多的参考于之前的变量。</p><ul><li><h5 id="变量管理"><a href="#变量管理" class="headerlink" title="变量管理"></a>变量管理</h5></li></ul><p>创建变量除了tf.Variable,还有tf.get_variable，后者更注重变量的名称和位置。可通过tf.variable_scope生成一个上下文管理器，配合后者来创建或者获取变量。</p><ul><li><h5 id="模型持久化"><a href="#模型持久化" class="headerlink" title="模型持久化"></a>模型持久化</h5></li></ul><p><code>tf.train.Saver()</code>保存模型。</p>]]></content>
-      
-      
+      <tags>
+        <tag>深度学习</tag>
+        <tag>卷积神经网络</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[TensorFlow基本概念]]></title>
+    <url>%2F2019%2F02%2F16%2FTensorFlow%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5%2F</url>
+    <content type="text"><![CDATA[tensorflow基本概念最近打算重新看一遍一些深度学习的模型，并跑一跑他们的代码，需要重新复习tensorflow并看一看，做此记录。 tensorflow这个名字包含了自身最重要的两个词，tensor和flow,tensor叫做张量，在tensorflow里可以被简单理解为多维数组，flow表达了张量之间通过计算相互转换。tensorflow是通过计算图的形式表述计算的编程系统，它的每一个计算都可以称为计算图上的一个节点，节点之间的边则描述了计算之间的依赖关系。计算图一般有两个阶段，第一个阶段是定义计算图中的计算，第二个是执行计算。可以设定多个计算图，用来隔离张量，计算甚至设备。 张量 实际上张量保存的是对结果的引用，而不是像数组一样，保存数字。一个张量主要保存了三个属性，名字、维度和类型。张量和计算图上所代表的计算结果是对应的。 张量的用途主要就两个方面，一个是对中间计算结果的引用，二是当计算图构造完成之后，张量可以用来获得计算结果。 会话（session) 会话拥有并管理tensorflow程序运行时的所有资源，只有在会话里才能真正进行计算。会话需要创建和关闭，可以使用Python的上下文管理器就可以不用去手动关闭。通过ConfigProto可以配置会话的诸多性质。 变量 变量（tf.Variable)的作用是保存和更新神经网络中的参数，变量需要初始化，可以使用随机数，常数或者其他变量的值。一个变量的值在被使用之前，这个变量的初始化过程需要被明确的调用。初始化每一个变量是很麻烦的，如下可以初始化所有变量，当然如何初始化还是需要各自指定。 init_op = tf.global_variables_initializer() sess.run(init_op) 本质来说变量是一种特殊的的张量，因为tf.Variable是一个运算，它的输出结果是一个张量。 另外可以通过placeholder和feed_dict的配合减少使用常量来表示的次数 损失函数 交叉熵：常用于分类的损失函数的评估，它表征两个概率分布之间的距离 均方误差（MSE):常用于回归的损失函数 可以根据不同问题需求自定义损失函数，将损失函数写入相应位置即可 神经网络进一步优化 可以通过指数衰减的方法设置梯度下降的学习率 tf.train.exponential_decay 为了缓解过拟合问题，常用正则化，在损失函数中加上模型复杂度。实际中，模型复杂度是用所有权重的L1或者L2。相关函数为 tf.contrib.layers.l1(l2)_regularizer().可以用集合（collection）来处理过大神经网络的参数的正则化。 滑动平均模型，就是使变量的变化更多的参考于之前的变量。 变量管理 创建变量除了tf.Variable,还有tf.get_variable，后者更注重变量的名称和位置。可通过tf.variable_scope生成一个上下文管理器，配合后者来创建或者获取变量。 模型持久化 tf.train.Saver()保存模型。]]></content>
       <categories>
-          
-          <category> tensorflow </category>
-          
+        <category>tensorflow</category>
       </categories>
-      
-      
-        <tags>
-            
-            <tag> 深度学习 </tag>
-            
-            <tag> tensorflow </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>linux私房菜第10章学习总结</title>
-      <link href="/2019/02/11/%E7%AC%AC%E5%8D%81%E7%AB%A0%20%E8%AE%A4%E8%AF%86%E4%B8%8E%E5%AD%A6%E4%B9%A0BASH/"/>
-      <url>/2019/02/11/%E7%AC%AC%E5%8D%81%E7%AB%A0%20%E8%AE%A4%E8%AF%86%E4%B8%8E%E5%AD%A6%E4%B9%A0BASH/</url>
-      
-        <content type="html"><![CDATA[<h2 id="第十章-认识与学习BASH"><a href="#第十章-认识与学习BASH" class="headerlink" title="第十章 认识与学习BASH"></a>第十章 认识与学习BASH</h2><p>1.什么是shell</p><p>shell的功能是提供用户操作系统的一个接口，要是用户直接操作系统难免有所风险，shell和一般的应用程序的功能应该是在同一层。全面一点说，只能能够操作应用程序的接口都能够称为壳程序。狭义的壳程序指的是指令列方面的软件，广义的可以包括各个图形接口的软件。</p><p>2.当前linux使用的shell版本是bash，是Bourne Shell（sh)的增强版。当前系统可用的shell都会被写入到/etc/shells。</p><p>3.bash的一些优点</p><ul><li>命令记录功能</li><li>命令和文件补全功能<a id="more"></a></li><li>命令别名设定功能</li><li>工作控制、前景背景控制</li><li>程序化脚本（shell scripts）</li><li>通配符</li></ul><p>4.查询指令是否来自bash  type [-tpa] name  例如： type -t ls</p><p>5 输入过长需要换行时，回车键是紧跟反斜杠的[\].</p><p>6.输出变量内容，echo,但是变量前要加上$.</p><p>7.双引号内的特殊字符如 $ 等,可以保有原本的特性,如下所示:<br>    『var=”lang is $LANG”』则『echo $var』可得『lang is zh_TW.UTF-8』，而单引号只能是一般字符，比如$就是$,而不会像前面一样去带入具体的值。</p><p>8.增加path,如『PATH=”$PATH”:/home/bin』或『PATH=${PATH}:/home/bin』</p><p>9.PS1是提示字符的设定，可以修改。就是进入命令行时每行前面有的那些信息</p><p>10.？也是变量，可通过echo $? 得到上一个指令的返回值，0的话一般是正确，否则会有错误代码</p><p>11.export 变量名称 可以把自定义变量转成环境变量</p><p>12.tty1~tty6是无法显示中文，需要加装一些中文化接口的软件.调整编码方式可通过locale.</p><p>13.read,可读用户由键盘读入的数据；declare，宣告变量的类型，可以设置成整数，字符串，环境变量，把环境变量设置为局部变量等。</p><p>14.ulimit 限制文件或者程序的打开数目和大小</p><p>15.可以用#、##、%、%%来改变变量中的一些值的，更具体如下</p><p><img src="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E4%BF%AE%E6%94%B9%E5%8F%98%E9%87%8F.png" alt="修改变量"></p><p>16.alias可以设定命令别名，而unalias可以取消别名。</p><p>17.用history可以查看和编辑输入历史，用[!]来执行历史的命令。</p><p>18.由于命令常常有重名的，所以命令执行有顺序</p><p><img src="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E9%A1%BA%E5%BA%8F.png" alt="命令执行顺序"></p><p>19.从tty登入的bash和从xwindows进入的bash读取的bash文件不一样</p><p>20.通配符</p><p><img src="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/bash%E4%B8%80%E4%BA%9B%E9%80%9A%E9%85%8D%E7%AC%A6.png" alt="通配符"></p><p>21.数据流重导向</p><p>顾名思义就是把输入到屏幕的数据输入到相应文件中去</p><p>输入到一个文件中去&gt; ,输入且不覆盖 &gt;&gt;,把错误输出同理2&gt;或者2&gt;&gt;.特殊的是/dev/null是垃圾桶黑洞装置，可以将任何导向这个装置的信息吃掉！</p><p>&lt;和&lt;&lt;是将文件里东西来代替键盘输入。&lt;&lt;后面加字符，表示这个字符为结束输入符。</p><p>22.管线命令 |</p><p>|处理前面一个指令传来的正确信息。这部分内容很多，等用到再了解吧。不然看了印象也不深。</p>]]></content>
-      
-      
+      <tags>
+        <tag>深度学习</tag>
+        <tag>tensorflow</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[linux私房菜第10章学习总结]]></title>
+    <url>%2F2019%2F02%2F11%2F%E7%AC%AC%E5%8D%81%E7%AB%A0%20%E8%AE%A4%E8%AF%86%E4%B8%8E%E5%AD%A6%E4%B9%A0BASH%2F</url>
+    <content type="text"><![CDATA[第十章 认识与学习BASH1.什么是shell shell的功能是提供用户操作系统的一个接口，要是用户直接操作系统难免有所风险，shell和一般的应用程序的功能应该是在同一层。全面一点说，只能能够操作应用程序的接口都能够称为壳程序。狭义的壳程序指的是指令列方面的软件，广义的可以包括各个图形接口的软件。 2.当前linux使用的shell版本是bash，是Bourne Shell（sh)的增强版。当前系统可用的shell都会被写入到/etc/shells。 3.bash的一些优点 命令记录功能 命令和文件补全功能 命令别名设定功能 工作控制、前景背景控制 程序化脚本（shell scripts） 通配符 4.查询指令是否来自bash type [-tpa] name 例如： type -t ls 5 输入过长需要换行时，回车键是紧跟反斜杠的[\]. 6.输出变量内容，echo,但是变量前要加上$. 7.双引号内的特殊字符如 $ 等,可以保有原本的特性,如下所示: 『var=”lang is $LANG”』则『echo $var』可得『lang is zh_TW.UTF-8』，而单引号只能是一般字符，比如$就是$,而不会像前面一样去带入具体的值。 8.增加path,如『PATH=”$PATH”:/home/bin』或『PATH=${PATH}:/home/bin』 9.PS1是提示字符的设定，可以修改。就是进入命令行时每行前面有的那些信息 10.？也是变量，可通过echo $? 得到上一个指令的返回值，0的话一般是正确，否则会有错误代码 11.export 变量名称 可以把自定义变量转成环境变量 12.tty1~tty6是无法显示中文，需要加装一些中文化接口的软件.调整编码方式可通过locale. 13.read,可读用户由键盘读入的数据；declare，宣告变量的类型，可以设置成整数，字符串，环境变量，把环境变量设置为局部变量等。 14.ulimit 限制文件或者程序的打开数目和大小 15.可以用#、##、%、%%来改变变量中的一些值的，更具体如下 16.alias可以设定命令别名，而unalias可以取消别名。 17.用history可以查看和编辑输入历史，用[!]来执行历史的命令。 18.由于命令常常有重名的，所以命令执行有顺序 19.从tty登入的bash和从xwindows进入的bash读取的bash文件不一样 20.通配符 21.数据流重导向 顾名思义就是把输入到屏幕的数据输入到相应文件中去 输入到一个文件中去&gt; ,输入且不覆盖 &gt;&gt;,把错误输出同理2&gt;或者2&gt;&gt;.特殊的是/dev/null是垃圾桶黑洞装置，可以将任何导向这个装置的信息吃掉！ &lt;和&lt;&lt;是将文件里东西来代替键盘输入。&lt;&lt;后面加字符，表示这个字符为结束输入符。 22.管线命令 | |处理前面一个指令传来的正确信息。这部分内容很多，等用到再了解吧。不然看了印象也不深。]]></content>
       <categories>
-          
-          <category> linux学习 </category>
-          
+        <category>linux学习</category>
       </categories>
-      
-      
-        <tags>
-            
-            <tag> linux </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>linux私房菜第9章学习总结</title>
-      <link href="/2019/02/05/%E7%AC%AC%E4%B9%9D%E7%AB%A0%20VIM%E7%A8%8B%E5%BA%8F%E7%BC%96%E8%BE%91%E5%99%A8/"/>
-      <url>/2019/02/05/%E7%AC%AC%E4%B9%9D%E7%AB%A0%20VIM%E7%A8%8B%E5%BA%8F%E7%BC%96%E8%BE%91%E5%99%A8/</url>
-      
-        <content type="html"><![CDATA[<h2 id="第九章-VIM程序编辑器"><a href="#第九章-VIM程序编辑器" class="headerlink" title="第九章 VIM程序编辑器"></a>第九章 VIM程序编辑器</h2><p>1.vi有三种模式，一般指令模式，编辑模式，指令列命令模式。其中</p><p>一般指令模式：当打开一个文件的时候，可以进行删除，复制，粘贴等行为，却无法编辑文件内容</p><p>编辑模式：当输入i,I,O,o,A,a,R,r中一个时候，会进入编辑模式，同时画面左下方会出现insert或者replace字样，按下esc退出编辑模式。其中i,o,a都是插入但是插入位置不一样，r是替换。</p><p>指令列命令模式：在一般模式中，输入[:/?]中的一个时，光标将移动到最后一行，此时可以读取，查找，大规模取代，离开vi等大量功能。如：wq是存档离开，：q离开，：q!表示离开不存储。</p><p>2.vi中还有大量快捷键，如[ctrl]+[f]代表下一页,[ctrl]+[b]表示上一页。[30j]表示向下三十列。大写的G常被使用，作用是移动光标位置。<br><a id="more"></a><br>3.vim有暂存档，当文件被不正常终止时，再进入这个文件时，会询问你的下一步操作。</p><p>4.vim可通过v或者[ctrl]+[v]进行区块选择，从而进行一个区块的操作。</p><p>5.多文件编辑，[:n]编辑下一个文件,[:N]编辑上一个文件,[:file]列出当前这个vim的开启的所有文件</p><p>6.[:sp  filename] 可以打开多个窗口，方便比对</p><p>7.vim的补全功能</p><p><img src="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/vim%E8%A1%A5%E5%85%A8%E5%8A%9F%E8%83%BD.png" alt="vim补全键"></p><p>8.vim的一些系统设定可以写入到 ～/.vimrc文件中</p>]]></content>
-      
-      
+      <tags>
+        <tag>linux</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[linux私房菜第9章学习总结]]></title>
+    <url>%2F2019%2F02%2F05%2F%E7%AC%AC%E4%B9%9D%E7%AB%A0%20VIM%E7%A8%8B%E5%BA%8F%E7%BC%96%E8%BE%91%E5%99%A8%2F</url>
+    <content type="text"><![CDATA[第九章 VIM程序编辑器1.vi有三种模式，一般指令模式，编辑模式，指令列命令模式。其中 一般指令模式：当打开一个文件的时候，可以进行删除，复制，粘贴等行为，却无法编辑文件内容 编辑模式：当输入i,I,O,o,A,a,R,r中一个时候，会进入编辑模式，同时画面左下方会出现insert或者replace字样，按下esc退出编辑模式。其中i,o,a都是插入但是插入位置不一样，r是替换。 指令列命令模式：在一般模式中，输入[:/?]中的一个时，光标将移动到最后一行，此时可以读取，查找，大规模取代，离开vi等大量功能。如：wq是存档离开，：q离开，：q!表示离开不存储。 2.vi中还有大量快捷键，如[ctrl]+[f]代表下一页,[ctrl]+[b]表示上一页。[30j]表示向下三十列。大写的G常被使用，作用是移动光标位置。3.vim有暂存档，当文件被不正常终止时，再进入这个文件时，会询问你的下一步操作。 4.vim可通过v或者[ctrl]+[v]进行区块选择，从而进行一个区块的操作。 5.多文件编辑，[:n]编辑下一个文件,[:N]编辑上一个文件,[:file]列出当前这个vim的开启的所有文件 6.[:sp filename] 可以打开多个窗口，方便比对 7.vim的补全功能 8.vim的一些系统设定可以写入到 ～/.vimrc文件中]]></content>
       <categories>
-          
-          <category> linux学习 </category>
-          
+        <category>linux学习</category>
       </categories>
-      
-      
-        <tags>
-            
-            <tag> linux </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>linux私房菜第6章学习总结</title>
-      <link href="/2019/01/31/%E7%AC%AC%E5%85%AD%E7%AB%A0%20%E6%96%87%E4%BB%B6%E4%B8%8E%E7%9B%AE%E5%BD%95%E7%AE%A1%E7%90%86/"/>
-      <url>/2019/01/31/%E7%AC%AC%E5%85%AD%E7%AB%A0%20%E6%96%87%E4%BB%B6%E4%B8%8E%E7%9B%AE%E5%BD%95%E7%AE%A1%E7%90%86/</url>
-      
-        <content type="html"><![CDATA[<h3 id="第六章-文件与目录管理"><a href="#第六章-文件与目录管理" class="headerlink" title="第六章 文件与目录管理"></a>第六章 文件与目录管理</h3><p>1.根目录的./和../都是本身，.代表此层目录，-表示前一个工作记录</p><p>2.处理目录的常见指令</p><ul><li><p>cd:变换目录</p></li><li><p>pwd:显示当前目录   若 pwd  -P  则不会显示连结档 直接显示正确的完整路径</p></li><li><p>mkdir:建立一个新的目录      加参数-m可以指定权限    加参数-p可以递归建立多层目录</p></li><li><p>rmdir:删除一个空的目录    -p递归删除多层目录 但是这个只能删除空文件夹</p></li><li><p>rm -r ：删除相应目录，包括目录下的所有文件</p></li></ul><p>3.环境变量PATH</p><a id="more"></a><p>跟Windows的环境变量类似，在执行命令的时候会去环境变量中看是否有这个命令。不同身份的path不同。需要注意的是当前目录并没有被加入到系统变量，假如一个变量不在PATh中，你需要指定它的位置才可使用它。（为了安全起见）</p><p>把文件夹加入PATH: <code>PATH=&quot;${PATH}:文件夹位置&quot;</code> </p><p>4.ls 检视指令，同时具备相当多的参数。常用有 -al，-a,-l等等</p><p>5.文件的复制，删除与移动,</p><ul><li><p>复制 cp  cp也有许多参数，具体不表。注意的是一般复制的话权限也是照搬。</p></li><li><p>删除 rm   -f 强制删除 不会出现警告信息      -i  互动模式       -r 递归循环删除</p></li><li><p>移动 mv  -f 强制覆盖   -i 询问是否覆盖    -u只有移动过去的那个比较新才会更新（update），mv也可以用来更目录名 </p></li></ul><p>6.取得路径的文件名和目录名称</p><p>basename和dirname，示例如下</p><p><img src="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/basename%E5%92%8Cdirname.png" alt="basename和dirname"></p><p>7.文件内容查阅</p><ul><li><p>cat 由第一行开始显示文件内容   加参数-A可以把一些特殊字符都列出来</p></li><li><p>tac 从最后一行开始显示,可以看出 tac 是 cat 的倒着写!</p></li><li><p>nl 顺道输出行号</p></li><li><p>more 一页一页的显示文件内容    空格键表示下一页 可以用 /字符串 向下搜索相应字符串</p></li><li><p>less 与 more 类似,但是比 more 更好的是,他可以往前翻页 </p></li><li><p>head 只看头几行显示的时候      head -n 加数字</p></li><li><p>tail 只看尾巴几行  比如取一个文件的第十一行到第二十行   head -n 20     /etc/man_db.conf | tail -n 10  </p><p>|是管线的意思 类似于进程吧</p></li><li><p>od以二进制的方式读取文件内容!</p></li></ul><p>8.文件的时间</p><ul><li>mtime(modification):文件内容改变时间</li><li>ctime(status): 状态改变时间，比如属性或者权限</li><li>atime(access): 读取时间<br>题外话：多条命令可用;隔开，会依次执行的 </li><li>touch可以用来改文件的各个时间，或者创建空文件</li></ul><p>9.文件预设权限 umask，默认文件的权限是666，目录的权限是777.而umask指的是减去的分，比如目录的umask=022代表拥有者什么权限都有，但是组和其他用户都不能写。比如出现3,33=2+1，就是去了w和x.设定umask直接设定 umask <em>*</em>就好。</p><p>10.文件隐藏属性 </p><p>配置属性  chattr  查看隐藏属性 lsattr</p><p>特殊属性有 +a  该文件只能增加 不能删除 也不能修改     +i 该文件完全不能改动    还有其他的</p><p>11.文件特殊权限  s和t</p><p>s出现在文件拥有者x的位置上时，称为Set UID,简称为SUID。SUID的具体权限如下：</p><ul><li><p>SUID 权限仅对二进制程序(binary program)有效;</p></li><li><p>执行者对于该程序需要具有 x 的可执行权限;</p></li><li><p>本权限仅在执行该程序的过程中有效 (run-time);</p></li><li><p>执行者将具有该程序拥有者 (owner) 的权限。</p><p>具体比如用户可以改自己的密码，passwd文件就有这个功能，可以帮助用户去修改/etc/shadow里的相应密码，由于passwd的拥有者是root,在一般用户使用passwd就暂时获得了root的权限</p></li></ul><p>当s出现在文件群组的x位置上时，称为SGID,大概与SUID功能相同，只是SGID还可以针对目录来设定，可以修改该目录中的文件</p><p> SBIT是只对目录有效，</p><p>12.设定SUID/SGID/SBIT 一样是通过数字，分别是421，比如在一个为755的文件加SUID功能，那就是4755.全加就是7755.</p><p>13.观察文件类型 file，判断文件类型权限等。</p><p>14.which 或者type 查找脚本放在哪里，其中which是在PATH中有的文件夹进行查找</p><p>15.whereis或者locate搜寻文件档名，相对于find比较快，因为这两个指令只是在一些相关文件夹里查找，当然也有可能找不到。find是搜索整个硬盘，相当慢。不过find的功能是最完善，可带参数是最多的。</p>]]></content>
-      
-      
+      <tags>
+        <tag>linux</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[linux私房菜第6章学习总结]]></title>
+    <url>%2F2019%2F01%2F31%2F%E7%AC%AC%E5%85%AD%E7%AB%A0%20%E6%96%87%E4%BB%B6%E4%B8%8E%E7%9B%AE%E5%BD%95%E7%AE%A1%E7%90%86%2F</url>
+    <content type="text"><![CDATA[第六章 文件与目录管理1.根目录的./和../都是本身，.代表此层目录，-表示前一个工作记录 2.处理目录的常见指令 cd:变换目录 pwd:显示当前目录 若 pwd -P 则不会显示连结档 直接显示正确的完整路径 mkdir:建立一个新的目录 加参数-m可以指定权限 加参数-p可以递归建立多层目录 rmdir:删除一个空的目录 -p递归删除多层目录 但是这个只能删除空文件夹 rm -r ：删除相应目录，包括目录下的所有文件 3.环境变量PATH 跟Windows的环境变量类似，在执行命令的时候会去环境变量中看是否有这个命令。不同身份的path不同。需要注意的是当前目录并没有被加入到系统变量，假如一个变量不在PATh中，你需要指定它的位置才可使用它。（为了安全起见） 把文件夹加入PATH: PATH=&quot;${PATH}:文件夹位置&quot; 4.ls 检视指令，同时具备相当多的参数。常用有 -al，-a,-l等等 5.文件的复制，删除与移动, 复制 cp cp也有许多参数，具体不表。注意的是一般复制的话权限也是照搬。 删除 rm -f 强制删除 不会出现警告信息 -i 互动模式 -r 递归循环删除 移动 mv -f 强制覆盖 -i 询问是否覆盖 -u只有移动过去的那个比较新才会更新（update），mv也可以用来更目录名 6.取得路径的文件名和目录名称 basename和dirname，示例如下 7.文件内容查阅 cat 由第一行开始显示文件内容 加参数-A可以把一些特殊字符都列出来 tac 从最后一行开始显示,可以看出 tac 是 cat 的倒着写! nl 顺道输出行号 more 一页一页的显示文件内容 空格键表示下一页 可以用 /字符串 向下搜索相应字符串 less 与 more 类似,但是比 more 更好的是,他可以往前翻页 head 只看头几行显示的时候 head -n 加数字 tail 只看尾巴几行 比如取一个文件的第十一行到第二十行 head -n 20 /etc/man_db.conf | tail -n 10 |是管线的意思 类似于进程吧 od以二进制的方式读取文件内容! 8.文件的时间 mtime(modification):文件内容改变时间 ctime(status): 状态改变时间，比如属性或者权限 atime(access): 读取时间题外话：多条命令可用;隔开，会依次执行的 touch可以用来改文件的各个时间，或者创建空文件 9.文件预设权限 umask，默认文件的权限是666，目录的权限是777.而umask指的是减去的分，比如目录的umask=022代表拥有者什么权限都有，但是组和其他用户都不能写。比如出现3,33=2+1，就是去了w和x.设定umask直接设定 umask *就好。 10.文件隐藏属性 配置属性 chattr 查看隐藏属性 lsattr 特殊属性有 +a 该文件只能增加 不能删除 也不能修改 +i 该文件完全不能改动 还有其他的 11.文件特殊权限 s和t s出现在文件拥有者x的位置上时，称为Set UID,简称为SUID。SUID的具体权限如下： SUID 权限仅对二进制程序(binary program)有效; 执行者对于该程序需要具有 x 的可执行权限; 本权限仅在执行该程序的过程中有效 (run-time); 执行者将具有该程序拥有者 (owner) 的权限。 具体比如用户可以改自己的密码，passwd文件就有这个功能，可以帮助用户去修改/etc/shadow里的相应密码，由于passwd的拥有者是root,在一般用户使用passwd就暂时获得了root的权限 当s出现在文件群组的x位置上时，称为SGID,大概与SUID功能相同，只是SGID还可以针对目录来设定，可以修改该目录中的文件 SBIT是只对目录有效， 12.设定SUID/SGID/SBIT 一样是通过数字，分别是421，比如在一个为755的文件加SUID功能，那就是4755.全加就是7755. 13.观察文件类型 file，判断文件类型权限等。 14.which 或者type 查找脚本放在哪里，其中which是在PATH中有的文件夹进行查找 15.whereis或者locate搜寻文件档名，相对于find比较快，因为这两个指令只是在一些相关文件夹里查找，当然也有可能找不到。find是搜索整个硬盘，相当慢。不过find的功能是最完善，可带参数是最多的。]]></content>
       <categories>
-          
-          <category> linux学习 </category>
-          
+        <category>linux学习</category>
       </categories>
-      
-      
-        <tags>
-            
-            <tag> linux </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>linux私房菜第5章学习总结</title>
-      <link href="/2019/01/27/%E7%AC%AC%E4%BA%94%E7%AB%A0/"/>
-      <url>/2019/01/27/%E7%AC%AC%E4%BA%94%E7%AB%A0/</url>
-      
-        <content type="html"><![CDATA[<h3 id="第五章"><a href="#第五章" class="headerlink" title="第五章"></a>第五章</h3><p>1.linux將文件的存取身份分成三个类别，分别是owner/group/others。操作的权限也有三个rwx(读写执行)</p><p>2.linux中帐号密码群组信息放在/etc/passwd,/etc/shadow和/etc/group中</p><p>3.切换到root,<code>su root</code>，退出<code>exit</code>;刚装完的系统可能没有设<code>root,</code>sudo passed root`:给root设密码</p><p>4.<code>ls</code>:查看文件， <code>ls- al</code>:看当前文件下所有文件 ，ls是list的意思，出来的第一档指令表示类型和三种类别对这个文件各自的权限（读、写、执行），接下来各档也有各自的含义</p><a id="more"></a><p>5.改变文件属性和权限</p><ul><li><p>chgrp :改变文件所属群组    <code>chgrp [-R] dirname/filename</code>: R是递归的意思，改变该文件夹下所有文件的群组  具体例子  <code>chgrp users initial-setup-ks.cfg</code></p></li><li><p>chown :改变文件拥有者   还可以顺带改组名</p><p>chown [-R] 账号名称   文件或目录 例子: <code>chown bin initial-setup-ks.cfg</code><br>chown  [-R] 账号名称:组名   文件或目录  例子: <code>chown root:root initial-setup-ks.cfg</code></p></li><li><p>chmod :改变文件的权限, SUID, SGID, SBIT 等等的特性，有两种方法，数字和符号。</p><p>数字：r:4 w:2 x:1 用它们的和，九个相应权限就只需要三个数字 例子:<code>chmod 777 .bashrc</code></p><p>符号：更具体的方法，u  g   o  a 表示四种身份（a表示all),+或-表示增删，=表示设定，rwx操作权限，例子1  <code>chmod   u=rwx,go=rx   .bashrc</code>    例子2  <code>chmod   a+w   .bashrc</code></p></li></ul><p>6.复制文件：cp 来源文件 目标文件</p><p>7.操作权限对于目录和文件不太一样，具体如下，其中修改文件内容不能对文件本身进行操作，如删除。</p><p><img src="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/linux_rwx.png" alt="权限对文件和目录的不同含义"></p><p>8.linux文件种类和拓展名（[]内表示使用[ls -l]出现的第一个字符）</p><p>文件种类</p><p>[-] :正规文件 包括纯文本、二进制文件、数据格式文件<br>        [d] : 目录文件</p><p>[l] :连结档 类似于Windows的快捷方式</p><p>[b]或[c]: 硬件设备</p><p>[s] :数据接口，常被用在网络上的数据承接</p><p>文件扩展名</p><p>.sh  脚本或者批处理文件</p><p><em>Z, </em>.tar, <em>.tar.gz, </em>.zip, *.tgz: 经过打包的压缩文件</p><p><em>.html, </em>.php:网页相关文件</p><p>linux的后缀和Windows不大一样，能不能执行还是要看权限</p><p>9.linux目录配置</p><p>现在的目录配置方法基本有统一的标准，即FHS.代表性定义如下图</p><p><img src="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/FHS.png" alt="FHS常用定义"></p><p>实际上具体就定义出以下三个目录</p><ul><li><p>/ (root, 根目录):与开机系统有关;</p></li><li><p>/usr (unix software resource):与软件安装/执行有关;</p></li><li><p>/var (variable):与系统运作过程有关。</p><p>/是一个系统的根目录，由于其重要性，所以不建议将其他无关文件放入/，FHS建议在/再进行不同的分目录实现各自的功能。</p></li></ul><p>10./usr和/var 这两个文件都是在/下</p><p>/usr不是user的缩写，是Unix Software Resource,也就是存放软件资源的地方。所有的系统软件都放在这</p><p>/var针对的变动的文件，某些软件运行产生的文件或者缓存都放在这</p><ol><li>./表示当前目录，../表示上一层目录</li></ol><p>​    </p>]]></content>
-      
-      
+      <tags>
+        <tag>linux</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[linux私房菜第5章学习总结]]></title>
+    <url>%2F2019%2F01%2F27%2F%E7%AC%AC%E4%BA%94%E7%AB%A0%2F</url>
+    <content type="text"><![CDATA[第五章1.linux將文件的存取身份分成三个类别，分别是owner/group/others。操作的权限也有三个rwx(读写执行) 2.linux中帐号密码群组信息放在/etc/passwd,/etc/shadow和/etc/group中 3.切换到root,su root，退出exit;刚装完的系统可能没有设root,sudo passed root`:给root设密码 4.ls:查看文件， ls- al:看当前文件下所有文件 ，ls是list的意思，出来的第一档指令表示类型和三种类别对这个文件各自的权限（读、写、执行），接下来各档也有各自的含义 5.改变文件属性和权限 chgrp :改变文件所属群组 chgrp [-R] dirname/filename: R是递归的意思，改变该文件夹下所有文件的群组 具体例子 chgrp users initial-setup-ks.cfg chown :改变文件拥有者 还可以顺带改组名 chown [-R] 账号名称 文件或目录 例子: chown bin initial-setup-ks.cfgchown [-R] 账号名称:组名 文件或目录 例子: chown root:root initial-setup-ks.cfg chmod :改变文件的权限, SUID, SGID, SBIT 等等的特性，有两种方法，数字和符号。 数字：r:4 w:2 x:1 用它们的和，九个相应权限就只需要三个数字 例子:chmod 777 .bashrc 符号：更具体的方法，u g o a 表示四种身份（a表示all),+或-表示增删，=表示设定，rwx操作权限，例子1 chmod u=rwx,go=rx .bashrc 例子2 chmod a+w .bashrc 6.复制文件：cp 来源文件 目标文件 7.操作权限对于目录和文件不太一样，具体如下，其中修改文件内容不能对文件本身进行操作，如删除。 8.linux文件种类和拓展名（[]内表示使用[ls -l]出现的第一个字符） 文件种类 [-] :正规文件 包括纯文本、二进制文件、数据格式文件 [d] : 目录文件 [l] :连结档 类似于Windows的快捷方式 [b]或[c]: 硬件设备 [s] :数据接口，常被用在网络上的数据承接 文件扩展名 .sh 脚本或者批处理文件 Z, .tar, .tar.gz, .zip, *.tgz: 经过打包的压缩文件 .html, .php:网页相关文件 linux的后缀和Windows不大一样，能不能执行还是要看权限 9.linux目录配置 现在的目录配置方法基本有统一的标准，即FHS.代表性定义如下图 实际上具体就定义出以下三个目录 / (root, 根目录):与开机系统有关; /usr (unix software resource):与软件安装/执行有关; /var (variable):与系统运作过程有关。 /是一个系统的根目录，由于其重要性，所以不建议将其他无关文件放入/，FHS建议在/再进行不同的分目录实现各自的功能。 10./usr和/var 这两个文件都是在/下 /usr不是user的缩写，是Unix Software Resource,也就是存放软件资源的地方。所有的系统软件都放在这 /var针对的变动的文件，某些软件运行产生的文件或者缓存都放在这 ./表示当前目录，../表示上一层目录 ​]]></content>
       <categories>
-          
-          <category> linux学习 </category>
-          
+        <category>linux学习</category>
       </categories>
-      
-      
-        <tags>
-            
-            <tag> linux </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>linux私房菜第0到4章学习总结</title>
-      <link href="/2019/01/23/linux%E7%A7%81%E6%88%BF%E8%8F%9C%E7%AC%AC0%E5%88%B04%E7%AB%A0%E5%AD%A6%E4%B9%A0%E6%80%BB%E7%BB%93/"/>
-      <url>/2019/01/23/linux%E7%A7%81%E6%88%BF%E8%8F%9C%E7%AC%AC0%E5%88%B04%E7%AB%A0%E5%AD%A6%E4%B9%A0%E6%80%BB%E7%BB%93/</url>
-      
-        <content type="html"><![CDATA[<p>CPU架构分类，精简指令集（RISC)和复杂指令集（CISC）。RISC多用在比较小的设备，如手机常用的ARM,CISC多用于电脑和工作站，如AMD和Inter的x86架构。x86是因为intel的前几代cpu代号都是86xx的。（鸟哥的0和1章讲的大多是体系结构的东西和发展史，大概过一下)</p><h3 id="第二章"><a href="#第二章" class="headerlink" title="第二章"></a>第二章</h3><p>1.各个组件或者装置在linux底下都是一个文件</p><p>2.在Linux中，所有的硬件裝置文件都在/dev這個目錄中，sata或usb常被识别为/dev/sd[a-p]</p><a id="more"></a><p>3.磁盘的分区格式有两种，MBR和GPT,分别对应boot方式，legacy和uefi，之前我装nvidia的驱动装两好久就是因爲做盘的方式就做错了。</p><p>4.MBR,管理开机管理程序（446bytes)和分区表(64bytes)，都放在磁盘的第一个扇区,由于分区表大小限制，一个盘所以只能分成四个区。但是可以通过延伸分区（extended）来增加分区（但是明显这样的话，延伸分区最多只能有四个，分区表指向他们，他们再指向逻辑分区），这些增加的分区称爲逻辑分区槽。由分区指定的叫主分区。</p><p>5.GPT(GUID)，升级，逻辑上没有分区数目的限制。grub2不认识gpt</p><p>6.如果要安装多重引导, 最好先安装 Windows 再安装 Linux。因为:Linux 在安装的时候,你可以选择将开机管理程序安装在 MBR 或各别分区槽的启动扇区, 而且 Linux 的loader 可以手动设定选单所以可以在 Linux 的 boot loader 里面加入 Windows 开机的选项。Windows 在安装的时候,他的安装程序会主动的覆盖掉 MBR 以及自己所在分区槽的启动扇区,你没有选择的机会, 而且他没有让我们自己选择选单的功能。</p><p>7.开机的流程由:BIOS—&gt;MBR—&gt;boot loader（引导啓动程序）—&gt;核心文件，boot loader 的功能主要有:提供选单、加载核心、转交控制权给其他 loaderboot loader 可以安装的地点有两个,分别是 MBR 与 boot sector</p><p>8.所谓的『挂载』就是利用一个目录当成进入点,将磁盘分区槽的数据放置在该目录下; 也就是说,<br>进入该目录就可以读取该分区槽的意思。把硬盘的东西挂载到目录下。</p><h3 id="第三章"><a href="#第三章" class="headerlink" title="第三章"></a>第三章</h3><p>1.给笔记本安装linux时需要叫入acpi=off(我装ubuntu的时候是在splash后加上 nomodest),因为笔记本和台式的电源管理模块不一样。</p><p>2.Windows 8.1 以前的版本,不能够在非 UEFI 的 BIOS 环境下使用 GPT 分区表的分区槽来开机。</p><p>3.装linux时，分区大概可以有/，/boot,/home,swap四个分区,其中/和swap是必须的</p><p>注：本章说的比较多的centos的安装，基本跳过。</p><h3 id="第四章"><a href="#第四章" class="headerlink" title="第四章"></a>第四章</h3><p>1.默认root的提示字符是#，一般用户的提示字符是$</p><p>2.[ctrl]+[alt]+[F1-f6]进入文本系统，但是不同电脑细节不一样，多试一试。exit退出当前tty的登录帐号</p><p>3.指令一般格式command   [-options]     parameter1      parameter2 。选项没有[]，而且一般带-或者—，如-h,—help。指令太长的时候,可以使用反斜杠 () 来跳脱[Enter]符号,使指令连续到下一行。</p><p>4.linux下大小写敏感。</p><p>5.指令列模式里面下达指令时,会有两种主要的情况:一种是该指令会直接显示结果然后回到命令提示字符等待下一个指令的输入;一种是进入到该指令的环境,直到结束该指令才回到命令提示字符的环境。</p><p>6.命令行的快捷键</p><p>​     (1)[tab]     命令补齐，文件补齐，甚至参数补齐。有单[tab]和双[tab].[Tab] </p><p>​     接在一串指令的第一个字的后面,则为『命令补全』   </p><p>​     接在一串指令的第二个字以后时,则为『文件补齐』 (在-或—后面)<br>​            (2)[ctrl]+[c]  中断目前程序</p><p>​    (3)[ctrl]+[d]  代表键盘输入结束，在文字接口相当于输入exit</p><p>​    (4)[shift]+{[PageUP]|[Page Down]}   在命令行的上一页或下一页 相当于鼠标滚轮</p><p>7.指令系统的提醒   命令加[—help]，可以得到这个命令的使用方法等等，</p><p> 8.man +命令 可以出现更具体的说明文档，空格键表示下一页 [q]表示退出 。其中在指令后面出现数字（1到9），代表不同指令的不同地位身份。在出现man (manual)时，按下[/] 可以输入字符在man page里搜索，按[n]表示搜索的下一个。（next应该是）</p><p>9.info+命令也是查找命令的详细信息，相对于man它有更多的节点，有点像网站，</p><p>10.nano一个简单文本编辑器，指数符号代表[crtl], [M]是代表[alt]</p><p>11.关机前准备  who 看谁在线        ps -aux 知道主机目前的使用状态  sync 将当前的数据写进磁盘</p><p>12.关机有多个指令 基本差不多    shutdown halt poweroff</p>]]></content>
-      
-      
+      <tags>
+        <tag>linux</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[linux私房菜第0到4章学习总结]]></title>
+    <url>%2F2019%2F01%2F23%2Flinux%E7%A7%81%E6%88%BF%E8%8F%9C%E7%AC%AC0%E5%88%B04%E7%AB%A0%E5%AD%A6%E4%B9%A0%E6%80%BB%E7%BB%93%2F</url>
+    <content type="text"><![CDATA[CPU架构分类，精简指令集（RISC)和复杂指令集（CISC）。RISC多用在比较小的设备，如手机常用的ARM,CISC多用于电脑和工作站，如AMD和Inter的x86架构。x86是因为intel的前几代cpu代号都是86xx的。（鸟哥的0和1章讲的大多是体系结构的东西和发展史，大概过一下) 第二章1.各个组件或者装置在linux底下都是一个文件 2.在Linux中，所有的硬件裝置文件都在/dev這個目錄中，sata或usb常被识别为/dev/sd[a-p] 3.磁盘的分区格式有两种，MBR和GPT,分别对应boot方式，legacy和uefi，之前我装nvidia的驱动装两好久就是因爲做盘的方式就做错了。 4.MBR,管理开机管理程序（446bytes)和分区表(64bytes)，都放在磁盘的第一个扇区,由于分区表大小限制，一个盘所以只能分成四个区。但是可以通过延伸分区（extended）来增加分区（但是明显这样的话，延伸分区最多只能有四个，分区表指向他们，他们再指向逻辑分区），这些增加的分区称爲逻辑分区槽。由分区指定的叫主分区。 5.GPT(GUID)，升级，逻辑上没有分区数目的限制。grub2不认识gpt 6.如果要安装多重引导, 最好先安装 Windows 再安装 Linux。因为:Linux 在安装的时候,你可以选择将开机管理程序安装在 MBR 或各别分区槽的启动扇区, 而且 Linux 的loader 可以手动设定选单所以可以在 Linux 的 boot loader 里面加入 Windows 开机的选项。Windows 在安装的时候,他的安装程序会主动的覆盖掉 MBR 以及自己所在分区槽的启动扇区,你没有选择的机会, 而且他没有让我们自己选择选单的功能。 7.开机的流程由:BIOS—&gt;MBR—&gt;boot loader（引导啓动程序）—&gt;核心文件，boot loader 的功能主要有:提供选单、加载核心、转交控制权给其他 loaderboot loader 可以安装的地点有两个,分别是 MBR 与 boot sector 8.所谓的『挂载』就是利用一个目录当成进入点,将磁盘分区槽的数据放置在该目录下; 也就是说,进入该目录就可以读取该分区槽的意思。把硬盘的东西挂载到目录下。 第三章1.给笔记本安装linux时需要叫入acpi=off(我装ubuntu的时候是在splash后加上 nomodest),因为笔记本和台式的电源管理模块不一样。 2.Windows 8.1 以前的版本,不能够在非 UEFI 的 BIOS 环境下使用 GPT 分区表的分区槽来开机。 3.装linux时，分区大概可以有/，/boot,/home,swap四个分区,其中/和swap是必须的 注：本章说的比较多的centos的安装，基本跳过。 第四章1.默认root的提示字符是#，一般用户的提示字符是$ 2.[ctrl]+[alt]+[F1-f6]进入文本系统，但是不同电脑细节不一样，多试一试。exit退出当前tty的登录帐号 3.指令一般格式command [-options] parameter1 parameter2 。选项没有[]，而且一般带-或者—，如-h,—help。指令太长的时候,可以使用反斜杠 () 来跳脱[Enter]符号,使指令连续到下一行。 4.linux下大小写敏感。 5.指令列模式里面下达指令时,会有两种主要的情况:一种是该指令会直接显示结果然后回到命令提示字符等待下一个指令的输入;一种是进入到该指令的环境,直到结束该指令才回到命令提示字符的环境。 6.命令行的快捷键 ​ (1)[tab] 命令补齐，文件补齐，甚至参数补齐。有单[tab]和双[tab].[Tab] ​ 接在一串指令的第一个字的后面,则为『命令补全』 ​ 接在一串指令的第二个字以后时,则为『文件补齐』 (在-或—后面)​ (2)[ctrl]+[c] 中断目前程序 ​ (3)[ctrl]+[d] 代表键盘输入结束，在文字接口相当于输入exit ​ (4)[shift]+{[PageUP]|[Page Down]} 在命令行的上一页或下一页 相当于鼠标滚轮 7.指令系统的提醒 命令加[—help]，可以得到这个命令的使用方法等等， 8.man +命令 可以出现更具体的说明文档，空格键表示下一页 [q]表示退出 。其中在指令后面出现数字（1到9），代表不同指令的不同地位身份。在出现man (manual)时，按下[/] 可以输入字符在man page里搜索，按[n]表示搜索的下一个。（next应该是） 9.info+命令也是查找命令的详细信息，相对于man它有更多的节点，有点像网站， 10.nano一个简单文本编辑器，指数符号代表[crtl], [M]是代表[alt] 11.关机前准备 who 看谁在线 ps -aux 知道主机目前的使用状态 sync 将当前的数据写进磁盘 12.关机有多个指令 基本差不多 shutdown halt poweroff]]></content>
       <categories>
-          
-          <category> linux学习 </category>
-          
+        <category>linux学习</category>
       </categories>
-      
-      
-        <tags>
-            
-            <tag> linux </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>开场白</title>
-      <link href="/2019/01/22/%E5%BC%80%E5%9C%BA%E7%99%BD/"/>
-      <url>/2019/01/22/%E5%BC%80%E5%9C%BA%E7%99%BD/</url>
-      
-        <content type="html"><![CDATA[<p>研一上结束了，囫囵吞枣地学了点东西，开个博客系统的汇报和总结自己做的东西吧。暂时定位为自己的记录博客。如果你恰巧找到这，并且发现对你有用的东西（这也太渺茫了吧），那也是我的荣幸。</p><p>先给自己的博客做个大概基调吧，学习为主。Hexo有分类和标签，分类的话，我打算大体分成自白与反思，精神生活（比如电影或书籍的观后感），周报（现在开始给自己定的小目标），linux学习，深度学习，计算机视觉，开发（这个先占个坑）。标签的话就具体一点比如tensorflow，电影，hexo等等。尽量做到每周写周报。</p><p>近期目标的话，回家前，把鸟哥的liunx私房菜看一看实际操作一下。回家的话，把那些经典的深度学习网络结构重新学习，有条件的话跑一些代码。</p>]]></content>
-      
-      
+      <tags>
+        <tag>linux</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[测试]]></title>
+    <url>%2F2019%2F01%2F23%2F%E6%96%B0%E5%BB%BA%20Markdown%20File%2F</url>
+    <content type="text"><![CDATA[$a \times b​$]]></content>
       <categories>
-          
-          <category> 自白与反思 </category>
-          
+        <category>linux学习</category>
       </categories>
-      
-      
-        <tags>
-            
-            <tag> 废话 </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-  
-  
+      <tags>
+        <tag>linux</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[开场白]]></title>
+    <url>%2F2019%2F01%2F22%2F%E5%BC%80%E5%9C%BA%E7%99%BD%2F</url>
+    <content type="text"><![CDATA[研一上结束了，囫囵吞枣地学了点东西，开个博客系统的汇报和总结自己做的东西吧。暂时定位为自己的记录博客。如果你恰巧找到这，并且发现对你有用的东西（这也太渺茫了吧），那也是我的荣幸。 先给自己的博客做个大概基调吧，学习为主。Hexo有分类和标签，分类的话，我打算大体分成自白与反思，精神生活（比如电影或书籍的观后感），周报（现在开始给自己定的小目标），linux学习，深度学习，计算机视觉，开发（这个先占个坑）。标签的话就具体一点比如tensorflow，电影，hexo等等。尽量做到每周写周报。 近期目标的话，回家前，把鸟哥的liunx私房菜看一看实际操作一下。回家的话，把那些经典的深度学习网络结构重新学习，有条件的话跑一些代码。]]></content>
+      <categories>
+        <category>自白与反思</category>
+      </categories>
+      <tags>
+        <tag>废话</tag>
+      </tags>
+  </entry>
 </search>
