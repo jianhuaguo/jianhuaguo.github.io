@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="Hexo, NexT">
+  <meta name="keywords" content="贝叶斯,">
 
 
 
@@ -79,16 +79,21 @@
 
 
 
-<meta name="description" content="在校计算机研究生一个，主要做视觉和机器学习。专业打酱油。">
-<meta property="og:type" content="website">
-<meta property="og:title" content="摸鱼博客">
-<meta property="og:url" content="http://yoursite.com/archives/2019/02/index.html">
+<meta name="description" content="概率和统计首先，我们需要先分清楚概率和统计的关系 概率研究的问题是，已知一个模型和参数，怎么去预测这个模型产生的结果的特性（例如均值，方差，协方差等等）。  统计研究的问题则相反。统计是，有一堆数据，要利用这堆数据去预测模型和参数。 一句话总结：概率是已知模型和参数，推数据。统计是已知数据，推模型和参数。机器学习中常要解决的问题是统计问题。">
+<meta name="keywords" content="贝叶斯">
+<meta property="og:type" content="article">
+<meta property="og:title" content="机器学习概率部分（1）">
+<meta property="og:url" content="http://yoursite.com/2019/03/12/朴素贝叶斯，贝叶斯估计和贝叶斯学习/index.html">
 <meta property="og:site_name" content="摸鱼博客">
-<meta property="og:description" content="在校计算机研究生一个，主要做视觉和机器学习。专业打酱油。">
+<meta property="og:description" content="概率和统计首先，我们需要先分清楚概率和统计的关系 概率研究的问题是，已知一个模型和参数，怎么去预测这个模型产生的结果的特性（例如均值，方差，协方差等等）。  统计研究的问题则相反。统计是，有一堆数据，要利用这堆数据去预测模型和参数。 一句话总结：概率是已知模型和参数，推数据。统计是已知数据，推模型和参数。机器学习中常要解决的问题是统计问题。">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://img-blog.csdn.net/20170606223909132">
+<meta property="og:image" content="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E8%B4%9D%E5%8F%B6%E6%96%AF%E5%AD%A6%E4%B9%A0.png">
+<meta property="og:updated_time" content="2019-03-13T07:32:41.165Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="摸鱼博客">
-<meta name="twitter:description" content="在校计算机研究生一个，主要做视觉和机器学习。专业打酱油。">
+<meta name="twitter:title" content="机器学习概率部分（1）">
+<meta name="twitter:description" content="概率和统计首先，我们需要先分清楚概率和统计的关系 概率研究的问题是，已知一个模型和参数，怎么去预测这个模型产生的结果的特性（例如均值，方差，协方差等等）。  统计研究的问题则相反。统计是，有一堆数据，要利用这堆数据去预测模型和参数。 一句话总结：概率是已知模型和参数，推数据。统计是已知数据，推模型和参数。机器学习中常要解决的问题是统计问题。">
+<meta name="twitter:image" content="https://img-blog.csdn.net/20170606223909132">
 
 
 
@@ -118,13 +123,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/archives/2019/02/">
+  <link rel="canonical" href="http://yoursite.com/2019/03/12/朴素贝叶斯，贝叶斯估计和贝叶斯学习/">
 
 
 
 
 
-  <title>归档 | 摸鱼博客</title>
+  <title>机器学习概率部分（1） | 摸鱼博客</title>
   
 
 
@@ -143,7 +148,7 @@
     
   
 
-  <div class="container sidebar-position-left page-archive">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -269,391 +274,197 @@
           <div id="content" class="content">
             
 
-  
-  
-  
-  <div class="post-block archive">
-    <div id="posts" class="posts-collapse">
-      <span class="archive-move-on"></span>
+  <div id="posts" class="posts-expand">
+    
 
-      <span class="archive-page-counter">
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/12/朴素贝叶斯，贝叶斯估计和贝叶斯学习/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="郭某人">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="摸鱼博客">
+    </span>
+
+    
+      <header class="post-header">
+
         
         
+          <h1 class="post-title" itemprop="name headline">机器学习概率部分（1）</h1>
         
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-03-12T14:42:24+08:00">
+                2019-03-12
+              </time>
+            
+
+            
+
+            
+          </span>
+
           
-        
-        嗯..! 目前共计 23 篇日志。 继续努力。
-      </span>
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/机器学习/" itemprop="url" rel="index">
+                    <span itemprop="name">机器学习</span>
+                  </a>
+                </span>
 
-      
-
-        
-        
-        
-
-        
+                
+                
+              
+            </span>
           
-          <div class="collection-title">
-            <h1 class="archive-year" id="archive-year-2019">2019</h1>
-          </div>
-        
-        
 
-        
+          
+            
+          
 
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
+          
+          
 
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2019/02/25/了解Anaconda和Conda/" itemprop="url">
-              
-                <span itemprop="name">了解Anaconda和Conda</span>
-              
-            </a>
-        
-      </h2>
+          
 
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2019-02-25T18:18:24+08:00" content="2019-02-25">
-          02-25
-        </time>
-      </div>
+          
 
-    </header>
-  </article>
+          
 
+        </div>
+      </header>
+    
 
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
 
       
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2019/02/25/莫烦_关于linux服务器的使用/" itemprop="url">
-              
-                <span itemprop="name">莫烦_关于linux服务器的使用</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2019-02-25T10:18:24+08:00" content="2019-02-25">
-          02-25
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
       
 
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2019/02/23/2019 2_17-2_23周报/" itemprop="url">
-              
-                <span itemprop="name">2019 2_17-2_23周报</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2019-02-23T19:18:24+08:00" content="2019-02-23">
-          02-23
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
       
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2019/02/23/ResNet论文解读/" itemprop="url">
-              
-                <span itemprop="name">ResNet论文解读</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2019-02-23T17:28:12+08:00" content="2019-02-23">
-          02-23
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
+        <h3 id="概率和统计"><a href="#概率和统计" class="headerlink" title="概率和统计"></a>概率和统计</h3><p>首先，我们需要先分清楚概率和统计的关系</p>
+<p>概率研究的问题是，已知一个模型和参数，怎么去预测这个模型产生的结果的特性（例如均值，方差，协方差等等）。 </p>
+<p>统计研究的问题则相反。统计是，有一堆数据，要利用这堆数据去预测模型和参数。</p>
+<p>一句话总结：<strong>概率是已知模型和参数，推数据。统计是已知数据，推模型和参数。</strong>机器学习中常要解决的问题是统计问题。</p>
+<a id="more"></a>
+<h3 id="频率学派和贝叶斯学派"><a href="#频率学派和贝叶斯学派" class="headerlink" title="频率学派和贝叶斯学派"></a>频率学派和贝叶斯学派</h3><p>（备注：本部分照搬自 <a href="https://www.zhihu.com/question/20587681/answer/17435552" target="_blank" rel="noopener">https://www.zhihu.com/question/20587681/answer/17435552</a>  认真看一遍豁然开朗）</p>
+<p>简单地说，频率学派与贝叶斯学派探讨「不确定性」这件事时的出发点与立足点不同。频率学派从「自然」角度出发，试图直接为「事件」本身建模，即事件A在独立重复试验中发生的频率趋于极限p，那么这个极限就是该事件的概率。举例而言，想要计算抛掷一枚硬币时正面朝上的概率，我们需要不断地抛掷硬币，当抛掷次数趋向无穷时正面朝上的频率即为正面朝上的概率。</p>
+<p>然而，贝叶斯学派并不从试图刻画「事件」本身，而从「观察者」角度出发。贝叶斯学派并不试图说「事件本身是随机的」，或者「世界的本体带有某种随机性」，这套理论根本不言说关于「世界本体」的东西，而只是从「观察者知识不完备」这一出发点开始，构造一套在贝叶斯概率论的框架下可以对不确定知识做出推断的方法。频率学派下说的「随机事件」在贝叶斯学派看来，并不是「事件本身具有某种客观的随机性」，而是「观察者不知道事件的结果」而已，只是「观察者」知识状态中尚未包含这一事件的结果。但是在这种情况下，观察者又试图通过已经观察到的「证据」来推断这一事件的结果，因此只能靠猜。贝叶斯概率论就想构建一套比较完备的框架用来描述最能服务于理性推断这一目的的「猜的过程」。因此，在贝叶斯框架下，同一件事情对于知情者而言就是「确定事件」，对于不知情者而言就是「随机事件」，随机性并不源于事件本身是否发生，而只是描述观察者对该事件的知识状态。</p>
+<p>总的来说，贝叶斯概率论为人的知识（knowledge）建模来定义「概率」这个概念。频率学派试图描述的是「事物本体」，而贝叶斯学派试图描述的是观察者知识状态在新的观测发生后如何更新。为了描述这种更新过程，贝叶斯概率论假设观察者对某事件处于某个知识状态中（例如：小明先验地相信一枚硬币是均匀的，可能是出于认为均匀硬币最常见这种信念），之后观察者开始新的观测或实验（小明开始不断地抛硬币，发现抛了100次后，居然只有20次是正面朝上）。经过中间的独立重复试验，观察者获得了一些新的观测结果，这些新的观测将以含有不确定性的逻辑推断的方式影响观察者原有的信念（小明开始怀疑这枚硬币究竟是不是均匀的，甚至开始断定硬币并不均匀）。在这一过程中，观察者无法用简单的逻辑来推断，因为观察者并没有完全的信息作为证据，因此只能采用似真推断（plausible reasoning），对于各种各样可能的结果赋予一个「合理性」（plausibility）。例子中，小明原先认为硬币的分布是均匀的，于是根据小明原有的信念，这个论断合理性非常高；在观察到100次抛掷中只有20次正面朝上后，小明开始怀疑硬币的均匀性，此时小明很可能认为「硬币不均匀」这一推断的合理性很高，支持的证据就是他刚刚实验的观测结果。</p>
+<p>上面的例子用贝叶斯概率论的语言来描述，就是观察者持有某个前置信念（prior<br>belief），通过观测获得统计证据（evidence），通过满足一定条件的逻辑一致推断得出的关于该陈述的「合理性」，从而得出后置信念（posterior belief）来最好的表征观测后的知识状态（state of knowledge）。这里，贝叶斯概率推断所试图解决的核心问题就是如何构建一个满足一定条件的逻辑体系赋予特定论断一个实数所表征的论断合理性的度量（measure of plausibility），从而可以允许观测者在不完全信息的状态下进行推断。这里，观察者对某变量的信念或知识状态就是频率学派所说的「概率分布」，也就是说，观察者的知识状态就是对被观察变量取各种值所赋予的「合理性」的分布。</p>
+<p>从这个意义上来讲，贝叶斯概率论试图构建的是知识状态的表征，而不是客观世界的表征。因此，在机器学习、统计推断中，许多情况下贝叶斯概率推断更能解决观察者推断的问题，而绕开了关于事件本体的讨论，因为没有讨论本体的必要性。</p>
+<p>频率学派的代表是最大似然估计；贝叶斯学派的代表是最大后验概率估计。</p>
+<h3 id="贝叶斯定理"><a href="#贝叶斯定理" class="headerlink" title="贝叶斯定理"></a>贝叶斯定理</h3><p>贝叶斯定理，也就是计算条件概率的公式。根据常识，$P(A |B)$=$\frac{P(A \cap B)}{P(B)}$,</p>
+<p>可得$P(A \cap B)=P(A |B) \times P(B)$ </p>
+<p>同理可得$P(A \cap B)=P(B |A) \times P(A)$</p>
+<p>所以 $P(A |B)=\frac{P(B |A) \times P(A)}{P(B)}​$。</p>
+<p>将上式变形得$P(A |B)=P(A) \times \frac{P(B |A) }{P(B)}$,我们将$P(A)$称为先验概率，也就是事件B发生前，事件A发生的概率。$P(A|B)$称为后验概率。$\frac{P(B |A) }{P(B)}$是事件B发生后对事件A概率的重新评估，称为可能性函数，这是一个调整因子。条件概率可以理解为$后验概率 = 先验概率  \times 调整因子$。简单来说，调整因子就是事件B发生之后，会不会佐证了事件A发生的可能性。$P(B|A)$比$P(B)$大的话，就是事件A发生的情况下事件B发生的情况比单独事件B发生的情况大的话，而且事件B已经发生了，就有足够理由增大事件A已经发生的可能性，也就是调整因子大于1。</p>
+<h3 id="朴素贝叶斯法"><a href="#朴素贝叶斯法" class="headerlink" title="朴素贝叶斯法"></a>朴素贝叶斯法</h3><p>朴素贝叶斯就是基于上述定理，并且假定各个特征之间是相互独立的。通过训练数据学习先验概率和$P(B|A)$,利用全概率公式也可得到了$P(B)​$。测试的时候把特征代入，找到满足最大的后验概率的事件A即可。在测试的时候也有不同的需求，比如最小错误率，最小风险之类的决策偏好。</p>
+<p>在学习$P(B|A)和P(A)$时，需要用到概率密度函数，可以应用极大似然估计，或者贝叶斯估计。</p>
+<h3 id="最大似然估计（Maximum-likelihood-estimation-MLE）"><a href="#最大似然估计（Maximum-likelihood-estimation-MLE）" class="headerlink" title="最大似然估计（Maximum likelihood estimation, MLE）"></a>最大似然估计（Maximum likelihood estimation, MLE）</h3><p>对于P(x|θ)，x表示一个具体的数据，θ表示模型的参数。当θ是确定时，x是变量，这个函数叫做概率函数；当x是确定的，θ是变量，这个函数就叫做似然函数了。</p>
+<p>最大似然估计就是最大化这个似然函数，通常方法是先求对数，再求导找极大值。</p>
+<p>总结来说，最大似然估计是已知模型，是利用已知的样本结果信息，反推出最具有可能导致这些样本结果出现的模型参数值。</p>
+<h3 id="最大后验概率估计（Maximum-a-posteriori-estimation-MAP）"><a href="#最大后验概率估计（Maximum-a-posteriori-estimation-MAP）" class="headerlink" title="最大后验概率估计（Maximum a posteriori estimation, MAP）"></a>最大后验概率估计（Maximum a posteriori estimation, MAP）</h3><p>最大似然估计是求参数θ，使似然函数最大，而最大后验概率估计是求参数θ，使$P(x_0|θ)P(θ)$最大,就是引进了先验概率，类似于最大化P(θ|x),可以被当成正则化的最大似然函数。</p>
+<p>最大后验概率估计认为变量θ具有某种概率分布，计算时要将这个先验概率考虑进来。</p>
+<h3 id="贝叶斯估计（Bayes-estimation-BS"><a href="#贝叶斯估计（Bayes-estimation-BS" class="headerlink" title="贝叶斯估计（Bayes estimation,BS)"></a>贝叶斯估计（Bayes estimation,BS)</h3><p>贝叶斯估计是最大后验估计的进一步拓展，同样假定θ是一个随机变量，但是不是像最大后验概率估计直接估计出θ的某个特征值，而是估计θ的分布。在贝叶斯估计中除了类条件概率密度符合一定的先验分布，参数θ也符合正态分布，我们需要通过贝叶斯规则将参数的先验分布转换成后验分布进行求解。</p>
+<p>贝叶斯估计和最大后验概率估计的最大差别就是贝叶斯估计考虑了所有可能的参数值并且将他们加权平均出一个对参数的估计，而后者直接选择后验概率最大的参数。</p>
+<p>将参数θ视为随机变量，求它在最小误差意义下的估计。在所有的样本和θ参数空间中，求出平均损失。我们想要的θ就是使这个平均损失最小。经推导，等价于求条件风险最小 </p>
+<p><img src="https://img-blog.csdn.net/20170606223909132" alt="img"></p>
+<h3 id="贝叶斯学习"><a href="#贝叶斯学习" class="headerlink" title="贝叶斯学习"></a>贝叶斯学习</h3><p><img src="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E8%B4%9D%E5%8F%B6%E6%96%AF%E5%AD%A6%E4%B9%A0.png" alt="在贝叶斯估计中，θ的估计量为$\int \limits_\Theta θ P(θ|x)dθ​$,其中P(θ|x)是由贝叶斯定理得到的"></p>
+<h3 id="备注：本文仅做记录学习心得之用，没有完善公式具体推导等。"><a href="#备注：本文仅做记录学习心得之用，没有完善公式具体推导等。" class="headerlink" title="备注：本文仅做记录学习心得之用，没有完善公式具体推导等。"></a>备注：本文仅做记录学习心得之用，没有完善公式具体推导等。</h3>
       
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2019/02/22/GoogLeNet论文解读/" itemprop="url">
-              
-                <span itemprop="name">GoogLeNet论文解读</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2019-02-22T12:28:12+08:00" content="2019-02-22">
-          02-22
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-      
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2019/02/21/VGG论文解读/" itemprop="url">
-              
-                <span itemprop="name">VGG论文解读</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2019-02-21T11:28:12+08:00" content="2019-02-21">
-          02-21
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-      
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2019/02/19/ZFNet论文解读/" itemprop="url">
-              
-                <span itemprop="name">ZFNet论文解读</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2019-02-19T11:18:56+08:00" content="2019-02-19">
-          02-19
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-      
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2019/02/17/AlexNet/" itemprop="url">
-              
-                <span itemprop="name">AlexNet论文解读</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2019-02-17T15:18:24+08:00" content="2019-02-17">
-          02-17
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-      
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2019/02/16/TensorFlow基本概念/" itemprop="url">
-              
-                <span itemprop="name">TensorFlow基本概念</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2019-02-16T10:18:24+08:00" content="2019-02-16">
-          02-16
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-      
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2019/02/11/第十章 认识与学习BASH/" itemprop="url">
-              
-                <span itemprop="name">linux私房菜第10章学习总结</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2019-02-11T22:18:24+08:00" content="2019-02-11">
-          02-11
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-      
-
     </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/贝叶斯/" rel="tag"># 贝叶斯</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/03/11/机器学习笔记_李宏毅（4-6）/" rel="next" title="机器学习笔记_李宏毅（4-6）">
+                <i class="fa fa-chevron-left"></i> 机器学习笔记_李宏毅（4-6）
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
   </div>
   
   
   
-
-  
-  <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/archives/2019/02/page/2/">2</a><a class="extend next" rel="next" href="/archives/2019/02/page/2/"><i class="fa fa-angle-right"></i></a>
-  </nav>
+  </article>
 
 
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -661,6 +472,10 @@
 
 
           
+
+  
+
+
 
         </div>
         
@@ -681,8 +496,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -754,6 +578,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#概率和统计"><span class="nav-number">1.</span> <span class="nav-text">概率和统计</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#频率学派和贝叶斯学派"><span class="nav-number">2.</span> <span class="nav-text">频率学派和贝叶斯学派</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#贝叶斯定理"><span class="nav-number">3.</span> <span class="nav-text">贝叶斯定理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#朴素贝叶斯法"><span class="nav-number">4.</span> <span class="nav-text">朴素贝叶斯法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#最大似然估计（Maximum-likelihood-estimation-MLE）"><span class="nav-number">5.</span> <span class="nav-text">最大似然估计（Maximum likelihood estimation, MLE）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#最大后验概率估计（Maximum-a-posteriori-estimation-MAP）"><span class="nav-number">6.</span> <span class="nav-text">最大后验概率估计（Maximum a posteriori estimation, MAP）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#贝叶斯估计（Bayes-estimation-BS"><span class="nav-number">7.</span> <span class="nav-text">贝叶斯估计（Bayes estimation,BS)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#贝叶斯学习"><span class="nav-number">8.</span> <span class="nav-text">贝叶斯学习</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#备注：本文仅做记录学习心得之用，没有完善公式具体推导等。"><span class="nav-number">9.</span> <span class="nav-text">备注：本文仅做记录学习心得之用，没有完善公式具体推导等。</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -894,6 +734,10 @@
 
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
 
   
 
