@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="Hexo, NexT">
+  <meta name="keywords" content="深度学习,卷积神经网络,">
 
 
 
@@ -79,16 +79,23 @@
 
 
 
-<meta name="description" content="在校计算机研究生一个，主要做视觉和机器学习。专业打酱油。">
-<meta property="og:type" content="website">
-<meta property="og:title" content="摸鱼博客">
-<meta property="og:url" content="http://yoursite.com/categories/pytorch学习/index.html">
+<meta name="description" content="通过分解卷积核和加入正则化，来增大网络。并分享了一些增大网络而不会使性能下降的原则。 大规模网络的设计原则避免特征瓶颈在深度网络中，数据从输入端流向输出端，在训练的时候不能极端压缩表征（大概不能为了减少计算量，采用步长大的卷积核或池化） 更高维度的表示在网络中更容易局部处理。在卷积网络中增加每个图块的激活允许更多解耦的特征。所产生的网络将训练更快。">
+<meta name="keywords" content="深度学习,卷积神经网络">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Inception-V3">
+<meta property="og:url" content="http://yoursite.com/2019/03/14/Inception-V3/index.html">
 <meta property="og:site_name" content="摸鱼博客">
-<meta property="og:description" content="在校计算机研究生一个，主要做视觉和机器学习。专业打酱油。">
+<meta property="og:description" content="通过分解卷积核和加入正则化，来增大网络。并分享了一些增大网络而不会使性能下降的原则。 大规模网络的设计原则避免特征瓶颈在深度网络中，数据从输入端流向输出端，在训练的时候不能极端压缩表征（大概不能为了减少计算量，采用步长大的卷积核或池化） 更高维度的表示在网络中更容易局部处理。在卷积网络中增加每个图块的激活允许更多解耦的特征。所产生的网络将训练更快。">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%B7%B1%E5%BA%A6%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E6%9E%B6%E6%9E%84/inceptionv3_1.png">
+<meta property="og:image" content="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%B7%B1%E5%BA%A6%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E6%9E%B6%E6%9E%84/inceptionv3_2.png">
+<meta property="og:image" content="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%B7%B1%E5%BA%A6%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E6%9E%B6%E6%9E%84/inceptionv3_3.png">
+<meta property="og:image" content="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%B7%B1%E5%BA%A6%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E6%9E%B6%E6%9E%84/inceptionv3_4.png">
+<meta property="og:updated_time" content="2019-03-14T14:12:11.551Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="摸鱼博客">
-<meta name="twitter:description" content="在校计算机研究生一个，主要做视觉和机器学习。专业打酱油。">
+<meta name="twitter:title" content="Inception-V3">
+<meta name="twitter:description" content="通过分解卷积核和加入正则化，来增大网络。并分享了一些增大网络而不会使性能下降的原则。 大规模网络的设计原则避免特征瓶颈在深度网络中，数据从输入端流向输出端，在训练的时候不能极端压缩表征（大概不能为了减少计算量，采用步长大的卷积核或池化） 更高维度的表示在网络中更容易局部处理。在卷积网络中增加每个图块的激活允许更多解耦的特征。所产生的网络将训练更快。">
+<meta name="twitter:image" content="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%B7%B1%E5%BA%A6%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E6%9E%B6%E6%9E%84/inceptionv3_1.png">
 
 
 
@@ -118,13 +125,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/categories/pytorch学习/">
+  <link rel="canonical" href="http://yoursite.com/2019/03/14/Inception-V3/">
 
 
 
 
 
-  <title>分类: pytorch学习 | 摸鱼博客</title>
+  <title>Inception-V3 | 摸鱼博客</title>
   
 
 
@@ -143,7 +150,7 @@
     
   
 
-  <div class="container sidebar-position-left ">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -269,53 +276,193 @@
           <div id="content" class="content">
             
 
-  
-  
-  
-  <div class="post-block category">
+  <div id="posts" class="posts-expand">
+    
 
-    <div id="posts" class="posts-collapse">
-      <div class="collection-title">
-        <h1>pytorch学习<small>分类</small>
-        </h1>
-      </div>
+  
 
-      
-        
+  
+  
+  
 
   <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/14/Inception-V3/">
 
-      <h2 class="post-title">
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="郭某人">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="摸鱼博客">
+    </span>
+
+    
+      <header class="post-header">
+
         
-            <a class="post-title-link" href="/2019/03/08/pytorch入门系列（1)_A 60 Minute BLITZ/" itemprop="url">
-              
-                <span itemprop="name">pytorch入门系列（1)_A 60 Minute BLITZ</span>
-              
-            </a>
         
-      </h2>
+          <h1 class="post-title" itemprop="name headline">Inception-V3</h1>
+        
 
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2019-03-08T19:18:24+08:00" content="2019-03-08">
-          03-08
-        </time>
-      </div>
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-03-14T22:12:24+08:00">
+                2019-03-14
+              </time>
+            
 
-    </header>
-  </article>
+            
 
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/深度学习模型/" itemprop="url" rel="index">
+                    <span itemprop="name">深度学习模型</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>通过分解卷积核和加入正则化，来增大网络。并分享了一些增大网络而不会使性能下降的原则。</p>
+<h3 id="大规模网络的设计原则"><a href="#大规模网络的设计原则" class="headerlink" title="大规模网络的设计原则"></a>大规模网络的设计原则</h3><h4 id="避免特征瓶颈"><a href="#避免特征瓶颈" class="headerlink" title="避免特征瓶颈"></a>避免特征瓶颈</h4><p>在深度网络中，数据从输入端流向输出端，在训练的时候不能极端压缩表征（大概不能为了减少计算量，采用步长大的卷积核或池化）</p>
+<h4 id="更高维度的表示在网络中更容易局部处理。在卷积网络中增加每个图块的激活允许更多解耦的特征。所产生的网络将训练更快。"><a href="#更高维度的表示在网络中更容易局部处理。在卷积网络中增加每个图块的激活允许更多解耦的特征。所产生的网络将训练更快。" class="headerlink" title="更高维度的表示在网络中更容易局部处理。在卷积网络中增加每个图块的激活允许更多解耦的特征。所产生的网络将训练更快。"></a>更高维度的表示在网络中更容易局部处理。在卷积网络中增加每个图块的激活允许更多解耦的特征。所产生的网络将训练更快。</h4><a id="more"></a>
+<p>解释：高维度特征是指网络中经过几层处理后的特征，可以把这些特征可做图片的高级表示，例如不同feature map表示不同特征；处理这样的特征比处理原始图片更加容易。 非线性变化可以解耦和图像的特征，例如把图片内容分开到不同的feature map；增加非线性能更好抽取不同特征，训练更快</p>
+<h4 id="在低维是可以进行空间聚合，而且不会造成太大损失"><a href="#在低维是可以进行空间聚合，而且不会造成太大损失" class="headerlink" title="在低维是可以进行空间聚合，而且不会造成太大损失"></a>在低维是可以进行空间聚合，而且不会造成太大损失</h4><p>猜测是低维数据相邻单元相关性比较强，聚合一下损失的信息不多，而且还能加速网络训练</p>
+<h4 id="平衡网络的宽度和深度"><a href="#平衡网络的宽度和深度" class="headerlink" title="平衡网络的宽度和深度"></a>平衡网络的宽度和深度</h4><p>两者并行增加，则可以达到恒定计算量的最佳改进。因此，计算预算应该在网络的深度和宽度之间以平衡方式进行分配。（照搬论文，没有解释）</p>
+<h3 id="对大滤波器进行因式分解"><a href="#对大滤波器进行因式分解" class="headerlink" title="对大滤波器进行因式分解"></a>对大滤波器进行因式分解</h3><p>这部分是这篇论文的重点和贡献点。</p>
+<h4 id="大卷积变小卷积（这个好像在之前网络就有提出来）"><a href="#大卷积变小卷积（这个好像在之前网络就有提出来）" class="headerlink" title="大卷积变小卷积（这个好像在之前网络就有提出来）"></a>大卷积变小卷积（这个好像在之前网络就有提出来）</h4><p>大卷积的计算量比小卷积大很多，但是大卷积有着更大的感受野，所以考虑用多层小卷积来取代大卷积。</p>
+<p><img src="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%B7%B1%E5%BA%A6%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E6%9E%B6%E6%9E%84/inceptionv3_1.png" alt></p>
+<p>而且经过实验，修正线性单元比线性激活性能好</p>
+<h4 id="因式分解成不对称卷积"><a href="#因式分解成不对称卷积" class="headerlink" title="因式分解成不对称卷积"></a>因式分解成不对称卷积</h4><p>将n<em>n卷积核分解成1\</em>n,后接一个n*1的卷积核，计算量大大减少。但是这么分解在前面的层次不能很好的工作，在中间的特征图上（论文给出12到20之间）表现良好。</p>
+<p><img src="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%B7%B1%E5%BA%A6%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E6%9E%B6%E6%9E%84/inceptionv3_2.png" alt></p>
+<h3 id="辅助分类器"><a href="#辅助分类器" class="headerlink" title="辅助分类器"></a>辅助分类器</h3><p>辅助分类器就是V1上那两个在中间层经过softmax以一定权重直接送到最后的技巧。</p>
+<p>之前的认为这个是解决梯度消失问题，把下层的梯度送到最后，有助于演变底层的特征很有可能是不对的。因为把最下面的移除，结果没有变化。</p>
+<p>论文认为这个方式就是正则化的变形。</p>
+<p>（结构太复杂，没有理论研究，论文是通过实验来猜想，没有确凿证据）</p>
+<h4 id="网格尺寸减少"><a href="#网格尺寸减少" class="headerlink" title="网格尺寸减少"></a>网格尺寸减少</h4><p>为了避免之前说的陷入特征瓶颈（也就是要保证有足够的特征往后传播），在池化前会增加滤波器的数量来保持特征，但是这样又会增加计算量。如下第一图右边左式，然后提出了一种并行结构，下图第二图所示，左边卷积右边池化。</p>
+<p><img src="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%B7%B1%E5%BA%A6%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E6%9E%B6%E6%9E%84/inceptionv3_3.png" alt></p>
+<p><img src="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%B7%B1%E5%BA%A6%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E6%9E%B6%E6%9E%84/inceptionv3_4.png" alt></p>
+<h3 id="光滑标签来正则化分类层"><a href="#光滑标签来正则化分类层" class="headerlink" title="光滑标签来正则化分类层"></a>光滑标签来正则化分类层</h3><p>损失函数定义为交叉熵函数，论文觉得这会发生过拟合。所以对训练样本的标签加入一项均匀分布，下式第一项就是数据中的分布，第二项是固定分布。（称为LSR,或者标签平滑正则化，论文中有较为详细的公式推导）</p>
+<p>​     q′(k|x)=(1−ϵ)δk,y+ϵu(k)</p>
+<h3 id="处理低分辨率输入"><a href="#处理低分辨率输入" class="headerlink" title="处理低分辨率输入"></a>处理低分辨率输入</h3><p>通常方法是使用高分辨率感受野的模型，但是作者认为这是高分辨率需要的高计算量带来的效果。在一样的计算量限制中，低分辨率虽然训练比较慢，但是达到的效果还是差不多。</p>
+<p>作者给了一个推荐的方法，在较低分辨率输入的情况下，减少前两层的步长，或者简单地移除网络的第一个池化层。</p>
 
       
     </div>
+    
+    
+    
 
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/深度学习/" rel="tag"># 深度学习</a>
+          
+            <a href="/tags/卷积神经网络/" rel="tag"># 卷积神经网络</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/03/14/机器学习笔记_李宏毅（7-9）/" rel="next" title="机器学习笔记_李宏毅（7-9）">
+                <i class="fa fa-chevron-left"></i> 机器学习笔记_李宏毅（7-9）
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
   </div>
   
   
   
+  </article>
 
-  
 
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -323,6 +470,10 @@
 
 
           
+
+  
+
+
 
         </div>
         
@@ -343,8 +494,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -416,6 +576,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#大规模网络的设计原则"><span class="nav-number">1.</span> <span class="nav-text">大规模网络的设计原则</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#避免特征瓶颈"><span class="nav-number">1.1.</span> <span class="nav-text">避免特征瓶颈</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#更高维度的表示在网络中更容易局部处理。在卷积网络中增加每个图块的激活允许更多解耦的特征。所产生的网络将训练更快。"><span class="nav-number">1.2.</span> <span class="nav-text">更高维度的表示在网络中更容易局部处理。在卷积网络中增加每个图块的激活允许更多解耦的特征。所产生的网络将训练更快。</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#在低维是可以进行空间聚合，而且不会造成太大损失"><span class="nav-number">1.3.</span> <span class="nav-text">在低维是可以进行空间聚合，而且不会造成太大损失</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#平衡网络的宽度和深度"><span class="nav-number">1.4.</span> <span class="nav-text">平衡网络的宽度和深度</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#对大滤波器进行因式分解"><span class="nav-number">2.</span> <span class="nav-text">对大滤波器进行因式分解</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#大卷积变小卷积（这个好像在之前网络就有提出来）"><span class="nav-number">2.1.</span> <span class="nav-text">大卷积变小卷积（这个好像在之前网络就有提出来）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#因式分解成不对称卷积"><span class="nav-number">2.2.</span> <span class="nav-text">因式分解成不对称卷积</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#辅助分类器"><span class="nav-number">3.</span> <span class="nav-text">辅助分类器</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#网格尺寸减少"><span class="nav-number">3.1.</span> <span class="nav-text">网格尺寸减少</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#光滑标签来正则化分类层"><span class="nav-number">4.</span> <span class="nav-text">光滑标签来正则化分类层</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#处理低分辨率输入"><span class="nav-number">5.</span> <span class="nav-text">处理低分辨率输入</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -556,6 +732,10 @@
 
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
 
   
 
