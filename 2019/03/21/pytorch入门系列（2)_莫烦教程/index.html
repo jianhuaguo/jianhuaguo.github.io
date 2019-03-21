@@ -79,18 +79,18 @@
 
 
 
-<meta name="description" content="pytorch建计算图是动态图，TensorFlow是静态图  pytorch和numpy的对比12345678910111213import torchimport numpy as npnp_data = np.arange(6).reshape((2, 3))#将numpy转化为torchtorch_data = torch.from_numpy(np_data) #将torch再表示为n">
+<meta name="description" content="pytorch建计算图是动态图，TensorFlow是静态图  pytorch和numpy的对比">
 <meta name="keywords" content="pytorch">
 <meta property="og:type" content="article">
 <meta property="og:title" content="pytorch入门系列（2)_莫烦教程">
 <meta property="og:url" content="http://yoursite.com/2019/03/21/pytorch入门系列（2)_莫烦教程/index.html">
 <meta property="og:site_name" content="摸鱼博客">
-<meta property="og:description" content="pytorch建计算图是动态图，TensorFlow是静态图  pytorch和numpy的对比12345678910111213import torchimport numpy as npnp_data = np.arange(6).reshape((2, 3))#将numpy转化为torchtorch_data = torch.from_numpy(np_data) #将torch再表示为n">
+<meta property="og:description" content="pytorch建计算图是动态图，TensorFlow是静态图  pytorch和numpy的对比">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-03-21T02:57:26.119Z">
+<meta property="og:updated_time" content="2019-03-21T03:14:02.767Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="pytorch入门系列（2)_莫烦教程">
-<meta name="twitter:description" content="pytorch建计算图是动态图，TensorFlow是静态图  pytorch和numpy的对比12345678910111213import torchimport numpy as npnp_data = np.arange(6).reshape((2, 3))#将numpy转化为torchtorch_data = torch.from_numpy(np_data) #将torch再表示为n">
+<meta name="twitter:description" content="pytorch建计算图是动态图，TensorFlow是静态图  pytorch和numpy的对比">
 
 
 
@@ -377,7 +377,8 @@
         <ul>
 <li>pytorch建计算图是动态图，TensorFlow是静态图</li>
 </ul>
-<h3 id="pytorch和numpy的对比"><a href="#pytorch和numpy的对比" class="headerlink" title="pytorch和numpy的对比"></a>pytorch和numpy的对比</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> torch</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line">np_data = np.arange(<span class="number">6</span>).reshape((<span class="number">2</span>, <span class="number">3</span>))</span><br><span class="line"><span class="comment">#将numpy转化为torch</span></span><br><span class="line">torch_data = torch.from_numpy(np_data) </span><br><span class="line"><span class="comment">#将torch再表示为numpy的</span></span><br><span class="line">tensor2array = torch_data.numpy()</span><br><span class="line">print(</span><br><span class="line">    <span class="string">'\nnumpy array:'</span>, np_data,          <span class="comment"># [[0 1 2], [3 4 5]]</span></span><br><span class="line">    <span class="string">'\ntorch tensor:'</span>, torch_data,      <span class="comment">#  0  1  2 \n 3  4  5    [torch.LongTensor of size 2x3]</span></span><br><span class="line">    <span class="string">'\ntensor to array:'</span>, tensor2array, <span class="comment"># [[0 1 2], [3 4 5]]</span></span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<h3 id="pytorch和numpy的对比"><a href="#pytorch和numpy的对比" class="headerlink" title="pytorch和numpy的对比"></a>pytorch和numpy的对比</h3><a id="more"></a>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> torch</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line">np_data = np.arange(<span class="number">6</span>).reshape((<span class="number">2</span>, <span class="number">3</span>))</span><br><span class="line"><span class="comment">#将numpy转化为torch</span></span><br><span class="line">torch_data = torch.from_numpy(np_data) </span><br><span class="line"><span class="comment">#将torch再表示为numpy的</span></span><br><span class="line">tensor2array = torch_data.numpy()</span><br><span class="line">print(</span><br><span class="line">    <span class="string">'\nnumpy array:'</span>, np_data,          <span class="comment"># [[0 1 2], [3 4 5]]</span></span><br><span class="line">    <span class="string">'\ntorch tensor:'</span>, torch_data,      <span class="comment">#  0  1  2 \n 3  4  5    [torch.LongTensor of size 2x3]</span></span><br><span class="line">    <span class="string">'\ntensor to array:'</span>, tensor2array, <span class="comment"># [[0 1 2], [3 4 5]]</span></span><br><span class="line">)</span><br></pre></td></tr></table></figure>
 <h3 id="Variable"><a href="#Variable" class="headerlink" title="Variable"></a>Variable</h3><ul>
 <li><p>variable和Tensor的差别就体现在反向求导时，variable本身就是一个数据格式</p>
 <p>variable设计是为了用来求导的，variable中grad(梯度)，data(数据，是tensor的形式)</p>
