@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="深度学习,卷积神经网络,">
+  <meta name="keywords" content="机器学习,">
 
 
 
@@ -79,21 +79,32 @@
 
 
 
-<meta name="description" content="提升网络性能一般都是提高网络的深度和宽度，这将带来参数过多，难以训练等问题。本文作者想着用稀疏结构来取代传统的密集连接。由于当下硬件更为支持密集数据的计算，作者提出了Inception这一架构近似的最优局部稀疏结构，将稀疏矩阵聚类为相对密集的子矩阵。 注意：Inception的作用可以近似地解释为：替代了人工确定卷积层中过滤器的类型或者是否创建卷积层和池化层，让网络自己学习它具体需要什么参数。 贡">
-<meta name="keywords" content="深度学习,卷积神经网络">
+<meta name="description" content="Lecture 10 Convolutional Neural Network为什么要有卷积来处理图像 图像拉成一个向量的话 ，有很多维，如果用一般的全连接神经网络来处理，参数太多了。  特征往往只在图像的一小部分，只需要读一部分图像就能找到我们想要用以区分的特征  在不同图像或者整张图像的不同尺寸的不同部分可能有相同的特征，要是把整张图片喂给网络的话，可能就比较难找到他们的相似。">
+<meta name="keywords" content="机器学习">
 <meta property="og:type" content="article">
-<meta property="og:title" content="GoogLeNet论文解读">
-<meta property="og:url" content="http://yoursite.com/2019/02/22/GoogLeNet论文解读/index.html">
+<meta property="og:title" content="机器学习笔记_李宏毅（0-3）">
+<meta property="og:url" content="http://yoursite.com/2019/03/10/机器学习笔记_李宏毅（10-12）/index.html">
 <meta property="og:site_name" content="摸鱼博客">
-<meta property="og:description" content="提升网络性能一般都是提高网络的深度和宽度，这将带来参数过多，难以训练等问题。本文作者想着用稀疏结构来取代传统的密集连接。由于当下硬件更为支持密集数据的计算，作者提出了Inception这一架构近似的最优局部稀疏结构，将稀疏矩阵聚类为相对密集的子矩阵。 注意：Inception的作用可以近似地解释为：替代了人工确定卷积层中过滤器的类型或者是否创建卷积层和池化层，让网络自己学习它具体需要什么参数。 贡">
+<meta property="og:description" content="Lecture 10 Convolutional Neural Network为什么要有卷积来处理图像 图像拉成一个向量的话 ，有很多维，如果用一般的全连接神经网络来处理，参数太多了。  特征往往只在图像的一小部分，只需要读一部分图像就能找到我们想要用以区分的特征  在不同图像或者整张图像的不同尺寸的不同部分可能有相同的特征，要是把整张图片喂给网络的话，可能就比较难找到他们的相似。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%B7%B1%E5%BA%A6%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E6%9E%B6%E6%9E%84/Inception.png">
-<meta property="og:image" content="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%B7%B1%E5%BA%A6%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E6%9E%B6%E6%9E%84/googLeNet.jpg">
-<meta property="og:updated_time" content="2019-02-22T04:24:20.166Z">
+<meta property="og:image" content="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%9D%8E%E5%AE%8F%E6%AF%8510_1.png">
+<meta property="og:image" content="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%9D%8E%E5%AE%8F%E6%AF%8510_2.png">
+<meta property="og:image" content="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%9D%8E%E5%AE%8F%E6%AF%8510_3.png">
+<meta property="og:image" content="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%9D%8E%E5%AE%8F%E6%AF%8510_4.png">
+<meta property="og:image" content="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%9D%8E%E5%AE%8F%E6%AF%8510_5.png">
+<meta property="og:image" content="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%9D%8E%E5%AE%8F%E6%AF%8512_1.png">
+<meta property="og:image" content="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%9D%8E%E5%AE%8F%E6%AF%8512_2.png">
+<meta property="og:image" content="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%9D%8E%E5%AE%8F%E6%AF%8512_3.png">
+<meta property="og:image" content="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%9D%8E%E5%AE%8F%E6%AF%8512_4.png">
+<meta property="og:image" content="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%9D%8E%E5%AE%8F%E6%AF%8512_5.png">
+<meta property="og:image" content="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%9D%8E%E5%AE%8F%E6%AF%8512_6.png">
+<meta property="og:image" content="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%9D%8E%E5%AE%8F%E6%AF%8512_7.png">
+<meta property="og:image" content="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%9D%8E%E5%AE%8F%E6%AF%8512_8.png">
+<meta property="og:updated_time" content="2019-03-16T07:31:44.103Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="GoogLeNet论文解读">
-<meta name="twitter:description" content="提升网络性能一般都是提高网络的深度和宽度，这将带来参数过多，难以训练等问题。本文作者想着用稀疏结构来取代传统的密集连接。由于当下硬件更为支持密集数据的计算，作者提出了Inception这一架构近似的最优局部稀疏结构，将稀疏矩阵聚类为相对密集的子矩阵。 注意：Inception的作用可以近似地解释为：替代了人工确定卷积层中过滤器的类型或者是否创建卷积层和池化层，让网络自己学习它具体需要什么参数。 贡">
-<meta name="twitter:image" content="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%B7%B1%E5%BA%A6%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E6%9E%B6%E6%9E%84/Inception.png">
+<meta name="twitter:title" content="机器学习笔记_李宏毅（0-3）">
+<meta name="twitter:description" content="Lecture 10 Convolutional Neural Network为什么要有卷积来处理图像 图像拉成一个向量的话 ，有很多维，如果用一般的全连接神经网络来处理，参数太多了。  特征往往只在图像的一小部分，只需要读一部分图像就能找到我们想要用以区分的特征  在不同图像或者整张图像的不同尺寸的不同部分可能有相同的特征，要是把整张图片喂给网络的话，可能就比较难找到他们的相似。">
+<meta name="twitter:image" content="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%9D%8E%E5%AE%8F%E6%AF%8510_1.png">
 
 
 
@@ -123,13 +134,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2019/02/22/GoogLeNet论文解读/">
+  <link rel="canonical" href="http://yoursite.com/2019/03/10/机器学习笔记_李宏毅（10-12）/">
 
 
 
 
 
-  <title>GoogLeNet论文解读 | 摸鱼博客</title>
+  <title>机器学习笔记_李宏毅（0-3） | 摸鱼博客</title>
   
 
 
@@ -288,7 +299,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/02/22/GoogLeNet论文解读/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/10/机器学习笔记_李宏毅（10-12）/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="郭某人">
@@ -305,7 +316,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">GoogLeNet论文解读</h1>
+          <h1 class="post-title" itemprop="name headline">机器学习笔记_李宏毅（0-3）</h1>
         
 
         <div class="post-meta">
@@ -317,8 +328,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-02-22T12:28:12+08:00">
-                2019-02-22
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-03-10T14:27:24+08:00">
+                2019-03-10
               </time>
             
 
@@ -340,8 +351,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/深度学习模型/" itemprop="url" rel="index">
-                    <span itemprop="name">深度学习模型</span>
+                  <a href="/categories/机器学习/" itemprop="url" rel="index">
+                    <span itemprop="name">机器学习</span>
                   </a>
                 </span>
 
@@ -377,27 +388,91 @@
       
 
       
-        <p>提升网络性能一般都是提高网络的深度和宽度，这将带来参数过多，难以训练等问题。本文作者想着用稀疏结构来取代传统的密集连接。由于当下硬件更为支持密集数据的计算，作者提出了<strong>Inception</strong>这一架构近似的最优局部稀疏结构，将稀疏矩阵聚类为相对密集的子矩阵。</p>
-<p><strong>注意：Inception的作用可以近似地解释为：替代了人工确定卷积层中过滤器的类型或者是否创建卷积层和池化层，让网络自己学习它具体需要什么参数。</strong></p>
-<h3 id="贡献点"><a href="#贡献点" class="headerlink" title="贡献点"></a>贡献点</h3><ul>
-<li><p>提出Inception这一全新架构，是稀疏连接的代表</p>
+        <h2 id="Lecture-10-Convolutional-Neural-Network"><a href="#Lecture-10-Convolutional-Neural-Network" class="headerlink" title="Lecture 10 Convolutional Neural Network"></a>Lecture 10 Convolutional Neural Network</h2><h3 id="为什么要有卷积来处理图像"><a href="#为什么要有卷积来处理图像" class="headerlink" title="为什么要有卷积来处理图像"></a>为什么要有卷积来处理图像</h3><ul>
+<li><p>图像拉成一个向量的话 ，有很多维，如果用一般的全连接神经网络来处理，参数太多了。</p>
 </li>
-<li><p>多尺度卷积核，最后处理聚合</p>
+<li><p>特征往往只在图像的一小部分，只需要读一部分图像就能找到我们想要用以区分的特征</p>
 </li>
-<li><p>通过引进$1 \times 1$小卷积核来降低维度</p>
-</li>
-<li><p>为了避免梯度消失，在架构中增加了两个辅助的softmax用于向前传导梯度，并以较小的权重（0.3）加到最终分类结果，有些正则化的意思</p>
+<li><p>在不同图像或者整张图像的不同尺寸的不同部分可能有相同的特征，要是把整张图片喂给网络的话，可能就比较难找到他们的相似。</p>
+<a id="more"></a>
 </li>
 </ul>
-<a id="more"></a>
-<h3 id="理论基础"><a href="#理论基础" class="headerlink" title="理论基础"></a>理论基础</h3><p>网络的规模的增大，有两个主要缺点。一是更大的尺寸需要更多的参数，也有着更大的过拟合的可能性。第二个缺点是更大的网络自然需要更大的训练集，而训练集的获得需要很大的成本。深度网络的实用性和性能的增长都陷入了瓶颈。</p>
-<p>作者引进稀疏性来解决以上问题，但是由于当下的计算架构不是很支持稀疏数据结构的数值计算。Inception就是利用滤波器水平的稀疏性，但又利用密集矩阵计算来利用目前的硬件。出于便利性，架构的滤波器仅有$1 \times 1$,$3 \times 3$,$5 \times 5$,由于池化操作的良好表现，又加入一个并行的池化路径。（玄学？）初始架构如下图（a),后加入$1 \times 1​$滤波器来降维，如下图（b).</p>
-<p><img src="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%B7%B1%E5%BA%A6%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E6%9E%B6%E6%9E%84/Inception.png" alt="1"></p>
-<h3 id="具体架构"><a href="#具体架构" class="headerlink" title="具体架构"></a>具体架构</h3><p>GoogLeNet是Inception的一个应用，前几层是常见的卷积网络，接下来就是以上所说的Inception结构，最后为了方便泛化到其他数据集还加上一个额外的线性层。虽然移除了全连接层，还是用了70%的dropout策略。（具体在哪用，论文没表述）</p>
-<p>为了有效的训练，同时考虑到中间层产生的特征具有一定的是别离，在中间层加了一些softmax层，并以一定权重直接加到最后的结果中，在后面的控制训练中，发现这些辅助网络影响相对较小，只需要一个就能取得一样的效果。</p>
-<p>训练方法就是正常的BP算法，图像块的采样是随机采样，在图像的$8\%-100\%$上，方向角限制在$[\frac{3}{4},\frac{4}{3}]​$之间，光度扭曲被使用。测试时采用多尺度多方位采样，在比赛中作者采样了144个，在实际中可能不需要这么多数据。</p>
-<p>详细框架如下图</p>
-<p><img src="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%B7%B1%E5%BA%A6%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E6%9E%B6%E6%9E%84/googLeNet.jpg" alt></p>
+<p><img src="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%9D%8E%E5%AE%8F%E6%AF%8510_1.png" alt></p>
+<h3 id="卷积的各个部件"><a href="#卷积的各个部件" class="headerlink" title="卷积的各个部件"></a>卷积的各个部件</h3><p>卷积网络实际上就是去掉一些权重的神经网络，并且共享一些权重，所以训练也是BP,共享权重就把要共享的权重求出来再平均。</p>
+<p><img src="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%9D%8E%E5%AE%8F%E6%AF%8510_2.png" alt></p>
+<h4 id="池化层"><a href="#池化层" class="headerlink" title="池化层"></a>池化层</h4><p>池化层有最大池化核平均池化。</p>
+<h4 id="flatten和全连接"><a href="#flatten和全连接" class="headerlink" title="flatten和全连接"></a>flatten和全连接</h4><h3 id="CNN学习了什么"><a href="#CNN学习了什么" class="headerlink" title="CNN学习了什么"></a>CNN学习了什么</h3><p>可以把输入图片做参数，找到使某一个卷积核激励最大的图片，观察这个卷积核和图片的关系。</p>
+<p><img src="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%9D%8E%E5%AE%8F%E6%AF%8510_3.png" alt></p>
+<p><img src="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%9D%8E%E5%AE%8F%E6%AF%8510_4.png" alt></p>
+<p><img src="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%9D%8E%E5%AE%8F%E6%AF%8510_5.png" alt></p>
+<h4 id="Deep-Dream"><a href="#Deep-Dream" class="headerlink" title="Deep Dream"></a>Deep Dream</h4><p>机器增加他所看到的东西</p>
+<h4 id="Deep-Style"><a href="#Deep-Style" class="headerlink" title="Deep Style"></a>Deep Style</h4><p>让一些照片相似于一些名画的风格</p>
+<h3 id="CNN的应用"><a href="#CNN的应用" class="headerlink" title="CNN的应用"></a>CNN的应用</h3><ul>
+<li>围棋</li>
+</ul>
+<p>围棋用全连接就能工作了，但是用CNN有着更好的表现。Alpho go 没有用池化层，要针对事物的本质来设计网络架构。</p>
+<ul>
+<li><p>语音识别</p>
+<p>spectrogram.一张时间和频率的二维图。滤波器一般只在频率轴上移动，不在时间轴上移动。 </p>
+</li>
+<li><p>文字处理</p>
+<p>word embeding,把文字序列当成向量。滤波器只在时间轴上移动。</p>
+</li>
+</ul>
+<h2 id="Lecture-11-Why-Deep"><a href="#Lecture-11-Why-Deep" class="headerlink" title="Lecture 11 Why Deep"></a>Lecture 11 Why Deep</h2><p>实验证明，差不多的参数，瘦长的网络结构要比矮胖的表现好。</p>
+<h3 id="逻辑上解释"><a href="#逻辑上解释" class="headerlink" title="逻辑上解释"></a>逻辑上解释</h3><p>类似于模组化。更深的网络，使更多的模块相对独立，从而可以重复使用。好比写程序不能什么都写在主函数里，多写几个子函数方便调用。</p>
+<p>虽然说理论上一个隐藏层就可以模仿所有函数，但是这个效率明显不如深层网络</p>
+<p>实现端到端的任务，少了很多人去提取特征的环节，不管是语音还是图像。</p>
+<h3 id="类比（analogy"><a href="#类比（analogy" class="headerlink" title="类比（analogy)"></a>类比（analogy)</h3><p>多层电路可以用更少的元器件实现我们想要实现的功能</p>
+<h3 id="语音上用到deep-learning"><a href="#语音上用到deep-learning" class="headerlink" title="语音上用到deep learning"></a>语音上用到deep learning</h3><p>语言是由phoneme（类似音标）组成的，每个phoneme的发音（不同顺序组成了tri-phone)又都有好几种。</p>
+<h4 id="步骤"><a href="#步骤" class="headerlink" title="步骤"></a>步骤</h4><ul>
+<li><p>把acoustic转成state</p>
+<p>acoustic:声音信号是一段波浪信号，在信号上截取一个窗口，用特征来描述这个窗口就叫做acoustic feature。一串声音信号转换之后就叫做acoustic feature sequence.</p>
+</li>
+<li><p>然后把state转成phoneme，再将phoneme转成文字</p>
+</li>
+<li><p>接下来还要考虑同音异字的问题</p>
+</li>
+</ul>
+<h4 id="传统方法和CNN做比较"><a href="#传统方法和CNN做比较" class="headerlink" title="传统方法和CNN做比较"></a>传统方法和CNN做比较</h4><ul>
+<li><p>HMM-GMM</p>
+<p>传统方法，假设每一个state的acoustic feature是固定分布的。但是搭配之后的模型太多了，参数也就不多了。</p>
+</li>
+<li><p>实际上发音是有联系的，和深度学习的模块化有点相似，实际上用到的参数还不如GMM。</p>
+</li>
+</ul>
+<h2 id="Lecture-12-Semi-supervised"><a href="#Lecture-12-Semi-supervised" class="headerlink" title="Lecture 12 Semi-supervised"></a>Lecture 12 Semi-supervised</h2><h3 id="基本定义"><a href="#基本定义" class="headerlink" title="基本定义"></a>基本定义</h3><p>有两部分数据，一部分是有标签，一部分没有标签。一般来说，没有标签的数据远远大于有标签的数据。</p>
+<p>半监督学习有两种，一种叫做Transductive learning,另一种叫做inductive learning。在训练过程中，已知testing data（unlabelled data）是transductive learing，在训练过程中，并不知道testing data ，训练好模型后去解决未知的testing data 是inductive learing。</p>
+<h3 id="为什么要半监督学习"><a href="#为什么要半监督学习" class="headerlink" title="为什么要半监督学习"></a>为什么要半监督学习</h3><p>虽然可以获取很多数据，但是有标签的数据很少。而且人在成长过程中也不会什么事都有lable，需要根据之前有标签的数据去学习这些没有标签的数据。</p>
+<h3 id="为什么半监督学习有用"><a href="#为什么半监督学习有用" class="headerlink" title="为什么半监督学习有用"></a>为什么半监督学习有用</h3><h4 id="在产生模型的使用使用半监督学习"><a href="#在产生模型的使用使用半监督学习" class="headerlink" title="在产生模型的使用使用半监督学习"></a>在产生模型的使用使用半监督学习</h4><p><img src="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%9D%8E%E5%AE%8F%E6%AF%8512_1.png" alt></p>
+<p><img src="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%9D%8E%E5%AE%8F%E6%AF%8512_2.png" alt></p>
+<p><img src="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%9D%8E%E5%AE%8F%E6%AF%8512_3.png" alt></p>
+<h4 id="Low-density-Separation"><a href="#Low-density-Separation" class="headerlink" title="Low-density Separation"></a>Low-density Separation</h4><p>意思是几个类别之间有明显的分界线，未标记数据都是非黑即白的。</p>
+<h5 id="Self-training："><a href="#Self-training：" class="headerlink" title="Self-training："></a>Self-training：</h5><p>（不能用在回归问题）和之前的用高斯分布生成模型很像，只是这个无标签数据加的标签是固定的，而之前那个是带可能性的。对于神经网络结构，self-training是有用的，但是soft-lable是不起工作。</p>
+<p><img src="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%9D%8E%E5%AE%8F%E6%AF%8512_4.png" alt></p>
+<h5 id="Entropy-based-Regularization："><a href="#Entropy-based-Regularization：" class="headerlink" title="Entropy-based Regularization："></a>Entropy-based Regularization：</h5><p>假设数据的标签是有分布，需要找出一个参数使分布集中于某一类的分布。所以用交叉熵来表示这部分并加入到最后损失函数的计算。</p>
+<p><img src="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%9D%8E%E5%AE%8F%E6%AF%8512_5.png" alt></p>
+<h5 id="Semi-supervised-SVM"><a href="#Semi-supervised-SVM" class="headerlink" title="Semi-supervised SVM"></a>Semi-supervised SVM</h5><p>把损失分成两部分，一个有标签数据的分割线，第二个所有可能数据而产生的分割线。找一条分割线使有标签的数据分得尽可能开，也使未标记的数据的错误率尽可能低。</p>
+<p><img src="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%9D%8E%E5%AE%8F%E6%AF%8512_6.png" alt></p>
+<h5 id="Smoothness-Assumption"><a href="#Smoothness-Assumption" class="headerlink" title="Smoothness Assumption"></a>Smoothness Assumption</h5><p>思想：近朱者赤近墨者黑</p>
+<p>如果未标记数据和标记数据之间有足够多的相似的过渡，可以假设这个未标记数据的标签可能和标记数据一样。</p>
+<p><img src="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%9D%8E%E5%AE%8F%E6%AF%8512_7.png" alt></p>
+<p>具体操作的方法：</p>
+<ul>
+<li>先聚类，再分类</li>
+</ul>
+<p>或者</p>
+<ul>
+<li><p>Graph-based Approach</p>
+<p>A点能不能通过graph上的边走到B点，建graph的方法是很重要的。一个常用方法是</p>
+<ul>
+<li>先描述各个点之间的相似程度（比如RBM)</li>
+<li>然后根据这些相似度在点之间加边。这些边也可以加上权重</li>
+</ul>
+</li>
+</ul>
+<p><img src="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%9D%8E%E5%AE%8F%E6%AF%8512_8.png" alt></p>
+<p>最后的损失函数就是加上分类之后的所有数据的光滑度（也就是所有标签相同的数据之间的距离和）</p>
 
       
     </div>
@@ -415,9 +490,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/深度学习/" rel="tag"># 深度学习</a>
-          
-            <a href="/tags/卷积神经网络/" rel="tag"># 卷积神经网络</a>
+            <a href="/tags/机器学习/" rel="tag"># 机器学习</a>
           
         </div>
       
@@ -430,8 +503,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/02/21/VGG论文解读/" rel="next" title="VGG论文解读">
-                <i class="fa fa-chevron-left"></i> VGG论文解读
+              <a href="/2019/03/10/机器学习笔记_李宏毅（0-3）/" rel="next" title="机器学习笔记_李宏毅（0-3）">
+                <i class="fa fa-chevron-left"></i> 机器学习笔记_李宏毅（0-3）
               </a>
             
           </div>
@@ -440,8 +513,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2019/02/23/ResNet论文解读/" rel="prev" title="ResNet论文解读">
-                ResNet论文解读 <i class="fa fa-chevron-right"></i>
+              <a href="/2019/03/11/机器学习笔记_李宏毅（4-6）/" rel="prev" title="机器学习笔记_李宏毅（4-6）">
+                机器学习笔记_李宏毅（4-6） <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -586,7 +659,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#贡献点"><span class="nav-number">1.</span> <span class="nav-text">贡献点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#理论基础"><span class="nav-number">2.</span> <span class="nav-text">理论基础</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#具体架构"><span class="nav-number">3.</span> <span class="nav-text">具体架构</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Lecture-10-Convolutional-Neural-Network"><span class="nav-number">1.</span> <span class="nav-text">Lecture 10 Convolutional Neural Network</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#为什么要有卷积来处理图像"><span class="nav-number">1.1.</span> <span class="nav-text">为什么要有卷积来处理图像</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#卷积的各个部件"><span class="nav-number">1.2.</span> <span class="nav-text">卷积的各个部件</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#池化层"><span class="nav-number">1.2.1.</span> <span class="nav-text">池化层</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#flatten和全连接"><span class="nav-number">1.2.2.</span> <span class="nav-text">flatten和全连接</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CNN学习了什么"><span class="nav-number">1.3.</span> <span class="nav-text">CNN学习了什么</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Deep-Dream"><span class="nav-number">1.3.1.</span> <span class="nav-text">Deep Dream</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Deep-Style"><span class="nav-number">1.3.2.</span> <span class="nav-text">Deep Style</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CNN的应用"><span class="nav-number">1.4.</span> <span class="nav-text">CNN的应用</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Lecture-11-Why-Deep"><span class="nav-number">2.</span> <span class="nav-text">Lecture 11 Why Deep</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#逻辑上解释"><span class="nav-number">2.1.</span> <span class="nav-text">逻辑上解释</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#类比（analogy"><span class="nav-number">2.2.</span> <span class="nav-text">类比（analogy)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#语音上用到deep-learning"><span class="nav-number">2.3.</span> <span class="nav-text">语音上用到deep learning</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#步骤"><span class="nav-number">2.3.1.</span> <span class="nav-text">步骤</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#传统方法和CNN做比较"><span class="nav-number">2.3.2.</span> <span class="nav-text">传统方法和CNN做比较</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Lecture-12-Semi-supervised"><span class="nav-number">3.</span> <span class="nav-text">Lecture 12 Semi-supervised</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#基本定义"><span class="nav-number">3.1.</span> <span class="nav-text">基本定义</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#为什么要半监督学习"><span class="nav-number">3.2.</span> <span class="nav-text">为什么要半监督学习</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#为什么半监督学习有用"><span class="nav-number">3.3.</span> <span class="nav-text">为什么半监督学习有用</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#在产生模型的使用使用半监督学习"><span class="nav-number">3.3.1.</span> <span class="nav-text">在产生模型的使用使用半监督学习</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Low-density-Separation"><span class="nav-number">3.3.2.</span> <span class="nav-text">Low-density Separation</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#Self-training："><span class="nav-number">3.3.2.1.</span> <span class="nav-text">Self-training：</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Entropy-based-Regularization："><span class="nav-number">3.3.2.2.</span> <span class="nav-text">Entropy-based Regularization：</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Semi-supervised-SVM"><span class="nav-number">3.3.2.3.</span> <span class="nav-text">Semi-supervised SVM</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Smoothness-Assumption"><span class="nav-number">3.3.2.4.</span> <span class="nav-text">Smoothness Assumption</span></a></li></ol></li></ol></li></ol></li></ol></div>
             
 
           </div>

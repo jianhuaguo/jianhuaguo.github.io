@@ -284,6 +284,459 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/21/pytorch入门系列（2)_莫烦教程/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="郭某人">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="摸鱼博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/03/21/pytorch入门系列（2)_莫烦教程/" itemprop="url">pytorch入门系列（2)_莫烦教程</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-03-21T10:18:24+08:00">
+                2019-03-21
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/pytorch学习/" itemprop="url" rel="index">
+                    <span itemprop="name">pytorch学习</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <ul>
+<li>pytorch建计算图是动态图，TensorFlow是静态图</li>
+</ul>
+<h3 id="pytorch和numpy的对比"><a href="#pytorch和numpy的对比" class="headerlink" title="pytorch和numpy的对比"></a>pytorch和numpy的对比</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> torch</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line">np_data = np.arange(<span class="number">6</span>).reshape((<span class="number">2</span>, <span class="number">3</span>))</span><br><span class="line"><span class="comment">#将numpy转化为torch</span></span><br><span class="line">torch_data = torch.from_numpy(np_data) </span><br><span class="line"><span class="comment">#将torch再表示为numpy的</span></span><br><span class="line">tensor2array = torch_data.numpy()</span><br><span class="line">print(</span><br><span class="line">    <span class="string">'\nnumpy array:'</span>, np_data,          <span class="comment"># [[0 1 2], [3 4 5]]</span></span><br><span class="line">    <span class="string">'\ntorch tensor:'</span>, torch_data,      <span class="comment">#  0  1  2 \n 3  4  5    [torch.LongTensor of size 2x3]</span></span><br><span class="line">    <span class="string">'\ntensor to array:'</span>, tensor2array, <span class="comment"># [[0 1 2], [3 4 5]]</span></span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<h3 id="Variable"><a href="#Variable" class="headerlink" title="Variable"></a>Variable</h3><ul>
+<li><p>variable和Tensor的差别就体现在反向求导时，variable本身就是一个数据格式</p>
+<p>variable设计是为了用来求导的，variable中grad(梯度)，data(数据，是tensor的形式)</p>
+</li>
+</ul>
+<h3 id="激励函数"><a href="#激励函数" class="headerlink" title="激励函数"></a>激励函数</h3><p>解决不能线性方程求解的问题</p>
+<p>卷积神经网络中常用的是Relu</p>
+<p>在循环神经网络中常用的tanh或者Relu</p>
+<h3 id="建造一个回归网络"><a href="#建造一个回归网络" class="headerlink" title="建造一个回归网络"></a>建造一个回归网络</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> torch</span><br><span class="line"><span class="keyword">import</span> torch.nn.functional <span class="keyword">as</span> F</span><br><span class="line"><span class="keyword">from</span> torch.autograd <span class="keyword">import</span> Variable</span><br><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line"></span><br><span class="line">x = torch.unsqueeze(torch.linspace(<span class="number">-1</span>, <span class="number">1</span>, <span class="number">100</span>), dim=<span class="number">1</span>)  <span class="comment"># x data (tensor), shape=(100, 1) 升维 后面的dim表示将升的放在哪维去</span></span><br><span class="line">y = x.pow(<span class="number">2</span>) + <span class="number">0.2</span>*torch.rand(x.size())                 <span class="comment"># noisy y data (tensor), shape=(100, 1)</span></span><br><span class="line"></span><br><span class="line">x,y=Variable(x),Variable(y)</span><br><span class="line"><span class="comment"># 画图</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Net</span><span class="params">(torch.nn.Module)</span>:</span>  <span class="comment"># 继承 torch 的 Module</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, n_feature, n_hidden, n_output)</span>:</span></span><br><span class="line">        super(Net, self).__init__()     <span class="comment"># 继承 __init__ 功能</span></span><br><span class="line">        <span class="comment"># 定义每层用什么样的形式</span></span><br><span class="line">        self.hidden = torch.nn.Linear(n_feature, n_hidden)   <span class="comment"># 隐藏层线性输出</span></span><br><span class="line">        self.predict = torch.nn.Linear(n_hidden, n_output)   <span class="comment"># 输出层线性输出</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">forward</span><span class="params">(self, x)</span>:</span>   <span class="comment"># 这同时也是 Module 中的 forward 功能</span></span><br><span class="line">        <span class="comment"># 正向传播输入值, 神经网络分析出输出值</span></span><br><span class="line">        x = F.relu(self.hidden(x))      <span class="comment"># 激励函数(隐藏层的线性值)</span></span><br><span class="line">        x = self.predict(x)             <span class="comment"># 输出值</span></span><br><span class="line">        <span class="keyword">return</span> x</span><br><span class="line"></span><br><span class="line">net = Net(n_feature=<span class="number">1</span>, n_hidden=<span class="number">10</span>, n_output=<span class="number">1</span>)</span><br><span class="line"></span><br><span class="line">print(net)  <span class="comment"># net 的结构</span></span><br><span class="line">plt.ion()   <span class="comment"># 画图 实时输出</span></span><br><span class="line">plt.show()</span><br><span class="line">optimizer=torch.optim.SGD(net.parameters(),lr=<span class="number">0.5</span>)<span class="comment">#定义优化器</span></span><br><span class="line">loss_func=torch.nn.MSELoss()</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> t <span class="keyword">in</span> range(<span class="number">100</span>):<span class="comment">#开始训练</span></span><br><span class="line">    prediction = net(x)     <span class="comment"># 喂给 net 训练数据 x, 输出预测值</span></span><br><span class="line"></span><br><span class="line">    loss = loss_func(prediction, y)     <span class="comment"># 计算两者的误差</span></span><br><span class="line"></span><br><span class="line">    optimizer.zero_grad()   <span class="comment"># 清空上一步的残余更新参数值</span></span><br><span class="line">    loss.backward()         <span class="comment"># 误差反向传播, 计算参数更新值 对于损失函数使用.backward()</span></span><br><span class="line">    optimizer.step()        <span class="comment"># 将参数更新值施加到 net 的 parameters 上</span></span><br><span class="line">    <span class="keyword">if</span> t % <span class="number">5</span> == <span class="number">0</span>:</span><br><span class="line">        <span class="comment"># plot and show learning process</span></span><br><span class="line">        plt.cla()</span><br><span class="line">        plt.scatter(x.data.numpy(), y.data.numpy())</span><br><span class="line">        plt.plot(x.data.numpy(), prediction.data.numpy(), <span class="string">'r-'</span>, lw=<span class="number">5</span>)</span><br><span class="line">        plt.text(<span class="number">0.5</span>, <span class="number">0</span>, <span class="string">'Loss=%.4f'</span> % loss.data.numpy(), fontdict=&#123;<span class="string">'size'</span>: <span class="number">20</span>, <span class="string">'color'</span>:  <span class="string">'red'</span>&#125;)</span><br><span class="line">        plt.pause(<span class="number">0.1</span>)</span><br></pre></td></tr></table></figure>
+<h3 id="一个分类网络"><a href="#一个分类网络" class="headerlink" title="一个分类网络"></a>一个分类网络</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> torch</span><br><span class="line"><span class="keyword">import</span> torch.nn.functional <span class="keyword">as</span> F</span><br><span class="line"><span class="keyword">from</span> torch.autograd <span class="keyword">import</span> Variable</span><br><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line"></span><br><span class="line"><span class="comment"># 假数据</span></span><br><span class="line">n_data = torch.ones(<span class="number">100</span>, <span class="number">2</span>)         <span class="comment"># 数据的基本形态</span></span><br><span class="line">x0 = torch.normal(<span class="number">2</span>*n_data, <span class="number">1</span>)      <span class="comment"># 类型0 x data (tensor), shape=(100, 2)</span></span><br><span class="line"></span><br><span class="line">y0 = torch.zeros(<span class="number">100</span>)               <span class="comment"># 类型0 y data (tensor), shape=(100, 1)</span></span><br><span class="line">x1 = torch.normal(<span class="number">-2</span>*n_data, <span class="number">1</span>)     <span class="comment"># 类型1 x data (tensor), shape=(100, 1)</span></span><br><span class="line">y1 = torch.ones(<span class="number">100</span>)                <span class="comment"># 类型1 y data (tensor), shape=(100, 1)</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 注意 x, y 数据的数据形式是一定要像下面一样 (torch.cat 是在合并数据,第二个参数表示要合并第几维)</span></span><br><span class="line">x = torch.cat((x0, x1),<span class="number">0</span>).type(torch.FloatTensor)  <span class="comment"># FloatTensor = 32-bit floating</span></span><br><span class="line">y = torch.cat((y0, y1), ).type(torch.LongTensor)    <span class="comment"># LongTensor = 64-bit integer</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#[:]表示复制这个列表</span></span><br><span class="line"><span class="comment">#plt.scatter(x.data.numpy()[:, 1], x.data.numpy()[:, 0], c=y.data.numpy(), s=100, lw=0, cmap='RdYlGn')</span></span><br><span class="line"><span class="comment">#plt.show()</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Net</span><span class="params">(torch.nn.Module)</span>:</span>     <span class="comment"># 继承 torch 的 Module</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, n_feature, n_hidden, n_output)</span>:</span></span><br><span class="line">        super(Net, self).__init__()     <span class="comment"># 继承 __init__ 功能</span></span><br><span class="line">        self.hidden = torch.nn.Linear(n_feature, n_hidden)   <span class="comment"># 隐藏层线性输出</span></span><br><span class="line">        self.out = torch.nn.Linear(n_hidden, n_output)       <span class="comment"># 输出层线性输出</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">forward</span><span class="params">(self, x)</span>:</span></span><br><span class="line">        <span class="comment"># 正向传播输入值, 神经网络分析出输出值</span></span><br><span class="line">        x = F.relu(self.hidden(x))      <span class="comment"># 激励函数(隐藏层的线性值)</span></span><br><span class="line">        x = self.out(x)                 <span class="comment"># 输出值, 但是这个不是预测值, 预测值还需要再另外计算</span></span><br><span class="line">        <span class="keyword">return</span> x</span><br><span class="line"></span><br><span class="line">net = Net(n_feature=<span class="number">2</span>, n_hidden=<span class="number">10</span>, n_output=<span class="number">2</span>) <span class="comment"># 几个类别就几个 output</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># optimizer 是训练的工具</span></span><br><span class="line">optimizer = torch.optim.SGD(net.parameters(), lr=<span class="number">0.02</span>)  <span class="comment"># 传入 net 的所有参数, 学习率</span></span><br><span class="line"><span class="comment"># 算误差的时候, 注意真实值!不是! one-hot 形式的, 而是1D Tensor, (batch,)</span></span><br><span class="line"><span class="comment"># 但是预测值是2D tensor (batch, n_classes) 不同维度的放在一起算交叉熵</span></span><br><span class="line">loss_func = torch.nn.CrossEntropyLoss()</span><br><span class="line">plt.ion()   <span class="comment"># 画图</span></span><br><span class="line">plt.show()</span><br><span class="line"><span class="keyword">for</span> t <span class="keyword">in</span> range(<span class="number">100</span>):</span><br><span class="line">    out = net(x)     <span class="comment"># 喂给 net 训练数据 x, 输出分析值</span></span><br><span class="line">    print(out.size())</span><br><span class="line">    print(y.size())</span><br><span class="line">    loss = loss_func(out, y)     <span class="comment"># 计算两者的误差</span></span><br><span class="line"></span><br><span class="line">    optimizer.zero_grad()   <span class="comment"># 清空上一步的残余更新参数值</span></span><br><span class="line">    loss.backward()         <span class="comment"># 误差反向传播, 计算参数更新值</span></span><br><span class="line">    optimizer.step()        <span class="comment"># 将参数更新值施加到 net 的 parameters 上</span></span><br><span class="line">    <span class="keyword">if</span> t % <span class="number">2</span> == <span class="number">0</span>:</span><br><span class="line">        plt.cla()</span><br><span class="line">        <span class="comment"># 过了一道 softmax 的激励函数后的最大概率才是预测值</span></span><br><span class="line">        prediction = torch.max(F.softmax(out), <span class="number">1</span>)[<span class="number">1</span>]</span><br><span class="line">        pred_y = prediction.data.numpy().squeeze()</span><br><span class="line">        target_y = y.data.numpy()</span><br><span class="line">        plt.scatter(x.data.numpy()[:, <span class="number">0</span>], x.data.numpy()[:, <span class="number">1</span>], c=pred_y, s=<span class="number">100</span>, lw=<span class="number">0</span>, cmap=<span class="string">'RdYlGn'</span>)</span><br><span class="line">        accuracy = sum(pred_y == target_y) / <span class="number">200.</span>  <span class="comment"># 预测中有多少和真实值一样</span></span><br><span class="line">        plt.text(<span class="number">1.5</span>, <span class="number">-4</span>, <span class="string">'Accuracy=%.2f'</span> % accuracy, fontdict=&#123;<span class="string">'size'</span>: <span class="number">20</span>, <span class="string">'color'</span>: <span class="string">'red'</span>&#125;)</span><br><span class="line">        plt.pause(<span class="number">0.1</span>)</span><br><span class="line"></span><br><span class="line">    plt.ioff()  <span class="comment"># 停止画图</span></span><br><span class="line">    plt.show()</span><br></pre></td></tr></table></figure>
+<h3 id="快速搭建法"><a href="#快速搭建法" class="headerlink" title="快速搭建法"></a>快速搭建法</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#搭建网络可以不用创建类</span></span><br><span class="line">net2 = torch.nn.Sequential(</span><br><span class="line">    torch.nn.Linear(<span class="number">1</span>, <span class="number">10</span>),</span><br><span class="line">    torch.nn.ReLU(),</span><br><span class="line">    torch.nn.Linear(<span class="number">10</span>, <span class="number">1</span>)</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<h3 id="保存提取"><a href="#保存提取" class="headerlink" title="保存提取"></a>保存提取</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line">torch.manual_seed(<span class="number">1</span>)    <span class="comment"># reproducible</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 假数据</span></span><br><span class="line">x = torch.unsqueeze(torch.linspace(<span class="number">-1</span>, <span class="number">1</span>, <span class="number">100</span>), dim=<span class="number">1</span>)  <span class="comment"># x data (tensor), shape=(100, 1)</span></span><br><span class="line">y = x.pow(<span class="number">2</span>) + <span class="number">0.2</span>*torch.rand(x.size())  <span class="comment"># noisy y data (tensor), shape=(100, 1)</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">save</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="comment"># 建网络</span></span><br><span class="line">    net1 = torch.nn.Sequential(</span><br><span class="line">        torch.nn.Linear(<span class="number">1</span>, <span class="number">10</span>),</span><br><span class="line">        torch.nn.ReLU(),</span><br><span class="line">        torch.nn.Linear(<span class="number">10</span>, <span class="number">1</span>)</span><br><span class="line">    )</span><br><span class="line">    optimizer = torch.optim.SGD(net1.parameters(), lr=<span class="number">0.5</span>)</span><br><span class="line">    loss_func = torch.nn.MSELoss()</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 训练</span></span><br><span class="line">    <span class="keyword">for</span> t <span class="keyword">in</span> range(<span class="number">100</span>):</span><br><span class="line">        prediction = net1(x)</span><br><span class="line">        loss = loss_func(prediction, y)</span><br><span class="line">        optimizer.zero_grad()</span><br><span class="line">        loss.backward()</span><br><span class="line">        optimizer.step()</span><br><span class="line">torch.save(net1, <span class="string">'net.pkl'</span>)  <span class="comment"># 保存整个网络</span></span><br><span class="line">torch.save(net1.state_dict(), <span class="string">'net_params.pkl'</span>)   <span class="comment"># 只保存网络中的参数 (速度快, 占内存少) </span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">#提取网络</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">restore_net</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="comment"># restore entire net1 to net2</span></span><br><span class="line">    net2 = torch.load(<span class="string">'net.pkl'</span>)</span><br><span class="line">    prediction = net2(x)</span><br><span class="line">    </span><br><span class="line"> <span class="comment">#提取之前训练的所有参数 这个需要先构建一样的网络</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">restore_params</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="comment"># 新建 net3</span></span><br><span class="line">    net3 = torch.nn.Sequential(</span><br><span class="line">        torch.nn.Linear(<span class="number">1</span>, <span class="number">10</span>),</span><br><span class="line">        torch.nn.ReLU(),</span><br><span class="line">        torch.nn.Linear(<span class="number">10</span>, <span class="number">1</span>)</span><br><span class="line">    )</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 将保存的参数复制到 net3</span></span><br><span class="line">    net3.load_state_dict(torch.load(<span class="string">'net_params.pkl'</span>))</span><br><span class="line">    prediction = net3(x)</span><br></pre></td></tr></table></figure>
+<h3 id="批数据训练"><a href="#批数据训练" class="headerlink" title="批数据训练"></a>批数据训练</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> torch</span><br><span class="line"><span class="keyword">import</span> torch.utils.data <span class="keyword">as</span> Data</span><br><span class="line">torch.manual_seed(<span class="number">1</span>)    <span class="comment"># reproducible</span></span><br><span class="line"></span><br><span class="line">BATCH_SIZE = <span class="number">5</span>      <span class="comment"># 批训练的数据个数</span></span><br><span class="line"></span><br><span class="line">x = torch.linspace(<span class="number">1</span>, <span class="number">10</span>, <span class="number">10</span>)       <span class="comment"># x data (torch tensor)</span></span><br><span class="line">y = torch.linspace(<span class="number">10</span>, <span class="number">1</span>, <span class="number">10</span>)       <span class="comment"># y data (torch tensor)</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 先转换成 torch 能识别的 Dataset</span></span><br><span class="line">torch_dataset = Data.TensorDataset(x, y)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 把 dataset 放入 DataLoader 每次加载数据库中的batch_size个数据</span></span><br><span class="line">loader = Data.DataLoader(</span><br><span class="line">    dataset=torch_dataset,      <span class="comment"># torch TensorDataset format</span></span><br><span class="line">    batch_size=BATCH_SIZE,      <span class="comment"># mini batch size</span></span><br><span class="line">    shuffle=<span class="literal">True</span>,               <span class="comment"># 要不要打乱数据 (打乱比较好)</span></span><br><span class="line">    num_workers=<span class="number">2</span>,              <span class="comment"># 多线程来读数据</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> epoch <span class="keyword">in</span> range(<span class="number">3</span>):   <span class="comment"># 训练所有!整套!数据 3 次</span></span><br><span class="line">    <span class="keyword">for</span> step, (batch_x, batch_y) <span class="keyword">in</span> enumerate(loader):  <span class="comment"># 每一步 loader 释放一小批数据用来学习</span></span><br><span class="line">        <span class="comment"># 假设这里就是你训练的地方...</span></span><br><span class="line"></span><br><span class="line">        <span class="comment"># 打出来一些数据</span></span><br><span class="line">        print(<span class="string">'Epoch: '</span>, epoch, <span class="string">'| Step: '</span>, step, <span class="string">'| batch x: '</span>,</span><br><span class="line">              batch_x.numpy(), <span class="string">'| batch y: '</span>, batch_y.numpy())</span><br></pre></td></tr></table></figure>
+<h3 id="优化器"><a href="#优化器" class="headerlink" title="优化器"></a>优化器</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> torch</span><br><span class="line"><span class="keyword">import</span> torch.utils.data <span class="keyword">as</span> Data</span><br><span class="line"><span class="keyword">import</span> torch.nn.functional <span class="keyword">as</span> F</span><br><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line"></span><br><span class="line">torch.manual_seed(<span class="number">1</span>)    <span class="comment"># reproducible</span></span><br><span class="line"></span><br><span class="line">LR = <span class="number">0.01</span></span><br><span class="line">BATCH_SIZE = <span class="number">32</span></span><br><span class="line">EPOCH = <span class="number">12</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># fake dataset</span></span><br><span class="line">x = torch.unsqueeze(torch.linspace(<span class="number">-1</span>, <span class="number">1</span>, <span class="number">1000</span>), dim=<span class="number">1</span>)</span><br><span class="line">y = x.pow(<span class="number">2</span>) + <span class="number">0.1</span>*torch.normal(torch.zeros(*x.size()))</span><br><span class="line"></span><br><span class="line"><span class="comment"># plot dataset</span></span><br><span class="line">plt.scatter(x.numpy(), y.numpy())</span><br><span class="line">plt.show()</span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用上节内容提到的 data loader</span></span><br><span class="line">torch_dataset = Data.TensorDataset(x, y)</span><br><span class="line">loader = Data.DataLoader(dataset=torch_dataset, batch_size=BATCH_SIZE, shuffle=<span class="literal">True</span>, num_workers=<span class="number">2</span>,)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 默认的 network 形式</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Net</span><span class="params">(torch.nn.Module)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></span><br><span class="line">        super(Net, self).__init__()</span><br><span class="line">        self.hidden = torch.nn.Linear(<span class="number">1</span>, <span class="number">20</span>)   <span class="comment"># hidden layer</span></span><br><span class="line">        self.predict = torch.nn.Linear(<span class="number">20</span>, <span class="number">1</span>)   <span class="comment"># output layer</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">forward</span><span class="params">(self, x)</span>:</span></span><br><span class="line">        x = F.relu(self.hidden(x))      <span class="comment"># activation function for hidden layer</span></span><br><span class="line">        x = self.predict(x)             <span class="comment"># linear output</span></span><br><span class="line">        <span class="keyword">return</span> x</span><br><span class="line"></span><br><span class="line"><span class="comment"># 为每个优化器创建一个 net</span></span><br><span class="line">net_SGD         = Net()</span><br><span class="line">net_Momentum    = Net()</span><br><span class="line">net_RMSprop     = Net()</span><br><span class="line">net_Adam        = Net()</span><br><span class="line">nets = [net_SGD, net_Momentum, net_RMSprop, net_Adam]</span><br><span class="line"></span><br><span class="line"><span class="comment"># different optimizers</span></span><br><span class="line">opt_SGD         = torch.optim.SGD(net_SGD.parameters(), lr=LR)</span><br><span class="line">opt_Momentum    = torch.optim.SGD(net_Momentum.parameters(), lr=LR, momentum=<span class="number">0.8</span>)</span><br><span class="line">opt_RMSprop     = torch.optim.RMSprop(net_RMSprop.parameters(), lr=LR, alpha=<span class="number">0.9</span>)</span><br><span class="line">opt_Adam        = torch.optim.Adam(net_Adam.parameters(), lr=LR, betas=(<span class="number">0.9</span>, <span class="number">0.99</span>))</span><br><span class="line">optimizers = [opt_SGD, opt_Momentum, opt_RMSprop, opt_Adam]</span><br><span class="line"></span><br><span class="line">loss_func = torch.nn.MSELoss()</span><br><span class="line">losses_his = [[], [], [], []]   <span class="comment"># 记录 training 时不同神经网络的 loss</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> epoch <span class="keyword">in</span> range(EPOCH):</span><br><span class="line">    print(<span class="string">'Epoch: '</span>, epoch)</span><br><span class="line">    <span class="keyword">for</span> step, (b_x, b_y) <span class="keyword">in</span> enumerate(loader):</span><br><span class="line"></span><br><span class="line">        <span class="comment"># 对每个优化器, 优化属于他的神经网络</span></span><br><span class="line">        <span class="keyword">for</span> net, opt, l_his <span class="keyword">in</span> zip(nets, optimizers, losses_his):</span><br><span class="line">            output = net(b_x)              <span class="comment"># get output for every net</span></span><br><span class="line">            loss = loss_func(output, b_y)  <span class="comment"># compute loss for every net</span></span><br><span class="line">            opt.zero_grad()                <span class="comment"># clear gradients for next train</span></span><br><span class="line">            loss.backward()                <span class="comment"># backpropagation, compute gradients</span></span><br><span class="line">            opt.step()                     <span class="comment"># apply gradients</span></span><br><span class="line">            l_his.append(loss.data.numpy())     <span class="comment"># loss recoder</span></span><br><span class="line">  labels = [<span class="string">'SGD'</span>, <span class="string">'Momentum'</span>, <span class="string">'RMSprop'</span>, <span class="string">'Adam'</span>]</span><br><span class="line"><span class="keyword">for</span> i, l_his <span class="keyword">in</span> enumerate(losses_his):</span><br><span class="line">    plt.plot(l_his, label=labels[i])</span><br><span class="line">    plt.legend(loc=<span class="string">'best'</span>)</span><br><span class="line">    plt.xlabel(<span class="string">'Steps'</span>)</span><br><span class="line">    plt.ylabel(<span class="string">'Loss'</span>)</span><br><span class="line">    plt.ylim((<span class="number">0</span>, <span class="number">0.2</span>))</span><br><span class="line">    plt.show()</span><br></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/17/2019 3_10-3_16周报/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="郭某人">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="摸鱼博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/03/17/2019 3_10-3_16周报/" itemprop="url">2019 3_10-3_16周报</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-03-17T11:18:24+08:00">
+                2019-03-17
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/周报/" itemprop="url" rel="index">
+                    <span itemprop="name">周报</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h3 id="这周完成的事"><a href="#这周完成的事" class="headerlink" title="这周完成的事"></a>这周完成的事</h3>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2019/03/17/2019 3_10-3_16周报/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/16/Inception-v4和Inception_ResNet/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="郭某人">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="摸鱼博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/03/16/Inception-v4和Inception_ResNet/" itemprop="url">Inception-v4和Inception_ResNet</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-03-16T11:12:24+08:00">
+                2019-03-16
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/深度学习模型/" itemprop="url" rel="index">
+                    <span itemprop="name">深度学习模型</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>这篇论文主要提出了两种架构，inception的又一个inception V4和inception 与residual架构相结合的Inception-Resnet架构。</p>
+<p>具体这篇论文没有什么理论，就是把两种热门架构融合在一起，然后改善了结果。</p>
+<h3 id="Inception-V4"><a href="#Inception-V4" class="headerlink" title="Inception-V4"></a>Inception-V4</h3>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2019/03/16/Inception-v4和Inception_ResNet/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/14/Inception-V3/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -884,6 +1337,157 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/10/机器学习笔记_李宏毅（10-12）/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="郭某人">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="摸鱼博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/03/10/机器学习笔记_李宏毅（10-12）/" itemprop="url">机器学习笔记_李宏毅（0-3）</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-03-10T14:27:24+08:00">
+                2019-03-10
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/机器学习/" itemprop="url" rel="index">
+                    <span itemprop="name">机器学习</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h2 id="Lecture-10-Convolutional-Neural-Network"><a href="#Lecture-10-Convolutional-Neural-Network" class="headerlink" title="Lecture 10 Convolutional Neural Network"></a>Lecture 10 Convolutional Neural Network</h2><h3 id="为什么要有卷积来处理图像"><a href="#为什么要有卷积来处理图像" class="headerlink" title="为什么要有卷积来处理图像"></a>为什么要有卷积来处理图像</h3><ul>
+<li><p>图像拉成一个向量的话 ，有很多维，如果用一般的全连接神经网络来处理，参数太多了。</p>
+</li>
+<li><p>特征往往只在图像的一小部分，只需要读一部分图像就能找到我们想要用以区分的特征</p>
+</li>
+<li><p>在不同图像或者整张图像的不同尺寸的不同部分可能有相同的特征，要是把整张图片喂给网络的话，可能就比较难找到他们的相似。</p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2019/03/10/机器学习笔记_李宏毅（10-12）/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </li></ul></div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/10/机器学习笔记_李宏毅（0-3）/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1172,610 +1776,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/08/pytorch入门系列（1)_A 60 Minute BLITZ/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="郭某人">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/avatar.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="摸鱼博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/03/08/pytorch入门系列（1)_A 60 Minute BLITZ/" itemprop="url">pytorch入门系列（1)_A 60 Minute BLITZ</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-03-08T19:18:24+08:00">
-                2019-03-08
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/pytorch学习/" itemprop="url" rel="index">
-                    <span itemprop="name">pytorch学习</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h2 id="A-60-MINUTE-BLITZ"><a href="#A-60-MINUTE-BLITZ" class="headerlink" title="A 60 MINUTE BLITZ"></a>A 60 MINUTE BLITZ</h2><h3 id="What-is-pytorch"><a href="#What-is-pytorch" class="headerlink" title="What is pytorch"></a>What is pytorch</h3><p>基于python的计算包，两个主要目的</p>
-<p>​    一、类似于numpy，但是能调用gpu进行运算</p>
-<p>​    二、为深度学习研究提供便利性</p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2019/03/08/pytorch入门系列（1)_A 60 Minute BLITZ/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/08/python入门系列（1）_莫烦/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="郭某人">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/avatar.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="摸鱼博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/03/08/python入门系列（1）_莫烦/" itemprop="url">python入门系列（1）_基于莫烦教程</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-03-08T09:18:24+08:00">
-                2019-03-08
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/python学习/" itemprop="url" rel="index">
-                    <span itemprop="name">python学习</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h3 id="基本语法"><a href="#基本语法" class="headerlink" title="基本语法"></a>基本语法</h3><ul>
-<li><p>python的没有多次方符号^,二次方$<strong>$，三次方$</strong>3$，以此类推</p>
-</li>
-<li><p>如果0作为while的条件，将被视为false；其他数字都是true</p>
-</li>
-<li><p>如果集合，如list,tuple,dict等作为while的条件，如果集合中的元素数量为0，那么将被视为false;否则被视为true;</p>
-</li>
-<li><p>range()可以产生一个序列</p>
-<p>​    如果是range(start,stop),则左边是闭区间，左边是开区间，如range(1,10)会产生1到9</p>
-<p>​    如果省略了start,则将从0开始</p>
-<p>​    如果是range(start,stop,step),表示间隔取数，直到大于或者等于stop</p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2019/03/08/python入门系列（1）_莫烦/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </li></ul></div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/07/Inception-V2(BN论文解读）/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="郭某人">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/avatar.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="摸鱼博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/03/07/Inception-V2(BN论文解读）/" itemprop="url">Inception-V2(BN论文解读）</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-03-07T22:18:24+08:00">
-                2019-03-07
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/深度学习模型/" itemprop="url" rel="index">
-                    <span itemprop="name">深度学习模型</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>Batch Normalization是加速深度学习的重要方法，被广泛应用在各种网络中。简单来说，训练数据分布大致相同对训练来说很有帮助，而且BN就是在帮助数据归一化，提高泛化能力。</p>
-<h3 id="名词解释"><a href="#名词解释" class="headerlink" title="名词解释"></a>名词解释</h3><ul>
-<li><p>internal convariate shift</p>
-<p>当底层的参数变化时，相应输出变化，并将作用在上层的参数并被放大。论文中表述，在深层网络训练的过程中，由于网络中参数变化而引起内部结点数据分布发生变化的这一过程被称作Internal Covariate Shift。</p>
-</li>
-<li><p>whitening</p>
-<p>以前用以归一化的方法，让输入数据具有相同的方差，均值为0，同时去掉特征之间的相关性（具体怎么做，论文并没有提到）</p>
-<p>但是白化有两个很大缺点，一是数据量太大，需要对每一轮训练的每一层都进行白化；二是改变了网络的每一次的分布</p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2019/03/07/Inception-V2(BN论文解读）/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </li></ul></div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/01/Linux服务器安装anaconda,cuda,pytorch/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="郭某人">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/avatar.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="摸鱼博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/03/01/Linux服务器安装anaconda,cuda,pytorch/" itemprop="url">Linux服务器安装anaconda，cuda和pytorch</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-03-01T09:49:24+08:00">
-                2019-03-01
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/linux学习/" itemprop="url" rel="index">
-                    <span itemprop="name">linux学习</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>之前用的是学姐的anaconda，安装一些包时候，很多文件权限老是访问不了。所以需要在自己的文件目录下安装anaconda。</p>
-<h3 id="安装anaconda"><a href="#安装anaconda" class="headerlink" title="安装anaconda"></a>安装anaconda</h3>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2019/03/01/Linux服务器安装anaconda,cuda,pytorch/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -1828,7 +1828,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">25</span>
+                  <span class="site-state-item-count">29</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>

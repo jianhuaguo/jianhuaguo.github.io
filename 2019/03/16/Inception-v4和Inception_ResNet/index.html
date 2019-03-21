@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="Hexo, NexT">
+  <meta name="keywords" content="深度学习,卷积神经网络,">
 
 
 
@@ -79,16 +79,24 @@
 
 
 
-<meta name="description" content="在校计算机研究生一个，主要做视觉和机器学习。专业打酱油。">
-<meta property="og:type" content="website">
-<meta property="og:title" content="摸鱼博客">
-<meta property="og:url" content="http://yoursite.com/tags/python/index.html">
+<meta name="description" content="这篇论文主要提出了两种架构，inception的又一个inception V4和inception 与residual架构相结合的Inception-Resnet架构。 具体这篇论文没有什么理论，就是把两种热门架构融合在一起，然后改善了结果。 Inception-V4">
+<meta name="keywords" content="深度学习,卷积神经网络">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Inception-v4和Inception_ResNet">
+<meta property="og:url" content="http://yoursite.com/2019/03/16/Inception-v4和Inception_ResNet/index.html">
 <meta property="og:site_name" content="摸鱼博客">
-<meta property="og:description" content="在校计算机研究生一个，主要做视觉和机器学习。专业打酱油。">
+<meta property="og:description" content="这篇论文主要提出了两种架构，inception的又一个inception V4和inception 与residual架构相结合的Inception-Resnet架构。 具体这篇论文没有什么理论，就是把两种热门架构融合在一起，然后改善了结果。 Inception-V4">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%B7%B1%E5%BA%A6%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E6%9E%B6%E6%9E%84/Inception_V4.png">
+<meta property="og:image" content="https://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%B7%B1%E5%BA%A6%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E6%9E%B6%E6%9E%84/Inceptionv4_1.png">
+<meta property="og:image" content="https://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%B7%B1%E5%BA%A6%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E6%9E%B6%E6%9E%84/inceptionv4_2.png">
+<meta property="og:image" content="https://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%B7%B1%E5%BA%A6%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E6%9E%B6%E6%9E%84/Inception_ResNet.png">
+<meta property="og:image" content="https://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%B7%B1%E5%BA%A6%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E6%9E%B6%E6%9E%84/Inceptionv4_3.png">
+<meta property="og:updated_time" content="2019-03-16T03:21:51.015Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="摸鱼博客">
-<meta name="twitter:description" content="在校计算机研究生一个，主要做视觉和机器学习。专业打酱油。">
+<meta name="twitter:title" content="Inception-v4和Inception_ResNet">
+<meta name="twitter:description" content="这篇论文主要提出了两种架构，inception的又一个inception V4和inception 与residual架构相结合的Inception-Resnet架构。 具体这篇论文没有什么理论，就是把两种热门架构融合在一起，然后改善了结果。 Inception-V4">
+<meta name="twitter:image" content="https://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%B7%B1%E5%BA%A6%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E6%9E%B6%E6%9E%84/Inception_V4.png">
 
 
 
@@ -118,13 +126,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/tags/python/">
+  <link rel="canonical" href="http://yoursite.com/2019/03/16/Inception-v4和Inception_ResNet/">
 
 
 
 
 
-  <title>标签: python | 摸鱼博客</title>
+  <title>Inception-v4和Inception_ResNet | 摸鱼博客</title>
   
 
 
@@ -143,7 +151,7 @@
     
   
 
-  <div class="container sidebar-position-left ">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -269,78 +277,186 @@
           <div id="content" class="content">
             
 
-  
-  
-  
-  <div class="post-block tag">
+  <div id="posts" class="posts-expand">
+    
 
-    <div id="posts" class="posts-collapse">
-      <div class="collection-title">
-        <h1>python<small>标签</small>
-        </h1>
-      </div>
+  
 
-      
-        
+  
+  
+  
 
   <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/16/Inception-v4和Inception_ResNet/">
 
-      <h2 class="post-title">
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="郭某人">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="摸鱼博客">
+    </span>
+
+    
+      <header class="post-header">
+
         
-            <a class="post-title-link" href="/2019/03/08/python入门系列（1）_莫烦/" itemprop="url">
-              
-                <span itemprop="name">python入门系列（1）_基于莫烦教程</span>
-              
-            </a>
         
-      </h2>
+          <h1 class="post-title" itemprop="name headline">Inception-v4和Inception_ResNet</h1>
+        
 
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2019-03-08T09:18:24+08:00" content="2019-03-08">
-          03-08
-        </time>
-      </div>
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-03-16T11:12:24+08:00">
+                2019-03-16
+              </time>
+            
 
-    </header>
-  </article>
+            
 
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/深度学习模型/" itemprop="url" rel="index">
+                    <span itemprop="name">深度学习模型</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
 
       
-        
+      
 
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2019/02/25/了解Anaconda和Conda/" itemprop="url">
-              
-                <span itemprop="name">了解Anaconda和Conda</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2019-02-25T18:18:24+08:00" content="2019-02-25">
-          02-25
-        </time>
-      </div>
-
-    </header>
-  </article>
-
+      
+        <p>这篇论文主要提出了两种架构，inception的又一个inception V4和inception 与residual架构相结合的Inception-Resnet架构。</p>
+<p>具体这篇论文没有什么理论，就是把两种热门架构融合在一起，然后改善了结果。</p>
+<h3 id="Inception-V4"><a href="#Inception-V4" class="headerlink" title="Inception-V4"></a>Inception-V4</h3><a id="more"></a>
+<p>inceptionv4在v3的版本上，增多了一些层次，使结构更复杂。为了减少计算量，引进了两个reduction模块，利用v3讲过的并行，不对称卷积和$1 \times 1$卷积来减少计算量。以下三图分别是总设计图、Inception部分、reduction部分。</p>
+<p><img src="https://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%B7%B1%E5%BA%A6%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E6%9E%B6%E6%9E%84/Inception_V4.png" alt></p>
+<p><img src="https://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%B7%B1%E5%BA%A6%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E6%9E%B6%E6%9E%84/Inceptionv4_1.png" alt></p>
+<p><img src="https://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%B7%B1%E5%BA%A6%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E6%9E%B6%E6%9E%84/inceptionv4_2.png" alt></p>
+<h3 id="Inception-ResNet"><a href="#Inception-ResNet" class="headerlink" title="Inception_ResNet"></a>Inception_ResNet</h3><p>论文设计了两种Inception_ResNet,Inception_Resnet_v1跟Inception_v3计算量大致相同。在Inception_Resnet中，为了节约计算量并且多塞几个Inception模块，没有对所有层使用BN。Inception_Resnet_V2和Inception_V4大致计算量相同。以下两张图分别是总设计图、Inception_Resnet部分.</p>
+<p><img src="https://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%B7%B1%E5%BA%A6%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E6%9E%B6%E6%9E%84/Inception_ResNet.png" alt></p>
+<p><img src="https://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%B7%B1%E5%BA%A6%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E6%9E%B6%E6%9E%84/Inceptionv4_3.png" alt></p>
+<h3 id="残参模块的不稳定性"><a href="#残参模块的不稳定性" class="headerlink" title="残参模块的不稳定性"></a>残参模块的不稳定性</h3><p>当滤波器很多时（超过1000），残差网络会不稳定。之前的做法是先用小的学习率再用大的学习率，本篇论文觉得以上不管用，提出了放缩的做法，将残差模块送到激活层之前乘一个放缩因子（0.1到0.3）</p>
+<h3 id="结果"><a href="#结果" class="headerlink" title="结果"></a>结果</h3><p>InceptionV4和Inception_resnet的准确度大似相同，但是有残差模块训练会快很多。</p>
 
       
     </div>
+    
+    
+    
 
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/深度学习/" rel="tag"># 深度学习</a>
+          
+            <a href="/tags/卷积神经网络/" rel="tag"># 卷积神经网络</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/03/14/Inception-V3/" rel="next" title="Inception-V3">
+                <i class="fa fa-chevron-left"></i> Inception-V3
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/03/17/2019 3_10-3_16周报/" rel="prev" title="2019 3_10-3_16周报">
+                2019 3_10-3_16周报 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
   </div>
   
   
   
+  </article>
 
-  
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -348,6 +464,10 @@
 
 
           
+
+  
+
+
 
         </div>
         
@@ -368,8 +488,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -441,6 +570,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Inception-V4"><span class="nav-number">1.</span> <span class="nav-text">Inception-V4</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Inception-ResNet"><span class="nav-number">2.</span> <span class="nav-text">Inception_ResNet</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#残参模块的不稳定性"><span class="nav-number">3.</span> <span class="nav-text">残参模块的不稳定性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#结果"><span class="nav-number">4.</span> <span class="nav-text">结果</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -581,6 +726,10 @@
 
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
 
   
 
