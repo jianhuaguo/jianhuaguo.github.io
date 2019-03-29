@@ -82,8 +82,8 @@
 <meta name="description" content="Lecture 10 Convolutional Neural Network为什么要有卷积来处理图像 图像拉成一个向量的话 ，有很多维，如果用一般的全连接神经网络来处理，参数太多了。  特征往往只在图像的一小部分，只需要读一部分图像就能找到我们想要用以区分的特征  在不同图像或者整张图像的不同尺寸的不同部分可能有相同的特征，要是把整张图片喂给网络的话，可能就比较难找到他们的相似。">
 <meta name="keywords" content="机器学习">
 <meta property="og:type" content="article">
-<meta property="og:title" content="机器学习笔记_李宏毅（0-3）">
-<meta property="og:url" content="http://yoursite.com/2019/03/10/机器学习笔记_李宏毅（10-12）/index.html">
+<meta property="og:title" content="机器学习笔记_李宏毅（10-12）">
+<meta property="og:url" content="http://yoursite.com/2019/03/16/机器学习笔记_李宏毅（10-12）/index.html">
 <meta property="og:site_name" content="摸鱼博客">
 <meta property="og:description" content="Lecture 10 Convolutional Neural Network为什么要有卷积来处理图像 图像拉成一个向量的话 ，有很多维，如果用一般的全连接神经网络来处理，参数太多了。  特征往往只在图像的一小部分，只需要读一部分图像就能找到我们想要用以区分的特征  在不同图像或者整张图像的不同尺寸的不同部分可能有相同的特征，要是把整张图片喂给网络的话，可能就比较难找到他们的相似。">
 <meta property="og:locale" content="zh-Hans">
@@ -100,9 +100,9 @@
 <meta property="og:image" content="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%9D%8E%E5%AE%8F%E6%AF%8512_6.png">
 <meta property="og:image" content="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%9D%8E%E5%AE%8F%E6%AF%8512_7.png">
 <meta property="og:image" content="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%9D%8E%E5%AE%8F%E6%AF%8512_8.png">
-<meta property="og:updated_time" content="2019-03-16T07:31:44.103Z">
+<meta property="og:updated_time" content="2019-03-29T08:42:54.958Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="机器学习笔记_李宏毅（0-3）">
+<meta name="twitter:title" content="机器学习笔记_李宏毅（10-12）">
 <meta name="twitter:description" content="Lecture 10 Convolutional Neural Network为什么要有卷积来处理图像 图像拉成一个向量的话 ，有很多维，如果用一般的全连接神经网络来处理，参数太多了。  特征往往只在图像的一小部分，只需要读一部分图像就能找到我们想要用以区分的特征  在不同图像或者整张图像的不同尺寸的不同部分可能有相同的特征，要是把整张图片喂给网络的话，可能就比较难找到他们的相似。">
 <meta name="twitter:image" content="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%9D%8E%E5%AE%8F%E6%AF%8510_1.png">
 
@@ -134,13 +134,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2019/03/10/机器学习笔记_李宏毅（10-12）/">
+  <link rel="canonical" href="http://yoursite.com/2019/03/16/机器学习笔记_李宏毅（10-12）/">
 
 
 
 
 
-  <title>机器学习笔记_李宏毅（0-3） | 摸鱼博客</title>
+  <title>机器学习笔记_李宏毅（10-12） | 摸鱼博客</title>
   
 
 
@@ -299,7 +299,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/10/机器学习笔记_李宏毅（10-12）/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/16/机器学习笔记_李宏毅（10-12）/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="郭某人">
@@ -316,7 +316,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">机器学习笔记_李宏毅（0-3）</h1>
+          <h1 class="post-title" itemprop="name headline">机器学习笔记_李宏毅（10-12）</h1>
         
 
         <div class="post-meta">
@@ -328,8 +328,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-03-10T14:27:24+08:00">
-                2019-03-10
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-03-16T14:27:24+08:00">
+                2019-03-16
               </time>
             
 
@@ -503,8 +503,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/03/09/2019_2_24-3_09周报/" rel="next" title="2019_2_24-3_09周报">
-                <i class="fa fa-chevron-left"></i> 2019_2_24-3_09周报
+              <a href="/2019/03/16/Inception-v4和Inception_ResNet/" rel="next" title="Inception-v4和Inception_ResNet">
+                <i class="fa fa-chevron-left"></i> Inception-v4和Inception_ResNet
               </a>
             
           </div>
@@ -513,8 +513,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2019/03/10/机器学习笔记_李宏毅（0-3）/" rel="prev" title="机器学习笔记_李宏毅（0-3）">
-                机器学习笔记_李宏毅（0-3） <i class="fa fa-chevron-right"></i>
+              <a href="/2019/03/17/2019 3_10-3_16周报/" rel="prev" title="2019 3_10-3_16周报">
+                2019 3_10-3_16周报 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -594,7 +594,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">29</span>
+                  <span class="site-state-item-count">34</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -605,7 +605,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">8</span>
+                  <span class="site-state-item-count">9</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -616,7 +616,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">9</span>
+                  <span class="site-state-item-count">10</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>

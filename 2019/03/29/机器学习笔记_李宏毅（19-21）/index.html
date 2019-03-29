@@ -1,0 +1,1202 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="机器学习,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="Lecture 19 Transfer Learning用和任务无关的图片进行预训练">
+<meta name="keywords" content="机器学习">
+<meta property="og:type" content="article">
+<meta property="og:title" content="机器学习笔记_李宏毅（19-21）">
+<meta property="og:url" content="http://yoursite.com/2019/03/29/机器学习笔记_李宏毅（19-21）/index.html">
+<meta property="og:site_name" content="摸鱼博客">
+<meta property="og:description" content="Lecture 19 Transfer Learning用和任务无关的图片进行预训练">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%9D%8E%E5%AE%8F%E6%AF%8519_10.png">
+<meta property="og:image" content="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%9D%8E%E5%AE%8F%E6%AF%8519_1.png">
+<meta property="og:image" content="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%9D%8E%E5%AE%8F%E6%AF%8519_2.png">
+<meta property="og:image" content="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%9D%8E%E5%AE%8F%E6%AF%8519_3.png">
+<meta property="og:image" content="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%9D%8E%E5%AE%8F%E6%AF%8519_4.png">
+<meta property="og:image" content="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%9D%8E%E5%AE%8F%E6%AF%8519_5.png">
+<meta property="og:image" content="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%9D%8E%E5%AE%8F%E6%AF%8519_6.png">
+<meta property="og:image" content="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%9D%8E%E5%AE%8F%E6%AF%8519_7.png">
+<meta property="og:image" content="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%9D%8E%E5%AE%8F%E6%AF%8519_8.png">
+<meta property="og:image" content="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%9D%8E%E5%AE%8F%E6%AF%8519_9.png">
+<meta property="og:image" content="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%9D%8E%E5%AE%8F%E6%AF%8520_1.png">
+<meta property="og:image" content="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%9D%8E%E5%AE%8F%E6%AF%8520_2.png">
+<meta property="og:image" content="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%9D%8E%E5%AE%8F%E6%AF%8520_3.png">
+<meta property="og:image" content="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%9D%8E%E5%AE%8F%E6%AF%8520_4.png">
+<meta property="og:image" content="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%9D%8E%E5%AE%8F%E6%AF%8520_5.png">
+<meta property="og:image" content="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%9D%8E%E5%AE%8F%E6%AF%8520_6.png">
+<meta property="og:image" content="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%9D%8E%E5%AE%8F%E6%AF%8520_7.png">
+<meta property="og:image" content="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%9D%8E%E5%AE%8F%E6%AF%8520_8.png">
+<meta property="og:image" content="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%9D%8E%E5%AE%8F%E6%AF%8520_9.png">
+<meta property="og:image" content="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%9D%8E%E5%AE%8F%E6%AF%8520_10.png">
+<meta property="og:image" content="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%9D%8E%E5%AE%8F%E6%AF%8520_11.png">
+<meta property="og:image" content="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%9D%8E%E5%AE%8F%E6%AF%8520_12.png">
+<meta property="og:image" content="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%9D%8E%E5%AE%8F%E6%AF%8520_13.png">
+<meta property="og:image" content="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%9D%8E%E5%AE%8F%E6%AF%8521_1.png">
+<meta property="og:image" content="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%9D%8E%E5%AE%8F%E6%AF%8521_2.png">
+<meta property="og:image" content="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%9D%8E%E5%AE%8F%E6%AF%8521_3.png">
+<meta property="og:image" content="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%9D%8E%E5%AE%8F%E6%AF%8521_4.png">
+<meta property="og:image" content="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%9D%8E%E5%AE%8F%E6%AF%8521_5.png">
+<meta property="og:image" content="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%9D%8E%E5%AE%8F%E6%AF%8521_6.png">
+<meta property="og:image" content="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%9D%8E%E5%AE%8F%E6%AF%8521_7.png">
+<meta property="og:image" content="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%9D%8E%E5%AE%8F%E6%AF%8521_8.png">
+<meta property="og:image" content="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%9D%8E%E5%AE%8F%E6%AF%8521_9.png">
+<meta property="og:image" content="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%9D%8E%E5%AE%8F%E6%AF%8521_10.png">
+<meta property="og:updated_time" content="2019-03-29T08:41:37.958Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="机器学习笔记_李宏毅（19-21）">
+<meta name="twitter:description" content="Lecture 19 Transfer Learning用和任务无关的图片进行预训练">
+<meta name="twitter:image" content="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%9D%8E%E5%AE%8F%E6%AF%8519_10.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/03/29/机器学习笔记_李宏毅（19-21）/">
+
+
+
+
+
+  <title>机器学习笔记_李宏毅（19-21） | 摸鱼博客</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">摸鱼博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/29/机器学习笔记_李宏毅（19-21）/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="郭某人">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="摸鱼博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">机器学习笔记_李宏毅（19-21）</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-03-29T16:18:24+08:00">
+                2019-03-29
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/机器学习/" itemprop="url" rel="index">
+                    <span itemprop="name">机器学习</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="Lecture-19-Transfer-Learning"><a href="#Lecture-19-Transfer-Learning" class="headerlink" title="Lecture 19 Transfer Learning"></a>Lecture 19 Transfer Learning</h2><p>用和任务无关的图片进行预训练</p>
+<a id="more"></a>
+<p><img src="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%9D%8E%E5%AE%8F%E6%AF%8519_10.png" alt></p>
+<h3 id="Model-Fine-tuning"><a href="#Model-Fine-tuning" class="headerlink" title="Model Fine-tuning"></a>Model Fine-tuning</h3><p><img src="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%9D%8E%E5%AE%8F%E6%AF%8519_1.png" alt></p>
+<h4 id="Conservative-Training"><a href="#Conservative-Training" class="headerlink" title="Conservative Training"></a>Conservative Training</h4><p>但是由于训练数据太少，要加点限制，使新生成的模型和本来的模型相差不多，避免过拟合</p>
+<p><img src="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%9D%8E%E5%AE%8F%E6%AF%8519_2.png" alt></p>
+<h4 id="Layer-Transfer"><a href="#Layer-Transfer" class="headerlink" title="Layer Transfer"></a>Layer Transfer</h4><p>为了减少过拟合，也可以直接复制大部分层，只训练一部分层，这样也可以有效避免过拟合。那么复制哪几层呢？在语音中，通常copy后几层；在图像中，一般复制前面几层</p>
+<p><img src="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%9D%8E%E5%AE%8F%E6%AF%8519_3.png" alt></p>
+<h3 id="Multitask-Learning"><a href="#Multitask-Learning" class="headerlink" title="Multitask Learning"></a>Multitask Learning</h3><p>和fine-tuning不一样的是，它可能共用几层，然后完成不一样的任务。应用：翻译多种语言</p>
+<p><img src="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%9D%8E%E5%AE%8F%E6%AF%8519_4.png" alt></p>
+<h3 id="Domain-adversarial-training"><a href="#Domain-adversarial-training" class="headerlink" title="Domain-adversarial training"></a>Domain-adversarial training</h3><p>训练数据没有标签，资源数据有标签，我们需要使两类数据分布大致相同.把source data当train data,把train data 当test data.</p>
+<p><img src="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%9D%8E%E5%AE%8F%E6%AF%8519_5.png" alt></p>
+<p><img src="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%9D%8E%E5%AE%8F%E6%AF%8519_6.png" alt></p>
+<p><img src="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%9D%8E%E5%AE%8F%E6%AF%8519_7.png" alt></p>
+<h3 id="Zero-shot-Learning"><a href="#Zero-shot-Learning" class="headerlink" title="Zero-shot Learning"></a>Zero-shot Learning</h3><p> 训练数据在资源数据中没有出现过。这样表征图像的时候提取特征而不是直接说他有什么，根据训练图片有哪些特征搭配上词典。</p>
+<p><img src="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%9D%8E%E5%AE%8F%E6%AF%8519_8.png" alt></p>
+<p><img src="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%9D%8E%E5%AE%8F%E6%AF%8519_9.png" alt></p>
+<h2 id="Lecture-20-Support-Vector-Machine-SVM"><a href="#Lecture-20-Support-Vector-Machine-SVM" class="headerlink" title="Lecture 20 Support Vector Machine(SVM)"></a>Lecture 20 Support Vector Machine(SVM)</h2><p>两大重点：Hinge Loss 和 Kernel Method</p>
+<h3 id="损失函数"><a href="#损失函数" class="headerlink" title="损失函数"></a>损失函数</h3><p>各个损失函数的比较 hinge loss使正确分类的数据大于1之后就不在去调整这个数据 但是cross entropy原则是越准确越好。实际上两者差异不显著，hinge loss可能会略胜一筹。</p>
+<p><img src="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%9D%8E%E5%AE%8F%E6%AF%8520_1.png" alt></p>
+<h3 id="线性SVM"><a href="#线性SVM" class="headerlink" title="线性SVM"></a>线性SVM</h3><p><img src="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%9D%8E%E5%AE%8F%E6%AF%8520_2.png" alt></p>
+<p><img src="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%9D%8E%E5%AE%8F%E6%AF%8520_3.png" alt></p>
+<p><img src="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%9D%8E%E5%AE%8F%E6%AF%8520_4.png" alt></p>
+<h3 id="Dual-Representation"><a href="#Dual-Representation" class="headerlink" title="Dual Representation"></a>Dual Representation</h3><p>求出来的W实际上是一些数据的线性组合，里面大多数参数都为0,不为0的数据称为支持向量。</p>
+<p><img src="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%9D%8E%E5%AE%8F%E6%AF%8520_5.png" alt></p>
+<p>我们其实不需要知道x的具体的值，只需要只是x和$x’$之间的关系</p>
+<p><img src="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%9D%8E%E5%AE%8F%E6%AF%8520_6.png" alt></p>
+<p><img src="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%9D%8E%E5%AE%8F%E6%AF%8520_7.png" alt></p>
+<h3 id="Kernel-Trick"><a href="#Kernel-Trick" class="headerlink" title="Kernel Trick"></a>Kernel Trick</h3><p>已知两个向量，要计算他们的内积，但是由于在现在空间中不能解决，需要把他们映射到高维空间再做内积，但是这样的计算量很大。我们就会想在低维空间做一些操作，使这些操作的结果等于在高维空间内积结果，也就是$K(x,y)=&lt;φ(x),φ(y)&gt;$,这里的φ就是投影到高维空间，K称为核函数，这种方法就叫做核技巧。</p>
+<p>我们就不需要考虑x和y本身，以及φ的值，只要K能表示x和y在某个高维空间之间的相似程度就可以了。有个Mercer’s theory可以检查这个K能否符合条件，但是是哪个高维空间，我们就不需要去知道了。</p>
+<p>数据先转换特征空间再做内积，实际上等于在原空间做内积，再做特定的变形。而且后者的计算量比较小。</p>
+<p><img src="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%9D%8E%E5%AE%8F%E6%AF%8520_8.png" alt></p>
+<p><img src="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%9D%8E%E5%AE%8F%E6%AF%8520_9.png" alt></p>
+<p><img src="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%9D%8E%E5%AE%8F%E6%AF%8520_10.png" alt><img src="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%9D%8E%E5%AE%8F%E6%AF%8520_11.png" alt></p>
+<p><img src="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%9D%8E%E5%AE%8F%E6%AF%8520_12.png" alt></p>
+<p><img src="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%9D%8E%E5%AE%8F%E6%AF%8520_13.png" alt></p>
+<h2 id="Lecture-21-Recurrent-Neural-Network"><a href="#Lecture-21-Recurrent-Neural-Network" class="headerlink" title="Lecture 21 Recurrent Neural Network"></a>Lecture 21 Recurrent Neural Network</h2><p>不单单从当下的输入获得输出，还会考虑之前的输入。所以输入的顺序会对整个网络产生影响，</p>
+<p><img src="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%9D%8E%E5%AE%8F%E6%AF%8521_1.png" alt></p>
+<h3 id="Slot-Filling"><a href="#Slot-Filling" class="headerlink" title="Slot Filling"></a>Slot Filling</h3><p>从一句话中找到想要的关键词，比如旅客要订票，你要从他的一句话中提取时间，出发地，到达地等等。</p>
+<h3 id="Elman-Network和Jordan-Network"><a href="#Elman-Network和Jordan-Network" class="headerlink" title="Elman Network和Jordan Network"></a>Elman Network和Jordan Network</h3><p>Elman Network的memory存的是上一次训练的隐藏层,而Jordan Network的memory存的是上次训练的输出</p>
+<p><img src="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%9D%8E%E5%AE%8F%E6%AF%8521_2.png" alt></p>
+<h3 id="Bidirectional-RNN"><a href="#Bidirectional-RNN" class="headerlink" title="Bidirectional RNN"></a>Bidirectional RNN</h3><p>双向的RNN,优点是看的范围比较多</p>
+<p><img src="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%9D%8E%E5%AE%8F%E6%AF%8521_3.png" alt></p>
+<h3 id="LSTM-Long-Short-term-Memory"><a href="#LSTM-Long-Short-term-Memory" class="headerlink" title="LSTM(Long Short-term Memory)"></a>LSTM(Long Short-term Memory)</h3><p>对memory加了三道门，输入阈值输出阈值和遗忘阈值。</p>
+<p><img src="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%9D%8E%E5%AE%8F%E6%AF%8521_4.png" alt></p>
+<p><img src="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%9D%8E%E5%AE%8F%E6%AF%8521_5.png" alt></p>
+<p>LSTM需要更多的参数量，当和一般网络有一样节点的时候，参数量大概是四倍</p>
+<p><img src="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%9D%8E%E5%AE%8F%E6%AF%8521_6.png" alt></p>
+<p>LSTM实际上还考虑到前一个的隐藏层和输出层，LSTM是现在最常用的RNN</p>
+<p><img src="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%9D%8E%E5%AE%8F%E6%AF%8521_7.png" alt></p>
+<h3 id="RNN的训练"><a href="#RNN的训练" class="headerlink" title="RNN的训练"></a>RNN的训练</h3><p>将slot分类，然后用1-N来表达特征，损失函数为两个特征的交叉熵。训练方法也是梯度下降，但是RNN的梯度下降不是BP，叫做BPTT，考虑了时间的BP。</p>
+<p>RNN很难训练，它的损失函数是凹凸剧烈的，有个调整的办法叫做<strong>clipping</strong>就是当一些梯度很大的时候就限制在一个阈值里。</p>
+<h4 id="RNN为什么难以训练？"><a href="#RNN为什么难以训练？" class="headerlink" title="RNN为什么难以训练？"></a>RNN为什么难以训练？</h4><p>因为他考虑时间和以前的状态，一个小小的变化会导致最后结果的爆炸。而且有些地方梯度有些地方梯度小，也不能只通过调小学习率来避免梯度爆炸。</p>
+<p><img src="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%9D%8E%E5%AE%8F%E6%AF%8521_8.png" alt></p>
+<p>LSTM可以处理梯度消失问题，虽然不能处理梯度爆炸，但是就可以统一采用小学习率来学习。因为他的memory不会像一般RNN那样简单洗掉，所以能保留一定值，也就是处理梯度消失</p>
+<h3 id="Attention-based-Model"><a href="#Attention-based-Model" class="headerlink" title="Attention-based Model"></a>Attention-based Model</h3><p><img src="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%9D%8E%E5%AE%8F%E6%AF%8521_9.png" alt></p>
+<h3 id="RNN和Structured-Learning"><a href="#RNN和Structured-Learning" class="headerlink" title="RNN和Structured Learning"></a>RNN和Structured Learning</h3><p><img src="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%9D%8E%E5%AE%8F%E6%AF%8521_10.png" alt></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/机器学习/" rel="tag"># 机器学习</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/03/28/R_CNN论文解读/" rel="next" title="R-CNN论文解读">
+                <i class="fa fa-chevron-left"></i> R-CNN论文解读
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/avatar.png" alt="郭某人">
+            
+              <p class="site-author-name" itemprop="name">郭某人</p>
+              <p class="site-description motion-element" itemprop="description">在校计算机研究生一个，主要做视觉和机器学习。专业打酱油。</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">34</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">9</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">10</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="http://weibo.com/u/2237338111" target="_blank" title="微博">
+                      
+                        <i class="fa fa-fw fa-globe"></i>微博</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Lecture-19-Transfer-Learning"><span class="nav-number">1.</span> <span class="nav-text">Lecture 19 Transfer Learning</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Model-Fine-tuning"><span class="nav-number">1.1.</span> <span class="nav-text">Model Fine-tuning</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Conservative-Training"><span class="nav-number">1.1.1.</span> <span class="nav-text">Conservative Training</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Layer-Transfer"><span class="nav-number">1.1.2.</span> <span class="nav-text">Layer Transfer</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Multitask-Learning"><span class="nav-number">1.2.</span> <span class="nav-text">Multitask Learning</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Domain-adversarial-training"><span class="nav-number">1.3.</span> <span class="nav-text">Domain-adversarial training</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Zero-shot-Learning"><span class="nav-number">1.4.</span> <span class="nav-text">Zero-shot Learning</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Lecture-20-Support-Vector-Machine-SVM"><span class="nav-number">2.</span> <span class="nav-text">Lecture 20 Support Vector Machine(SVM)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#损失函数"><span class="nav-number">2.1.</span> <span class="nav-text">损失函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#线性SVM"><span class="nav-number">2.2.</span> <span class="nav-text">线性SVM</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Dual-Representation"><span class="nav-number">2.3.</span> <span class="nav-text">Dual Representation</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Kernel-Trick"><span class="nav-number">2.4.</span> <span class="nav-text">Kernel Trick</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Lecture-21-Recurrent-Neural-Network"><span class="nav-number">3.</span> <span class="nav-text">Lecture 21 Recurrent Neural Network</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Slot-Filling"><span class="nav-number">3.1.</span> <span class="nav-text">Slot Filling</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Elman-Network和Jordan-Network"><span class="nav-number">3.2.</span> <span class="nav-text">Elman Network和Jordan Network</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Bidirectional-RNN"><span class="nav-number">3.3.</span> <span class="nav-text">Bidirectional RNN</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#LSTM-Long-Short-term-Memory"><span class="nav-number">3.4.</span> <span class="nav-text">LSTM(Long Short-term Memory)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#RNN的训练"><span class="nav-number">3.5.</span> <span class="nav-text">RNN的训练</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#RNN为什么难以训练？"><span class="nav-number">3.5.1.</span> <span class="nav-text">RNN为什么难以训练？</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Attention-based-Model"><span class="nav-number">3.6.</span> <span class="nav-text">Attention-based Model</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#RNN和Structured-Learning"><span class="nav-number">3.7.</span> <span class="nav-text">RNN和Structured Learning</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">郭某人</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('-1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+</body>
+</html>

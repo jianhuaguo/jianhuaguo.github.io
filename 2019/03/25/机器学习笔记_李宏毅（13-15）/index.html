@@ -1,0 +1,1193 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="机器学习,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="Lecture 13 Unsupervised Learning-Linear Methods分类可以分成两类Reduction（化繁为简）和Generation（无中生有） 其中Reduction可以再分为两类，clustering（聚类）和Dimension(降维)">
+<meta name="keywords" content="机器学习">
+<meta property="og:type" content="article">
+<meta property="og:title" content="机器学习笔记_李宏毅（13-15）">
+<meta property="og:url" content="http://yoursite.com/2019/03/25/机器学习笔记_李宏毅（13-15）/index.html">
+<meta property="og:site_name" content="摸鱼博客">
+<meta property="og:description" content="Lecture 13 Unsupervised Learning-Linear Methods分类可以分成两类Reduction（化繁为简）和Generation（无中生有） 其中Reduction可以再分为两类，clustering（聚类）和Dimension(降维)">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%9D%8E%E5%AE%8F%E6%AF%8513_1.png">
+<meta property="og:image" content="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%9D%8E%E5%AE%8F%E6%AF%8513_2.png">
+<meta property="og:image" content="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%9D%8E%E5%AE%8F%E6%AF%8513_3.png">
+<meta property="og:image" content="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%9D%8E%E5%AE%8F%E6%AF%8513_4.png">
+<meta property="og:image" content="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%9D%8E%E5%AE%8F%E6%AF%8513_5.png">
+<meta property="og:image" content="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%9D%8E%E5%AE%8F%E6%AF%8513_6.png">
+<meta property="og:image" content="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%9D%8E%E5%AE%8F%E6%AF%8513_7.png">
+<meta property="og:image" content="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%9D%8E%E5%AE%8F%E6%AF%8513_8.png">
+<meta property="og:image" content="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%9D%8E%E5%AE%8F%E6%AF%8513_9.png">
+<meta property="og:image" content="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%9D%8E%E5%AE%8F%E6%AF%8513_10.png">
+<meta property="og:image" content="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%9D%8E%E5%AE%8F%E6%AF%8515_1.png">
+<meta property="og:image" content="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%9D%8E%E5%AE%8F%E6%AF%8515_2.png">
+<meta property="og:image" content="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%9D%8E%E5%AE%8F%E6%AF%8515_3.png">
+<meta property="og:updated_time" content="2019-03-25T02:18:18.747Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="机器学习笔记_李宏毅（13-15）">
+<meta name="twitter:description" content="Lecture 13 Unsupervised Learning-Linear Methods分类可以分成两类Reduction（化繁为简）和Generation（无中生有） 其中Reduction可以再分为两类，clustering（聚类）和Dimension(降维)">
+<meta name="twitter:image" content="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%9D%8E%E5%AE%8F%E6%AF%8513_1.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/03/25/机器学习笔记_李宏毅（13-15）/">
+
+
+
+
+
+  <title>机器学习笔记_李宏毅（13-15） | 摸鱼博客</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">摸鱼博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/25/机器学习笔记_李宏毅（13-15）/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="郭某人">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="摸鱼博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">机器学习笔记_李宏毅（13-15）</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-03-25T10:27:24+08:00">
+                2019-03-25
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/机器学习/" itemprop="url" rel="index">
+                    <span itemprop="name">机器学习</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="Lecture-13-Unsupervised-Learning-Linear-Methods"><a href="#Lecture-13-Unsupervised-Learning-Linear-Methods" class="headerlink" title="Lecture 13 Unsupervised Learning-Linear Methods"></a>Lecture 13 Unsupervised Learning-Linear Methods</h2><h3 id="分类"><a href="#分类" class="headerlink" title="分类"></a>分类</h3><p>可以分成两类Reduction（化繁为简）和Generation（无中生有）</p>
+<p>其中Reduction可以再分为两类，clustering（聚类）和Dimension(降维)</p>
+<a id="more"></a>
+<p><img src="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%9D%8E%E5%AE%8F%E6%AF%8513_1.png" alt></p>
+<h3 id="Clustering"><a href="#Clustering" class="headerlink" title="Clustering"></a>Clustering</h3><h4 id="问题一"><a href="#问题一" class="headerlink" title="问题一"></a>问题一</h4><p>有要几个类，只能凭经验来</p>
+<h4 id="K-means"><a href="#K-means" class="headerlink" title="K-means"></a>K-means</h4><p><img src="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%9D%8E%E5%AE%8F%E6%AF%8513_2.png" alt></p>
+<h4 id="HAC-Hierarchical-Agglomerative-Clustering"><a href="#HAC-Hierarchical-Agglomerative-Clustering" class="headerlink" title="HAC(Hierarchical Agglomerative Clustering)"></a>HAC(Hierarchical Agglomerative Clustering)</h4><p>按相似度依次建树，然后根据不一样的聚类需求切刀 自然就分成了几类</p>
+<p>和K-means的差别是不用决定K等于多少</p>
+<p><img src="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%9D%8E%E5%AE%8F%E6%AF%8513_3.png" alt></p>
+<h3 id="Distributed-Representation"><a href="#Distributed-Representation" class="headerlink" title="Distributed Representation"></a>Distributed Representation</h3><p>聚类太过绝对，会遗漏一些信息，以偏概全。</p>
+<p>这个做法是将高维信息装换为低维信息。比如一张图片可能不需要用那么多像素点就可以描述完。</p>
+<h4 id="Dimension-Reduction"><a href="#Dimension-Reduction" class="headerlink" title="Dimension Reduction"></a>Dimension Reduction</h4><h5 id="Feature-selection"><a href="#Feature-selection" class="headerlink" title="Feature selection"></a>Feature selection</h5><p>当数据在某一维上变化不大时，可以把这个特征拿掉</p>
+<h5 id="Principle-component-analysis-PCA-主成分分析"><a href="#Principle-component-analysis-PCA-主成分分析" class="headerlink" title="Principle component analysis(PCA 主成分分析)"></a>Principle component analysis(PCA 主成分分析)</h5><p>假设输入和输出符合线性转换。Z=Wx,目标是找到W.</p>
+<p>同时我们希望投影之后得到的点之间要有明显的区别，不能把点和点之间的差别度拿掉了。</p>
+<p>投影到多维时候注意各个维度之间要垂直，找到的W就是正交矩阵了。</p>
+<p><img src="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%9D%8E%E5%AE%8F%E6%AF%8513_4.png" alt></p>
+<p><img src="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%9D%8E%E5%AE%8F%E6%AF%8513_5.png" alt></p>
+<p>PCA经典解法，拉格朗日乘子法</p>
+<p><img src="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%9D%8E%E5%AE%8F%E6%AF%8513_6.png" alt></p>
+<p><img src="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%9D%8E%E5%AE%8F%E6%AF%8513_7.png" alt></p>
+<p><img src="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%9D%8E%E5%AE%8F%E6%AF%8513_8.png" alt></p>
+<p>PCA变形的结果，各个特征之间是相互独立</p>
+<p><img src="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%9D%8E%E5%AE%8F%E6%AF%8513_9.png" alt></p>
+<h5 id="PCA的另一种理解"><a href="#PCA的另一种理解" class="headerlink" title="PCA的另一种理解"></a>PCA的另一种理解</h5><h5 id="PCA的缺点"><a href="#PCA的缺点" class="headerlink" title="PCA的缺点"></a>PCA的缺点</h5><ul>
+<li><p>因为PCA是非监督学习，所以降维的时候没有考虑到不同维之间的差异</p>
+</li>
+<li><p>PCA是线性的</p>
+</li>
+</ul>
+<h3 id="Matrix-Factorization"><a href="#Matrix-Factorization" class="headerlink" title="Matrix Factorization"></a>Matrix Factorization</h3><p>用svd</p>
+<p>当有数据缺失的时候，考虑用随机梯度下降，训练的时候不去采那些数据缺失的地方，</p>
+<p>加入一些其他参数</p>
+<p><img src="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%9D%8E%E5%AE%8F%E6%AF%8513_10.png" alt></p>
+<h2 id="Lecture-14-Unsupervised-Learning-Word-Embedding"><a href="#Lecture-14-Unsupervised-Learning-Word-Embedding" class="headerlink" title="Lecture 14 Unsupervised Learning Word Embedding"></a>Lecture 14 Unsupervised Learning Word Embedding</h2><h3 id="表示单词的方法"><a href="#表示单词的方法" class="headerlink" title="表示单词的方法"></a>表示单词的方法</h3><ul>
+<li><p>1-of-N Encoding</p>
+<p>有多少个单词就有多少维，哪个单词所在维为1，其他维为0.这样就忽略了相近单词之间的关系。</p>
+</li>
+<li><p>Word Class</p>
+<p>把相近单词放到一类里，然后用这个类来表示这个单词，类似于聚类。这样也损失了很多的信息</p>
+</li>
+<li><p>Word embudding</p>
+<p>  将单词在高维空间用点表示出来，但是这个高维肯定比1-of-N encoding的维度要低。构建word embedding的过程也是非监督学习。训练的时候是用上下文来的。</p>
+</li>
+</ul>
+<h3 id="利用上下文做word-embeding的方法"><a href="#利用上下文做word-embeding的方法" class="headerlink" title="利用上下文做word embeding的方法"></a>利用上下文做word embeding的方法</h3><ul>
+<li>count based</li>
+</ul>
+<p>如果两个词汇经常一起出现，就默认他们比较接近</p>
+<p> 代表性方法：Grove vector</p>
+<ul>
+<li>prediction based（实际上这个网络不需要深度，经典的只用一个隐藏层）</li>
+</ul>
+<p>训练一个网络，对于给定一个单词，预测下一个出现的单词是什么。</p>
+<p>然后把这个网络的第一个隐藏层当做这个单词的表征向量。</p>
+<p>代表性方法：CBOW: 拿前后两个单词去预测中间那个单词（continue bag of words)</p>
+<p>​            Skip-gram：拿中间的单词去预测之前和之后的单词</p>
+<p>embedding还能用于翻译，根据同一种语言不同单词之间的关系 和一些翻译</p>
+<h2 id="Lecture-15-Unsupervised-Learning-Neighbor-Embedding"><a href="#Lecture-15-Unsupervised-Learning-Neighbor-Embedding" class="headerlink" title="Lecture 15 Unsupervised Learning -Neighbor Embedding"></a>Lecture 15 Unsupervised Learning -Neighbor Embedding</h2><p>manifold:把低维塞到高维</p>
+<p>在做聚类或者学习的时候需要先把高维里的东西摊平。以下介绍几种经典方法</p>
+<h3 id="Locally-Linear-Embedding（LLE"><a href="#Locally-Linear-Embedding（LLE" class="headerlink" title="Locally Linear Embedding（LLE)"></a>Locally Linear Embedding（LLE)</h3><p>主要思想：相对距离在不同维度里不会变化</p>
+<p><img src="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%9D%8E%E5%AE%8F%E6%AF%8515_1.png" alt></p>
+<p><img src="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%9D%8E%E5%AE%8F%E6%AF%8515_2.png" alt></p>
+<h3 id="Laplacian-Eigenmaps"><a href="#Laplacian-Eigenmaps" class="headerlink" title="Laplacian Eigenmaps"></a>Laplacian Eigenmaps</h3><h3 id="t-SNE"><a href="#t-SNE" class="headerlink" title="t-SNE"></a>t-SNE</h3><p>t-sne一般是用来做可视化的，因为对于新的点没有办法处理</p>
+<p><img src="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%9D%8E%E5%AE%8F%E6%AF%8515_3.png" alt></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/机器学习/" rel="tag"># 机器学习</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/03/22/pytorch入门系列（3）_Data loading and processing/" rel="next" title="pytorch入门系列（3）_Data loading and processing">
+                <i class="fa fa-chevron-left"></i> pytorch入门系列（3）_Data loading and processing
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/03/25/机器学习笔记_李宏毅（16-18）/" rel="prev" title="机器学习笔记_李宏毅（16-18）">
+                机器学习笔记_李宏毅（16-18） <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/avatar.png" alt="郭某人">
+            
+              <p class="site-author-name" itemprop="name">郭某人</p>
+              <p class="site-description motion-element" itemprop="description">在校计算机研究生一个，主要做视觉和机器学习。专业打酱油。</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">34</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">9</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">10</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="http://weibo.com/u/2237338111" target="_blank" title="微博">
+                      
+                        <i class="fa fa-fw fa-globe"></i>微博</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Lecture-13-Unsupervised-Learning-Linear-Methods"><span class="nav-number">1.</span> <span class="nav-text">Lecture 13 Unsupervised Learning-Linear Methods</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#分类"><span class="nav-number">1.1.</span> <span class="nav-text">分类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Clustering"><span class="nav-number">1.2.</span> <span class="nav-text">Clustering</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#问题一"><span class="nav-number">1.2.1.</span> <span class="nav-text">问题一</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#K-means"><span class="nav-number">1.2.2.</span> <span class="nav-text">K-means</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#HAC-Hierarchical-Agglomerative-Clustering"><span class="nav-number">1.2.3.</span> <span class="nav-text">HAC(Hierarchical Agglomerative Clustering)</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Distributed-Representation"><span class="nav-number">1.3.</span> <span class="nav-text">Distributed Representation</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Dimension-Reduction"><span class="nav-number">1.3.1.</span> <span class="nav-text">Dimension Reduction</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#Feature-selection"><span class="nav-number">1.3.1.1.</span> <span class="nav-text">Feature selection</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Principle-component-analysis-PCA-主成分分析"><span class="nav-number">1.3.1.2.</span> <span class="nav-text">Principle component analysis(PCA 主成分分析)</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#PCA的另一种理解"><span class="nav-number">1.3.1.3.</span> <span class="nav-text">PCA的另一种理解</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#PCA的缺点"><span class="nav-number">1.3.1.4.</span> <span class="nav-text">PCA的缺点</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Matrix-Factorization"><span class="nav-number">1.4.</span> <span class="nav-text">Matrix Factorization</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Lecture-14-Unsupervised-Learning-Word-Embedding"><span class="nav-number">2.</span> <span class="nav-text">Lecture 14 Unsupervised Learning Word Embedding</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#表示单词的方法"><span class="nav-number">2.1.</span> <span class="nav-text">表示单词的方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#利用上下文做word-embeding的方法"><span class="nav-number">2.2.</span> <span class="nav-text">利用上下文做word embeding的方法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Lecture-15-Unsupervised-Learning-Neighbor-Embedding"><span class="nav-number">3.</span> <span class="nav-text">Lecture 15 Unsupervised Learning -Neighbor Embedding</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Locally-Linear-Embedding（LLE"><span class="nav-number">3.1.</span> <span class="nav-text">Locally Linear Embedding（LLE)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Laplacian-Eigenmaps"><span class="nav-number">3.2.</span> <span class="nav-text">Laplacian Eigenmaps</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#t-SNE"><span class="nav-number">3.3.</span> <span class="nav-text">t-SNE</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">郭某人</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('-1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+</body>
+</html>
