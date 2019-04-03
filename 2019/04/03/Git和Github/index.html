@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="机器学习,">
+  <meta name="keywords" content="git,">
 
 
 
@@ -79,32 +79,18 @@
 
 
 
-<meta name="description" content="Lecture 10 Convolutional Neural Network为什么要有卷积来处理图像 图像拉成一个向量的话 ，有很多维，如果用一般的全连接神经网络来处理，参数太多了。  特征往往只在图像的一小部分，只需要读一部分图像就能找到我们想要用以区分的特征  在不同图像或者整张图像的不同尺寸的不同部分可能有相同的特征，要是把整张图片喂给网络的话，可能就比较难找到他们的相似。">
-<meta name="keywords" content="机器学习">
+<meta name="description" content="本篇学习笔记主要基于廖雪峰的git教程">
+<meta name="keywords" content="git">
 <meta property="og:type" content="article">
-<meta property="og:title" content="机器学习笔记_李宏毅（10-12）">
-<meta property="og:url" content="http://yoursite.com/2019/03/16/机器学习笔记_李宏毅（10-12）/index.html">
+<meta property="og:title" content="Git和Github">
+<meta property="og:url" content="http://yoursite.com/2019/04/03/Git和Github/index.html">
 <meta property="og:site_name" content="摸鱼博客">
-<meta property="og:description" content="Lecture 10 Convolutional Neural Network为什么要有卷积来处理图像 图像拉成一个向量的话 ，有很多维，如果用一般的全连接神经网络来处理，参数太多了。  特征往往只在图像的一小部分，只需要读一部分图像就能找到我们想要用以区分的特征  在不同图像或者整张图像的不同尺寸的不同部分可能有相同的特征，要是把整张图片喂给网络的话，可能就比较难找到他们的相似。">
+<meta property="og:description" content="本篇学习笔记主要基于廖雪峰的git教程">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%9D%8E%E5%AE%8F%E6%AF%8510_1.png">
-<meta property="og:image" content="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%9D%8E%E5%AE%8F%E6%AF%8510_2.png">
-<meta property="og:image" content="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%9D%8E%E5%AE%8F%E6%AF%8510_3.png">
-<meta property="og:image" content="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%9D%8E%E5%AE%8F%E6%AF%8510_4.png">
-<meta property="og:image" content="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%9D%8E%E5%AE%8F%E6%AF%8510_5.png">
-<meta property="og:image" content="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%9D%8E%E5%AE%8F%E6%AF%8512_1.png">
-<meta property="og:image" content="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%9D%8E%E5%AE%8F%E6%AF%8512_2.png">
-<meta property="og:image" content="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%9D%8E%E5%AE%8F%E6%AF%8512_3.png">
-<meta property="og:image" content="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%9D%8E%E5%AE%8F%E6%AF%8512_4.png">
-<meta property="og:image" content="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%9D%8E%E5%AE%8F%E6%AF%8512_5.png">
-<meta property="og:image" content="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%9D%8E%E5%AE%8F%E6%AF%8512_6.png">
-<meta property="og:image" content="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%9D%8E%E5%AE%8F%E6%AF%8512_7.png">
-<meta property="og:image" content="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%9D%8E%E5%AE%8F%E6%AF%8512_8.png">
-<meta property="og:updated_time" content="2019-03-29T08:42:54.958Z">
+<meta property="og:updated_time" content="2019-04-03T03:43:41.828Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="机器学习笔记_李宏毅（10-12）">
-<meta name="twitter:description" content="Lecture 10 Convolutional Neural Network为什么要有卷积来处理图像 图像拉成一个向量的话 ，有很多维，如果用一般的全连接神经网络来处理，参数太多了。  特征往往只在图像的一小部分，只需要读一部分图像就能找到我们想要用以区分的特征  在不同图像或者整张图像的不同尺寸的不同部分可能有相同的特征，要是把整张图片喂给网络的话，可能就比较难找到他们的相似。">
-<meta name="twitter:image" content="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%9D%8E%E5%AE%8F%E6%AF%8510_1.png">
+<meta name="twitter:title" content="Git和Github">
+<meta name="twitter:description" content="本篇学习笔记主要基于廖雪峰的git教程">
 
 
 
@@ -134,13 +120,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2019/03/16/机器学习笔记_李宏毅（10-12）/">
+  <link rel="canonical" href="http://yoursite.com/2019/04/03/Git和Github/">
 
 
 
 
 
-  <title>机器学习笔记_李宏毅（10-12） | 摸鱼博客</title>
+  <title>Git和Github | 摸鱼博客</title>
   
 
 
@@ -299,7 +285,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/16/机器学习笔记_李宏毅（10-12）/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/04/03/Git和Github/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="郭某人">
@@ -316,7 +302,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">机器学习笔记_李宏毅（10-12）</h1>
+          <h1 class="post-title" itemprop="name headline">Git和Github</h1>
         
 
         <div class="post-meta">
@@ -328,8 +314,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-03-16T14:27:24+08:00">
-                2019-03-16
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-04-03T11:18:24+08:00">
+                2019-04-03
               </time>
             
 
@@ -351,8 +337,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/机器学习/" itemprop="url" rel="index">
-                    <span itemprop="name">机器学习</span>
+                  <a href="/categories/工具/" itemprop="url" rel="index">
+                    <span itemprop="name">工具</span>
                   </a>
                 </span>
 
@@ -388,91 +374,35 @@
       
 
       
-        <h2 id="Lecture-10-Convolutional-Neural-Network"><a href="#Lecture-10-Convolutional-Neural-Network" class="headerlink" title="Lecture 10 Convolutional Neural Network"></a>Lecture 10 Convolutional Neural Network</h2><h3 id="为什么要有卷积来处理图像"><a href="#为什么要有卷积来处理图像" class="headerlink" title="为什么要有卷积来处理图像"></a>为什么要有卷积来处理图像</h3><ul>
-<li><p>图像拉成一个向量的话 ，有很多维，如果用一般的全连接神经网络来处理，参数太多了。</p>
-</li>
-<li><p>特征往往只在图像的一小部分，只需要读一部分图像就能找到我们想要用以区分的特征</p>
-</li>
-<li><p>在不同图像或者整张图像的不同尺寸的不同部分可能有相同的特征，要是把整张图片喂给网络的话，可能就比较难找到他们的相似。</p>
+        <p>本篇学习笔记主要基于廖雪峰的git教程</p>
 <a id="more"></a>
-</li>
-</ul>
-<p><img src="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%9D%8E%E5%AE%8F%E6%AF%8510_1.png" alt></p>
-<h3 id="卷积的各个部件"><a href="#卷积的各个部件" class="headerlink" title="卷积的各个部件"></a>卷积的各个部件</h3><p>卷积网络实际上就是去掉一些权重的神经网络，并且共享一些权重，所以训练也是BP,共享权重就把要共享的权重求出来再平均。</p>
-<p><img src="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%9D%8E%E5%AE%8F%E6%AF%8510_2.png" alt></p>
-<h4 id="池化层"><a href="#池化层" class="headerlink" title="池化层"></a>池化层</h4><p>池化层有最大池化核平均池化。</p>
-<h4 id="flatten和全连接"><a href="#flatten和全连接" class="headerlink" title="flatten和全连接"></a>flatten和全连接</h4><h3 id="CNN学习了什么"><a href="#CNN学习了什么" class="headerlink" title="CNN学习了什么"></a>CNN学习了什么</h3><p>可以把输入图片做参数，找到使某一个卷积核激励最大的图片，观察这个卷积核和图片的关系。</p>
-<p><img src="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%9D%8E%E5%AE%8F%E6%AF%8510_3.png" alt></p>
-<p><img src="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%9D%8E%E5%AE%8F%E6%AF%8510_4.png" alt></p>
-<p><img src="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%9D%8E%E5%AE%8F%E6%AF%8510_5.png" alt></p>
-<h4 id="Deep-Dream"><a href="#Deep-Dream" class="headerlink" title="Deep Dream"></a>Deep Dream</h4><p>机器增加他所看到的东西</p>
-<h4 id="Deep-Style"><a href="#Deep-Style" class="headerlink" title="Deep Style"></a>Deep Style</h4><p>让一些照片相似于一些名画的风格</p>
-<h3 id="CNN的应用"><a href="#CNN的应用" class="headerlink" title="CNN的应用"></a>CNN的应用</h3><ul>
-<li>围棋</li>
-</ul>
-<p>围棋用全连接就能工作了，但是用CNN有着更好的表现。Alpho go 没有用池化层，要针对事物的本质来设计网络架构。</p>
-<ul>
-<li><p>语音识别</p>
-<p>spectrogram.一张时间和频率的二维图。滤波器一般只在频率轴上移动，不在时间轴上移动。 </p>
-</li>
-<li><p>文字处理</p>
-<p>word embeding,把文字序列当成向量。滤波器只在时间轴上移动。</p>
-</li>
-</ul>
-<h2 id="Lecture-11-Why-Deep"><a href="#Lecture-11-Why-Deep" class="headerlink" title="Lecture 11 Why Deep"></a>Lecture 11 Why Deep</h2><p>实验证明，差不多的参数，瘦长的网络结构要比矮胖的表现好。</p>
-<h3 id="逻辑上解释"><a href="#逻辑上解释" class="headerlink" title="逻辑上解释"></a>逻辑上解释</h3><p>类似于模组化。更深的网络，使更多的模块相对独立，从而可以重复使用。好比写程序不能什么都写在主函数里，多写几个子函数方便调用。</p>
-<p>虽然说理论上一个隐藏层就可以模仿所有函数，但是这个效率明显不如深层网络</p>
-<p>实现端到端的任务，少了很多人去提取特征的环节，不管是语音还是图像。</p>
-<h3 id="类比（analogy"><a href="#类比（analogy" class="headerlink" title="类比（analogy)"></a>类比（analogy)</h3><p>多层电路可以用更少的元器件实现我们想要实现的功能</p>
-<h3 id="语音上用到deep-learning"><a href="#语音上用到deep-learning" class="headerlink" title="语音上用到deep learning"></a>语音上用到deep learning</h3><p>语言是由phoneme（类似音标）组成的，每个phoneme的发音（不同顺序组成了tri-phone)又都有好几种。</p>
-<h4 id="步骤"><a href="#步骤" class="headerlink" title="步骤"></a>步骤</h4><ul>
-<li><p>把acoustic转成state</p>
-<p>acoustic:声音信号是一段波浪信号，在信号上截取一个窗口，用特征来描述这个窗口就叫做acoustic feature。一串声音信号转换之后就叫做acoustic feature sequence.</p>
-</li>
-<li><p>然后把state转成phoneme，再将phoneme转成文字</p>
-</li>
-<li><p>接下来还要考虑同音异字的问题</p>
-</li>
-</ul>
-<h4 id="传统方法和CNN做比较"><a href="#传统方法和CNN做比较" class="headerlink" title="传统方法和CNN做比较"></a>传统方法和CNN做比较</h4><ul>
-<li><p>HMM-GMM</p>
-<p>传统方法，假设每一个state的acoustic feature是固定分布的。但是搭配之后的模型太多了，参数也就不多了。</p>
-</li>
-<li><p>实际上发音是有联系的，和深度学习的模块化有点相似，实际上用到的参数还不如GMM。</p>
-</li>
-</ul>
-<h2 id="Lecture-12-Semi-supervised"><a href="#Lecture-12-Semi-supervised" class="headerlink" title="Lecture 12 Semi-supervised"></a>Lecture 12 Semi-supervised</h2><h3 id="基本定义"><a href="#基本定义" class="headerlink" title="基本定义"></a>基本定义</h3><p>有两部分数据，一部分是有标签，一部分没有标签。一般来说，没有标签的数据远远大于有标签的数据。</p>
-<p>半监督学习有两种，一种叫做Transductive learning,另一种叫做inductive learning。在训练过程中，已知testing data（unlabelled data）是transductive learing，在训练过程中，并不知道testing data ，训练好模型后去解决未知的testing data 是inductive learing。</p>
-<h3 id="为什么要半监督学习"><a href="#为什么要半监督学习" class="headerlink" title="为什么要半监督学习"></a>为什么要半监督学习</h3><p>虽然可以获取很多数据，但是有标签的数据很少。而且人在成长过程中也不会什么事都有lable，需要根据之前有标签的数据去学习这些没有标签的数据。</p>
-<h3 id="为什么半监督学习有用"><a href="#为什么半监督学习有用" class="headerlink" title="为什么半监督学习有用"></a>为什么半监督学习有用</h3><h4 id="在产生模型的使用使用半监督学习"><a href="#在产生模型的使用使用半监督学习" class="headerlink" title="在产生模型的使用使用半监督学习"></a>在产生模型的使用使用半监督学习</h4><p><img src="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%9D%8E%E5%AE%8F%E6%AF%8512_1.png" alt></p>
-<p><img src="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%9D%8E%E5%AE%8F%E6%AF%8512_2.png" alt></p>
-<p><img src="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%9D%8E%E5%AE%8F%E6%AF%8512_3.png" alt></p>
-<h4 id="Low-density-Separation"><a href="#Low-density-Separation" class="headerlink" title="Low-density Separation"></a>Low-density Separation</h4><p>意思是几个类别之间有明显的分界线，未标记数据都是非黑即白的。</p>
-<h5 id="Self-training："><a href="#Self-training：" class="headerlink" title="Self-training："></a>Self-training：</h5><p>（不能用在回归问题）和之前的用高斯分布生成模型很像，只是这个无标签数据加的标签是固定的，而之前那个是带可能性的。对于神经网络结构，self-training是有用的，但是soft-lable是不起工作。</p>
-<p><img src="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%9D%8E%E5%AE%8F%E6%AF%8512_4.png" alt></p>
-<h5 id="Entropy-based-Regularization："><a href="#Entropy-based-Regularization：" class="headerlink" title="Entropy-based Regularization："></a>Entropy-based Regularization：</h5><p>假设数据的标签是有分布，需要找出一个参数使分布集中于某一类的分布。所以用交叉熵来表示这部分并加入到最后损失函数的计算。</p>
-<p><img src="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%9D%8E%E5%AE%8F%E6%AF%8512_5.png" alt></p>
-<h5 id="Semi-supervised-SVM"><a href="#Semi-supervised-SVM" class="headerlink" title="Semi-supervised SVM"></a>Semi-supervised SVM</h5><p>把损失分成两部分，一个有标签数据的分割线，第二个所有可能数据而产生的分割线。找一条分割线使有标签的数据分得尽可能开，也使未标记的数据的错误率尽可能低。</p>
-<p><img src="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%9D%8E%E5%AE%8F%E6%AF%8512_6.png" alt></p>
-<h5 id="Smoothness-Assumption"><a href="#Smoothness-Assumption" class="headerlink" title="Smoothness Assumption"></a>Smoothness Assumption</h5><p>思想：近朱者赤近墨者黑</p>
-<p>如果未标记数据和标记数据之间有足够多的相似的过渡，可以假设这个未标记数据的标签可能和标记数据一样。</p>
-<p><img src="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%9D%8E%E5%AE%8F%E6%AF%8512_7.png" alt></p>
-<p>具体操作的方法：</p>
-<ul>
-<li>先聚类，再分类</li>
-</ul>
-<p>或者</p>
-<ul>
-<li><p>Graph-based Approach</p>
-<p>A点能不能通过graph上的边走到B点，建graph的方法是很重要的。一个常用方法是</p>
-<ul>
-<li>先描述各个点之间的相似程度（比如RBM)</li>
-<li>然后根据这些相似度在点之间加边。这些边也可以加上权重</li>
-</ul>
-</li>
-</ul>
-<p><img src="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%9D%8E%E5%AE%8F%E6%AF%8512_8.png" alt></p>
-<p>最后的损失函数就是加上分类之后的所有数据的光滑度（也就是所有标签相同的数据之间的距离和）</p>
+<h3 id="什么是GIT"><a href="#什么是GIT" class="headerlink" title="什么是GIT"></a>什么是GIT</h3><p>GIT是当今应用最广的分布式版本控制系统。</p>
+<p>相对于分布式，另一个词就是集中式，集中式是指版本库集中存放在中央服务器，干活的时候从中央服务器取得最新的版本，更改完之后在推送给中央服务器。最大毛病就是需要联网。</p>
+<p>分布式版本控制系统，每个人的电脑上都是一个完整的版本库，没有中央服务器。为了方便有时候也有一台充当“中央服务器”的电脑</p>
+<h3 id="安装和初步使用"><a href="#安装和初步使用" class="headerlink" title="安装和初步使用"></a>安装和初步使用</h3><p>Windows的去<a href="https://git-scm.com/downloads" target="_blank" rel="noopener">官网网址</a>下载即可，按默认选项安装，安装之后的设置自己的github名称和邮箱。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ git config --<span class="keyword">global</span> user.name <span class="string">"Your Name"</span></span><br><span class="line">$ git config --<span class="keyword">global</span> user.email <span class="string">"email@example.com"</span></span><br></pre></td></tr></table></figure>
+<p>指定一个文件夹为git仓库 在当前文件夹中打开git bash</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git init</span><br></pre></td></tr></table></figure>
+<p>将当前文件夹中的文件加入仓库中 注意这个文件一定要在仓库所在的文件夹 不然git可没有办法整个电脑去找他</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">如 git add readme.txt</span><br></pre></td></tr></table></figure>
+<p>然后再确认一下 把该文件加到仓库中 commit后面的参数是对当前改变的描述</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git commit -m &quot;我加了一个文件&quot;</span><br></pre></td></tr></table></figure>
+<p>为什么需要add 和commit呢 因为commit一次可以提交很多文件 你可以add很多文件之后 一次commit</p>
+<h3 id="时光机"><a href="#时光机" class="headerlink" title="时光机"></a>时光机</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">git status 查看当前的状态</span><br><span class="line">git diff readme.txt 查看某个文件的修改记录</span><br><span class="line">git log 查看commit的历史记录</span><br><span class="line">git log --pretty=oneline 查看commit的简单记录 执行完会出现每个commit的head 这个head是由SHA1计算出来的</span><br><span class="line"></span><br><span class="line">#返回上一个版本</span><br><span class="line">git reset -hard HEAD^  返回上一个版本 上上个是HEAD^^ 往上一百个是HEAD~100</span><br><span class="line"></span><br><span class="line">#也可以回到指定版本号 也就是head</span><br><span class="line">git reset -hard ****</span><br><span class="line"></span><br><span class="line">#查看命令记录 和上面的commit的历史记录不一样</span><br><span class="line">git reflog</span><br></pre></td></tr></table></figure>
+<h3 id="工作区和暂存区"><a href="#工作区和暂存区" class="headerlink" title="工作区和暂存区"></a>工作区和暂存区</h3><p>add的时候是将改变提交到缓存区，commit是将缓冲区中的改变一次性送到分支master。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">git diff 				比较的是工作区文件与暂存区文件的区别（上次git add 的内容）</span><br><span class="line">git diff --cached	 比较的是暂存区的文件与仓库分支里（上次git commit 后的内容）的区别</span><br><span class="line"></span><br><span class="line">#撤销刚才的修改  不用去手动修改文件 这是在没add之前</span><br><span class="line">git checkout -- readme.txt  </span><br><span class="line"></span><br><span class="line"> </span><br><span class="line">如果已经提交了到缓存库（也就是已经add了） 并且对工作区文件再修改 执行这条指令意思是把文件回退到和缓存库一样</span><br><span class="line">git checkout -- readme.txt  </span><br><span class="line"></span><br><span class="line"></span><br><span class="line">假如已经存入了缓存区 将缓存区的修改撤回掉  </span><br><span class="line">git reset HEAD readme.txt  </span><br><span class="line">再执行 git checkout -- readme.txt</span><br><span class="line">就好了</span><br><span class="line"></span><br><span class="line">删除文件</span><br><span class="line">先在文件夹系统里删删除文件 然后执行以下两句命令</span><br><span class="line">git rm readme.txt</span><br><span class="line">git commit</span><br><span class="line"></span><br><span class="line">但是如果是删错了</span><br><span class="line">git checkout -- readme.txt 就能撤销删除了</span><br></pre></td></tr></table></figure>
+<h3 id="GitHub使用指南"><a href="#GitHub使用指南" class="headerlink" title="GitHub使用指南"></a>GitHub使用指南</h3><p>首先先需要创建SSH KEY</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ ssh-keygen -t rsa -C &quot;youremail@example.com&quot;</span><br></pre></td></tr></table></figure>
+<p>把在用户目录的生成的id_rsa.pub添加到github的账户设置里 这样你每次操作的时候 github才知道你对这个仓库的所有权</p>
+<h4 id="将自己的仓库推送到github上"><a href="#将自己的仓库推送到github上" class="headerlink" title="将自己的仓库推送到github上"></a>将自己的仓库推送到github上</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$ git remote add origin git@github.com:账户名/仓库名.git</span><br><span class="line">这样以后 在github上的库在本地就显示为origin 当然也可以改个名方便记忆</span><br><span class="line"></span><br><span class="line">$ git push -u origin master</span><br><span class="line">将当前的库的master分支都推送到github上  </span><br><span class="line">第一次推送的需要加参数 将两个仓库联系在一起 在以后的推送就可以简单命令</span><br><span class="line">git push origin master</span><br></pre></td></tr></table></figure>
+<h4 id="从远程库克隆到本地"><a href="#从远程库克隆到本地" class="headerlink" title="从远程库克隆到本地"></a>从远程库克隆到本地</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git clone git@github.com:用户名/仓库名.git</span><br></pre></td></tr></table></figure>
+<h3 id="分支"><a href="#分支" class="headerlink" title="分支"></a>分支</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">git checkout -b dev 创建分支并切换到该dev分支 分支名叫dev</span><br><span class="line"></span><br><span class="line">相当于</span><br><span class="line">git branch dev</span><br><span class="line">git checkout dev      #git check 分支名 意味着切换到该分支</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">然后查看所有分支 当前分支前会有一个星号 </span><br><span class="line">git branch</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">切换到master分支 并将dev分支合并</span><br><span class="line">git checkout master </span><br><span class="line">git merge dev </span><br><span class="line"></span><br><span class="line">然后可以删除分支</span><br><span class="line">git branch -d dev</span><br></pre></td></tr></table></figure>
+<h4 id="合并分支的错误"><a href="#合并分支的错误" class="headerlink" title="合并分支的错误"></a>合并分支的错误</h4><p>当主分支和一般分支各自修改之后，合并不了，只能把冲突文件手动修改为我们希望的内容（这时git也会在改冲突文件中加上注释），然后在主分支中提交修改。</p>
+<h4 id="多种分支管理"><a href="#多种分支管理" class="headerlink" title="多种分支管理"></a>多种分支管理</h4><p>一般合并分支的时候，git会使用Fast Forward,但在这种模式下删除分支会丢失掉分支信息。如果要强制禁用<code>Fast forward</code>模式，Git就会在merge时生成一个新的commit，这样，从分支历史上就可以看出分支信息。通常使用的是<code>--no-ff</code>方式的<code>git merge</code></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#用 --no-ff 的合并时会生成一个新的commit就可以看到修改历史</span></span><br><span class="line">git merge --no-ff -m <span class="string">"merge with no-ff"</span> dev</span><br></pre></td></tr></table></figure>
+<p>关于分支的使用，一般来说主分支是稳定的，所以不建议在主分支上做修改，在各个分支做修改再合并到主分支上。</p>
+<h3 id="标签"><a href="#标签" class="headerlink" title="标签"></a>标签</h3><p>标签在指向某一个时刻的版本，实际上就是一个版本库的快照，和分支有点类似，不过分支可以移动，标签是固定的。他与commit绑定在一起，一般是通过标签来查找commit</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#切换到需要打标签的分支上 然后打标签</span></span><br><span class="line">git checkout master</span><br><span class="line">git tag V1.0<span class="comment">#标签名</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">#查看所有标签 </span></span><br><span class="line">git tag</span><br><span class="line"></span><br><span class="line"><span class="comment">#可以对之前的commit加标签 而不是当前最新的commit</span></span><br><span class="line"><span class="comment">#获取之前的commit编号</span></span><br><span class="line">git <span class="built_in">log</span> --pretty=oneline --abbrev-commit</span><br><span class="line"><span class="comment">#对特定的commit打标签</span></span><br><span class="line">$ git tag v0.9 f52c633</span><br><span class="line"></span><br><span class="line"><span class="comment">#查看git的详细信息 创立时间等</span></span><br><span class="line">git show &lt;tagname&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment">#创建带有说明的标签，用-a指定标签名，-m指定说明文字：</span></span><br><span class="line">git tag -a v0.1 -m <span class="string">"version 0.1 released"</span> 1094adb</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">#删除标签</span></span><br><span class="line">git tag -d v0.1</span><br><span class="line"></span><br><span class="line"><span class="comment">#推送标签到远程</span></span><br><span class="line">git push origin v1.0</span><br></pre></td></tr></table></figure>
 
       
     </div>
@@ -490,7 +420,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/机器学习/" rel="tag"># 机器学习</a>
+            <a href="/tags/git/" rel="tag"># git</a>
           
         </div>
       
@@ -503,8 +433,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/03/16/Inception-v4和Inception_ResNet/" rel="next" title="Inception-v4和Inception_ResNet">
-                <i class="fa fa-chevron-left"></i> Inception-v4和Inception_ResNet
+              <a href="/2019/04/01/机器学习笔记_李宏毅（22-23）/" rel="next" title="机器学习笔记_李宏毅（22-23）">
+                <i class="fa fa-chevron-left"></i> 机器学习笔记_李宏毅（22-23）
               </a>
             
           </div>
@@ -512,10 +442,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2019/03/17/2019 3_10-3_16周报/" rel="prev" title="2019 3_10-3_16周报">
-                2019 3_10-3_16周报 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -659,7 +585,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Lecture-10-Convolutional-Neural-Network"><span class="nav-number">1.</span> <span class="nav-text">Lecture 10 Convolutional Neural Network</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#为什么要有卷积来处理图像"><span class="nav-number">1.1.</span> <span class="nav-text">为什么要有卷积来处理图像</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#卷积的各个部件"><span class="nav-number">1.2.</span> <span class="nav-text">卷积的各个部件</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#池化层"><span class="nav-number">1.2.1.</span> <span class="nav-text">池化层</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#flatten和全连接"><span class="nav-number">1.2.2.</span> <span class="nav-text">flatten和全连接</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CNN学习了什么"><span class="nav-number">1.3.</span> <span class="nav-text">CNN学习了什么</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Deep-Dream"><span class="nav-number">1.3.1.</span> <span class="nav-text">Deep Dream</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Deep-Style"><span class="nav-number">1.3.2.</span> <span class="nav-text">Deep Style</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CNN的应用"><span class="nav-number">1.4.</span> <span class="nav-text">CNN的应用</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Lecture-11-Why-Deep"><span class="nav-number">2.</span> <span class="nav-text">Lecture 11 Why Deep</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#逻辑上解释"><span class="nav-number">2.1.</span> <span class="nav-text">逻辑上解释</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#类比（analogy"><span class="nav-number">2.2.</span> <span class="nav-text">类比（analogy)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#语音上用到deep-learning"><span class="nav-number">2.3.</span> <span class="nav-text">语音上用到deep learning</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#步骤"><span class="nav-number">2.3.1.</span> <span class="nav-text">步骤</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#传统方法和CNN做比较"><span class="nav-number">2.3.2.</span> <span class="nav-text">传统方法和CNN做比较</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Lecture-12-Semi-supervised"><span class="nav-number">3.</span> <span class="nav-text">Lecture 12 Semi-supervised</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#基本定义"><span class="nav-number">3.1.</span> <span class="nav-text">基本定义</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#为什么要半监督学习"><span class="nav-number">3.2.</span> <span class="nav-text">为什么要半监督学习</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#为什么半监督学习有用"><span class="nav-number">3.3.</span> <span class="nav-text">为什么半监督学习有用</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#在产生模型的使用使用半监督学习"><span class="nav-number">3.3.1.</span> <span class="nav-text">在产生模型的使用使用半监督学习</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Low-density-Separation"><span class="nav-number">3.3.2.</span> <span class="nav-text">Low-density Separation</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#Self-training："><span class="nav-number">3.3.2.1.</span> <span class="nav-text">Self-training：</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Entropy-based-Regularization："><span class="nav-number">3.3.2.2.</span> <span class="nav-text">Entropy-based Regularization：</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Semi-supervised-SVM"><span class="nav-number">3.3.2.3.</span> <span class="nav-text">Semi-supervised SVM</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Smoothness-Assumption"><span class="nav-number">3.3.2.4.</span> <span class="nav-text">Smoothness Assumption</span></a></li></ol></li></ol></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#什么是GIT"><span class="nav-number">1.</span> <span class="nav-text">什么是GIT</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安装和初步使用"><span class="nav-number">2.</span> <span class="nav-text">安装和初步使用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#时光机"><span class="nav-number">3.</span> <span class="nav-text">时光机</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#工作区和暂存区"><span class="nav-number">4.</span> <span class="nav-text">工作区和暂存区</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#GitHub使用指南"><span class="nav-number">5.</span> <span class="nav-text">GitHub使用指南</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#将自己的仓库推送到github上"><span class="nav-number">5.1.</span> <span class="nav-text">将自己的仓库推送到github上</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#从远程库克隆到本地"><span class="nav-number">5.2.</span> <span class="nav-text">从远程库克隆到本地</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#分支"><span class="nav-number">6.</span> <span class="nav-text">分支</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#合并分支的错误"><span class="nav-number">6.1.</span> <span class="nav-text">合并分支的错误</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#多种分支管理"><span class="nav-number">6.2.</span> <span class="nav-text">多种分支管理</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#标签"><span class="nav-number">7.</span> <span class="nav-text">标签</span></a></li></ol></div>
             
 
           </div>
