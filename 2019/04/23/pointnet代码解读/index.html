@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="深度学习,卷积神经网络,">
+  <meta name="keywords" content="pytorch,python,三维深度学习,">
 
 
 
@@ -79,21 +79,20 @@
 
 
 
-<meta name="description" content="VGG这篇文章通过增加卷积神经网络的深度和减小卷积核的方法，训练了一个更大的拥有更好效果的卷积神经网络。做了多组对照试验，对卷积网络的深度，训练时数据集的选择，测试时数据集的选择，LRN的效果等都做了探讨。 贡献点 深度提升了性能  采用了小卷积核和小池化核  在测试的时候用卷积来代替全连接层   值得注意的一些做法以及解释 小卷积的好处（与大卷积的对比） 在达到相同感受野的前提下，卷积核越小的卷">
-<meta name="keywords" content="深度学习,卷积神经网络">
+<meta name="description" content="代码github链接 []: https://github.com/fxia22/pointnet.pytorch 加注释的代码链接 []: https://github.com/jianhuaguo/pointnet.pytorch">
+<meta name="keywords" content="pytorch,python,三维深度学习">
 <meta property="og:type" content="article">
-<meta property="og:title" content="VGG论文解读">
-<meta property="og:url" content="http://yoursite.com/2019/02/21/VGG论文解读/index.html">
+<meta property="og:title" content="Pointnet代码解读">
+<meta property="og:url" content="http://yoursite.com/2019/04/23/pointnet代码解读/index.html">
 <meta property="og:site_name" content="摸鱼博客">
-<meta property="og:description" content="VGG这篇文章通过增加卷积神经网络的深度和减小卷积核的方法，训练了一个更大的拥有更好效果的卷积神经网络。做了多组对照试验，对卷积网络的深度，训练时数据集的选择，测试时数据集的选择，LRN的效果等都做了探讨。 贡献点 深度提升了性能  采用了小卷积核和小池化核  在测试的时候用卷积来代替全连接层   值得注意的一些做法以及解释 小卷积的好处（与大卷积的对比） 在达到相同感受野的前提下，卷积核越小的卷">
+<meta property="og:description" content="代码github链接 []: https://github.com/fxia22/pointnet.pytorch 加注释的代码链接 []: https://github.com/jianhuaguo/pointnet.pytorch">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%B7%B1%E5%BA%A6%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E6%9E%B6%E6%9E%84/VGG_%E6%84%9F%E5%8F%97%E9%87%8E.png">
-<meta property="og:image" content="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%B7%B1%E5%BA%A6%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E6%9E%B6%E6%9E%84/VGG%E6%A8%A1%E5%9E%8B%E6%A6%82%E8%BF%B0.png">
-<meta property="og:updated_time" content="2019-02-21T03:36:54.713Z">
+<meta property="og:image" content="https://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E4%B8%89%E7%BB%B4%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/pointnet/1.png">
+<meta property="og:updated_time" content="2019-04-23T07:41:16.782Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="VGG论文解读">
-<meta name="twitter:description" content="VGG这篇文章通过增加卷积神经网络的深度和减小卷积核的方法，训练了一个更大的拥有更好效果的卷积神经网络。做了多组对照试验，对卷积网络的深度，训练时数据集的选择，测试时数据集的选择，LRN的效果等都做了探讨。 贡献点 深度提升了性能  采用了小卷积核和小池化核  在测试的时候用卷积来代替全连接层   值得注意的一些做法以及解释 小卷积的好处（与大卷积的对比） 在达到相同感受野的前提下，卷积核越小的卷">
-<meta name="twitter:image" content="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%B7%B1%E5%BA%A6%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E6%9E%B6%E6%9E%84/VGG_%E6%84%9F%E5%8F%97%E9%87%8E.png">
+<meta name="twitter:title" content="Pointnet代码解读">
+<meta name="twitter:description" content="代码github链接 []: https://github.com/fxia22/pointnet.pytorch 加注释的代码链接 []: https://github.com/jianhuaguo/pointnet.pytorch">
+<meta name="twitter:image" content="https://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E4%B8%89%E7%BB%B4%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/pointnet/1.png">
 
 
 
@@ -123,13 +122,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2019/02/21/VGG论文解读/">
+  <link rel="canonical" href="http://yoursite.com/2019/04/23/pointnet代码解读/">
 
 
 
 
 
-  <title>VGG论文解读 | 摸鱼博客</title>
+  <title>Pointnet代码解读 | 摸鱼博客</title>
   
 
 
@@ -288,7 +287,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/02/21/VGG论文解读/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/04/23/pointnet代码解读/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="郭某人">
@@ -305,7 +304,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">VGG论文解读</h1>
+          <h1 class="post-title" itemprop="name headline">Pointnet代码解读</h1>
         
 
         <div class="post-meta">
@@ -317,8 +316,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-02-21T11:28:12+08:00">
-                2019-02-21
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-04-23T14:18:24+08:00">
+                2019-04-23
               </time>
             
 
@@ -340,8 +339,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/深度学习模型/" itemprop="url" rel="index">
-                    <span itemprop="name">深度学习模型</span>
+                  <a href="/categories/三维深度学习/" itemprop="url" rel="index">
+                    <span itemprop="name">三维深度学习</span>
                   </a>
                 </span>
 
@@ -377,47 +376,32 @@
       
 
       
-        <p>VGG这篇文章通过增加卷积神经网络的深度和减小卷积核的方法，训练了一个更大的拥有更好效果的卷积神经网络。做了多组对照试验，对卷积网络的深度，训练时数据集的选择，测试时数据集的选择，LRN的效果等都做了探讨。</p>
-<h3 id="贡献点"><a href="#贡献点" class="headerlink" title="贡献点"></a>贡献点</h3><ul>
-<li><p>深度提升了性能</p>
-</li>
-<li><p>采用了小卷积核和小池化核</p>
-</li>
-<li><p>在测试的时候用卷积来代替全连接层</p>
-</li>
-</ul>
-<h3 id="值得注意的一些做法以及解释"><a href="#值得注意的一些做法以及解释" class="headerlink" title="值得注意的一些做法以及解释"></a>值得注意的一些做法以及解释</h3><ul>
-<li><p>小卷积的好处（与大卷积的对比）</p>
-<p>在达到相同感受野的前提下，卷积核越小的卷积参数和计算量都越小。同时更小的卷积核拥有更多的非线性修正层，使决策函数更具有判别性。</p>
+        <p>代码github链接</p>
+<p>[]: <a href="https://github.com/fxia22/pointnet.pytorch" target="_blank" rel="noopener">https://github.com/fxia22/pointnet.pytorch</a></p>
+<p>加注释的代码链接</p>
+<p>[]: <a href="https://github.com/jianhuaguo/pointnet.pytorch" target="_blank" rel="noopener">https://github.com/jianhuaguo/pointnet.pytorch</a></p>
 <a id="more"></a>
-<p>另外在论文中，作者提到两个$3 \times 3​$的卷积的感受野大小等于一个$5 \times 5​$的感受野大小，三个$3 \times 3​$的卷积的感受野大小等于一个$7 \times 7​$的感受野大小。大概解释如下图</p>
-<p><img src="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%B7%B1%E5%BA%A6%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E6%9E%B6%E6%9E%84/VGG_%E6%84%9F%E5%8F%97%E9%87%8E.png" alt="感受野"></p>
-</li>
-<li><p>预处理时为什么要减去RGB的均值</p>
-<p>​    如果不处理的话，输入层的输入就相对较大，经过BP传播传回来的值就相对较大，这时候的学习率就不能太大，否则会错过局部最小。所以说学习率的选择需要参考输入层的数值，不如直接将数据归一化，就不用对学习率进行过多判断和处理。</p>
-</li>
-<li><p>预训练时能用的部分都用前面低层次网络训练所得的参数</p>
-</li>
-<li><p>多尺度训练时 参数怎么办</p>
-<p>​    多尺度训练是说截取的图片是多尺度，之后还是要归一化为固定的大小如（$224 \times 224)$</p>
-</li>
-<li><p>训练集 验证集和测试集</p>
-<p>​    训练集是用来训练模型内的参数的；验证集一开始还觉得和训练集差不多，其实它是用来调整超参数，不涉及网络权重的调整 ，也用来判断过拟合；测试集，评价模型的泛化能力。</p>
-<p>​    有个比喻，训练集就是上课听老师讲课，验证集是平时做作业，测试集是最后的考试</p>
-</li>
-</ul>
-<h3 id="网络架构"><a href="#网络架构" class="headerlink" title="网络架构"></a>网络架构</h3><p>设计了六个模型，具体如下图</p>
-<p><img src="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%B7%B1%E5%BA%A6%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E6%9E%B6%E6%9E%84/VGG%E6%A8%A1%E5%9E%8B%E6%A6%82%E8%BF%B0.png" alt="VGG"></p>
-<p>深度递增，共有五个池化层，每次池化之后，卷积核数目增加直到512.卷积大小基本都是$3 \times 3$，步长为1,填充像素为1.在C中验证最小卷积核$1 \times 1$的效果。池化层都是$2 \times 2$大小，步长为2。在A-LRN中，作者验证了AlexNet使用的LRN基本没有用，而且增加无用的计算。</p>
-<p><strong>部分结果：</strong>C的结果不如D,虽然小卷积增加了非线性成分，但是感受域下降了。</p>
-<h3 id="具体训练和测试的操作"><a href="#具体训练和测试的操作" class="headerlink" title="具体训练和测试的操作"></a>具体训练和测试的操作</h3><h4 id="选取训练图像的大小有两种方式。"><a href="#选取训练图像的大小有两种方式。" class="headerlink" title="选取训练图像的大小有两种方式。"></a>选取训练图像的大小有两种方式。</h4><p>第一种就是常用的固定大小尺度的训练，本文选择了两种边的大小（记为S)，一个是256.一个是384，而且为了加速，在训练S=384的网络用了S=256的权重来初始化。</p>
-<p>第二种就是多尺度训练，对每张训练图片的大小在一定范围内采取随机采样S，在一定意义扩充了数据集，并且符合现实中物体大小不一。</p>
-<p><strong>注意</strong>：网络的输入都是224，不管S是多少，最后都要裁剪成$224 \times 224$。（之前还在想随机S,网络结构不得一直变）</p>
-<p><strong>实验结果：</strong>第二种训练方法在实践里有更好的表现</p>
-<h4 id="测试图像的两个可变条件"><a href="#测试图像的两个可变条件" class="headerlink" title="测试图像的两个可变条件"></a>测试图像的两个可变条件</h4><p>第一种条件是是否测试多个尺度。需要决定测试图像的大小Q是否固定。若Q固定的话，在固定的S时，Q=S;不固定S的话，$Q=0.5*(S_{min}+S_{max})$。若Q不固定的话，在S固定时，$Q={S-32,S,S+32}$;S不固定时，$Q={S_{min},0.5 \times(S_{min}+S_{max},S_{max})}$.</p>
-<p><strong>实验结果：</strong>测试时的尺度抖动有更好的结果。</p>
-<p>第二种条件就是对测试图片多个采样或者采用全卷积网络，将全部的全连接层转化为卷积层，后者称为密集评估。不需要对测试图片进行采样。</p>
-<p><strong>实验结果：</strong>多裁剪的处理方式比密集评估效果越好，两者的结合有更好的结果。</p>
+<h3 id="整体网络结构"><a href="#整体网络结构" class="headerlink" title="整体网络结构"></a>整体网络结构</h3><p><img src="https://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E4%B8%89%E7%BB%B4%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/pointnet/1.png" alt></p>
+<p>整个分类网络结构中有四个类，类PointNetCls是总的分类器，调用了类PointNetfeat。</p>
+<p>类PointNetfeat计算出了global feature，调用了STN3d和STNkd，STN3d是输入转换，STNkd是特征装换</p>
+<h4 id="STN3d"><a href="#STN3d" class="headerlink" title="STN3d"></a>STN3d</h4><p>对输入的点云进行输入装换（input transform），输入的数据是bathcsize*2500(一个物体取的点的数目）*3（一个点的xyz坐标），经过层层卷积层和紧跟的全连接层，得到一个batchsize<em>9的矩阵，再1对1加上一个[1,0,0,0,1,0,0,0,1]\</em>batchsize，用view，转换成$batchsize \times 3 \times 3$的数组，返回给PointNetfeat</p>
+<p>其中这部分的卷积网络叫做T-Net</p>
+<h4 id="STNkd"><a href="#STNkd" class="headerlink" title="STNkd"></a>STNkd</h4><p>大致和STN3d相同，就是从T-net出来的结果是$32 \times 64 \times 64$的特征，再与一个拉平的对角矩阵相加，返回的结果是$batchsize \times k \times k$大小</p>
+<h4 id="PointNetfeat"><a href="#PointNetfeat" class="headerlink" title="PointNetfeat"></a>PointNetfeat</h4><p>从STN得到矩阵组合[32,3,3]和原来的数据[32,2500,3]相乘，经过一个卷积层之后得到[32,64,2500],再送入STNkd，也就是特征转换（feature transform)，返回$batchsize \times k \times k$大小。再将经过卷积的[32,64,2500]与特征转换之后的结果相乘，得到[32,64,2500]。如果是分类的话将结果送回PointNetCls即可，分割将全局特征分给每一个点，还有局部特征等都返回。</p>
+<h3 id="语法点"><a href="#语法点" class="headerlink" title="语法点"></a>语法点</h3><h4 id="Pip-install-e"><a href="#Pip-install-e" class="headerlink" title="Pip install -e ."></a>Pip install -e .</h4><p>在当前路径中的setup.py中的说明为这个工程安装依赖，称为editable installs.在本地工程路径上创造egg目录，实际上和“python setup.py develop”相差不大。</p>
+<p>由于我已经安装了这些包，我就把setup中装包的部分注释点，要是不执行install -e . 那么整个工程的路径都很混乱。利用了python中egg的机制，这个有机会再学习。</p>
+<h4 id="卷积和反卷积（transposed-convolution-deconvolution"><a href="#卷积和反卷积（transposed-convolution-deconvolution" class="headerlink" title="卷积和反卷积（transposed convolution/deconvolution)"></a>卷积和反卷积（transposed convolution/deconvolution)</h4><p>参考链接</p>
+<p>[]: <a href="https://blog.csdn.net/lanadeus/article/details/82534425" target="_blank" rel="noopener">https://blog.csdn.net/lanadeus/article/details/82534425</a></p>
+<p>卷积可以看成一个卷积矩阵和图片向量相乘得到一个值的向量，反过来将卷积矩阵的装置乘所得值的向量就能得到这个原图向量，从本质上来说卷积建立了多对一的关系，是建立input和output值的位置性关系。</p>
+<p>卷积实际上是不可逆的，反卷积只是计算出了位置性关系的矩阵。和普通卷积相比,intput和output的关系被反向处理(转置卷积是1对多,而不是普通的多对1),才是转置卷积的本质。反卷积矩阵是被学习的。</p>
+<h4 id="np-random-choice（）"><a href="#np-random-choice（）" class="headerlink" title="np.random.choice（）"></a>np.random.choice（）</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">numpy.random.choice(a, size=<span class="literal">None</span>, replace=<span class="literal">True</span>, p=<span class="literal">None</span>)</span><br><span class="line">从一维数组中随机采样</span><br><span class="line">如果a是一个数组，就从a中采样，如果a是整数，就当做arange(a)，再从中取数</span><br><span class="line">size就是要取的数的数量</span><br></pre></td></tr></table></figure>
+<h4 id="torch-nn-Conv1d"><a href="#torch-nn-Conv1d" class="headerlink" title="torch.nn.Conv1d"></a>torch.nn.Conv1d</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">torch.nn.Conv1d(in_channels, out_channels, kernel_size, stride=<span class="number">1</span>, padding=<span class="number">0</span>, dilation=<span class="number">1</span>, groups=<span class="number">1</span>, bias=<span class="literal">True</span>)</span><br><span class="line"></span><br><span class="line">首先一维卷积即卷积时只看在最后一维上操作</span><br><span class="line">in_channels是输入的通道，也就是要等于要进行操作数据的第二维 第一维是batchsize</span><br><span class="line">out_channels是输出的通道，实际上也就是卷积核的数目</span><br><span class="line">kernel_size是卷积核的大小 一维卷积中 卷积核的宽一定等于in_channel；kernel_size也就是决定了在第三维上滑动卷积核的长</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">对于数据，输入的是（N,C，L） 输出的是（N,C，L） 其中N是是bathcsize c是数据的通道 L是数据的长度</span><br><span class="line">在这个实验中 N就是<span class="number">60</span> C是<span class="number">3</span>（x,y,z） L是<span class="number">2500</span>（一个物体采集的点的数目）</span><br><span class="line"><span class="keyword">import</span> torch</span><br><span class="line"><span class="keyword">import</span> torch.nn <span class="keyword">as</span> nn</span><br><span class="line"></span><br><span class="line">m = nn.Conv1d(<span class="number">16</span>, <span class="number">33</span>, <span class="number">3</span>,stride=<span class="number">2</span>)</span><br><span class="line">input = torch.randn(<span class="number">20</span>, <span class="number">16</span>, <span class="number">50</span>)</span><br><span class="line">output = m(input)</span><br><span class="line">print(output.shape)</span><br><span class="line"></span><br><span class="line"><span class="comment">#torch.Size([20, 33, 24])</span></span><br><span class="line">输出的<span class="number">20</span>是batchsize大小，<span class="number">33</span>是指定的输出也就是卷积核个数</span><br><span class="line"><span class="number">24</span>=(<span class="number">50</span><span class="number">-3</span>)/<span class="number">2</span>+<span class="number">1</span> 也就是一个卷积核在第三维上卷积的结果，该结果是一个一维数组</span><br></pre></td></tr></table></figure>
+<h4 id="torch-nn-Conv2d"><a href="#torch-nn-Conv2d" class="headerlink" title="torch.nn.Conv2d"></a>torch.nn.Conv2d</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">torch.nn.Conv2d(in_channels, out_channels, kernel_size, stride=<span class="number">1</span>, padding=<span class="number">0</span>, dilation=<span class="number">1</span>, groups=<span class="number">1</span>, bias=<span class="literal">True</span>)</span><br><span class="line"></span><br><span class="line">参数和一维卷积基本一样 但是核的大小和步长可以是一个二维元组 也就是在两个维度卷积的参数可以设置不同</span><br><span class="line">输入和输出不大一样 因为这是在两个维度上卷积</span><br><span class="line">输入为（N,C_in,H,W）输出为（N,C_out,H_out，W_out） H和W是数据的长和宽  c是通道 比如图像的RGB</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> torch</span><br><span class="line"><span class="keyword">import</span> torch.nn <span class="keyword">as</span> nn</span><br><span class="line"></span><br><span class="line">m = nn.Conv1d(<span class="number">16</span>, <span class="number">33</span>, (<span class="number">3</span>,<span class="number">3</span>),stride=<span class="number">2</span>)</span><br><span class="line">input = torch.randn(<span class="number">20</span>, <span class="number">16</span>, <span class="number">50</span>, <span class="number">100</span>)</span><br><span class="line">output = m(input)</span><br><span class="line">print(output.shape)</span><br><span class="line"></span><br><span class="line"><span class="comment">#输出torch.Size([20, 33, 24, 49])</span></span><br><span class="line"><span class="number">20</span>是batchsize自然不会变 <span class="number">33</span>是卷积核 <span class="number">24</span>和<span class="number">49</span>分别是大小为<span class="number">3</span>的卷积核在图上卷积所得结果。</span><br></pre></td></tr></table></figure>
+<h4 id="torch-max"><a href="#torch-max" class="headerlink" title="torch.max"></a>torch.max</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">torch.max(input, dim, keepdim=False, out=None) -&gt; (Tensor, LongTensor)</span><br><span class="line"></span><br><span class="line">根据指定的维度返回每一维度的最大值，返回的第二个是最大值所在的下标</span><br><span class="line">在二维中 dim=<span class="number">0</span> 每一行最大 dim=<span class="number">1</span> 每一列最大 </span><br><span class="line">或者可以理解选dim所在一维的最大 比如（<span class="number">4</span>,<span class="number">3</span>） dim=<span class="number">0</span> 就是在四个中找最大 dim=<span class="number">1</span> 就是在<span class="number">3</span>个找最大</span><br><span class="line">如果keepdim=<span class="literal">True</span>的话 数据形状保持不变 但是那些不是最大的元素都去掉了</span><br><span class="line"></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>a = torch.randn(<span class="number">4</span>, <span class="number">4</span>)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>a</span><br><span class="line">tensor([[<span class="number">-1.2360</span>, <span class="number">-0.2942</span>, <span class="number">-0.1222</span>,  <span class="number">0.8475</span>],</span><br><span class="line">        [ <span class="number">1.1949</span>, <span class="number">-1.1127</span>, <span class="number">-2.2379</span>, <span class="number">-0.6702</span>],</span><br><span class="line">        [ <span class="number">1.5717</span>, <span class="number">-0.9207</span>,  <span class="number">0.1297</span>, <span class="number">-1.8768</span>],</span><br><span class="line">        [<span class="number">-0.6172</span>,  <span class="number">1.0036</span>, <span class="number">-0.6060</span>, <span class="number">-0.2432</span>]])</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>torch.max(a, <span class="number">1</span>)</span><br><span class="line">(tensor([ <span class="number">0.8475</span>,  <span class="number">1.1949</span>,  <span class="number">1.5717</span>,  <span class="number">1.0036</span>]), tensor([ <span class="number">3</span>,  <span class="number">0</span>,  <span class="number">0</span>,  <span class="number">1</span>]))</span><br></pre></td></tr></table></figure>
+<h4 id="torch-bmm"><a href="#torch-bmm" class="headerlink" title="torch.bmm()"></a>torch.bmm()</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">矩阵乘法</span><br><span class="line">torch.bmm(batch1, batch2, out=<span class="literal">None</span>) → Tensor</span><br><span class="line">batch1 和 batch2 都是三维向量</span><br><span class="line">他们的第一维要相等 相当于固定数目的二维矩阵相乘</span><br><span class="line"></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>batch1 = torch.randn(<span class="number">10</span>, <span class="number">3</span>, <span class="number">4</span>)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>batch2 = torch.randn(<span class="number">10</span>, <span class="number">4</span>, <span class="number">5</span>)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>res = torch.bmm(batch1, batch2)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>res.size()</span><br><span class="line">torch.Size([<span class="number">10</span>, <span class="number">3</span>, <span class="number">5</span>])</span><br></pre></td></tr></table></figure>
+<h4 id="np-eye-k"><a href="#np-eye-k" class="headerlink" title="np.eye(k)"></a>np.eye(k)</h4><p>输出k行k列的单位对角矩阵</p>
+<h4 id="torch-repeat"><a href="#torch-repeat" class="headerlink" title="torch.repeat()"></a>torch.repeat()</h4><p>在特定的维度重复tensor</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>x = torch.tensor([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>])</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>x.repeat(<span class="number">4</span>, <span class="number">2</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">#将x重复四行两列</span></span><br><span class="line">tensor([[ <span class="number">1</span>,  <span class="number">2</span>,  <span class="number">3</span>,  <span class="number">1</span>,  <span class="number">2</span>,  <span class="number">3</span>],</span><br><span class="line">        [ <span class="number">1</span>,  <span class="number">2</span>,  <span class="number">3</span>,  <span class="number">1</span>,  <span class="number">2</span>,  <span class="number">3</span>],</span><br><span class="line">        [ <span class="number">1</span>,  <span class="number">2</span>,  <span class="number">3</span>,  <span class="number">1</span>,  <span class="number">2</span>,  <span class="number">3</span>],</span><br><span class="line">        [ <span class="number">1</span>,  <span class="number">2</span>,  <span class="number">3</span>,  <span class="number">1</span>,  <span class="number">2</span>,  <span class="number">3</span>]])</span><br></pre></td></tr></table></figure>
 
       
     </div>
@@ -435,9 +419,11 @@
       
         <div class="post-tags">
           
-            <a href="/tags/深度学习/" rel="tag"># 深度学习</a>
+            <a href="/tags/pytorch/" rel="tag"># pytorch</a>
           
-            <a href="/tags/卷积神经网络/" rel="tag"># 卷积神经网络</a>
+            <a href="/tags/python/" rel="tag"># python</a>
+          
+            <a href="/tags/三维深度学习/" rel="tag"># 三维深度学习</a>
           
         </div>
       
@@ -450,8 +436,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/02/19/ZFNet论文解读/" rel="next" title="ZFNet论文解读">
-                <i class="fa fa-chevron-left"></i> ZFNet论文解读
+              <a href="/2019/04/20/PointNet论文解读/" rel="next" title="PointNet论文解读">
+                <i class="fa fa-chevron-left"></i> PointNet论文解读
               </a>
             
           </div>
@@ -459,10 +445,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2019/02/22/GoogLeNet论文解读/" rel="prev" title="GoogLeNet论文解读">
-                GoogLeNet论文解读 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -606,7 +588,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#贡献点"><span class="nav-number">1.</span> <span class="nav-text">贡献点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#值得注意的一些做法以及解释"><span class="nav-number">2.</span> <span class="nav-text">值得注意的一些做法以及解释</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#网络架构"><span class="nav-number">3.</span> <span class="nav-text">网络架构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#具体训练和测试的操作"><span class="nav-number">4.</span> <span class="nav-text">具体训练和测试的操作</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#选取训练图像的大小有两种方式。"><span class="nav-number">4.1.</span> <span class="nav-text">选取训练图像的大小有两种方式。</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#测试图像的两个可变条件"><span class="nav-number">4.2.</span> <span class="nav-text">测试图像的两个可变条件</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#整体网络结构"><span class="nav-number">1.</span> <span class="nav-text">整体网络结构</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#STN3d"><span class="nav-number">1.1.</span> <span class="nav-text">STN3d</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#STNkd"><span class="nav-number">1.2.</span> <span class="nav-text">STNkd</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#PointNetfeat"><span class="nav-number">1.3.</span> <span class="nav-text">PointNetfeat</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#语法点"><span class="nav-number">2.</span> <span class="nav-text">语法点</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Pip-install-e"><span class="nav-number">2.1.</span> <span class="nav-text">Pip install -e .</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#卷积和反卷积（transposed-convolution-deconvolution"><span class="nav-number">2.2.</span> <span class="nav-text">卷积和反卷积（transposed convolution/deconvolution)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#np-random-choice（）"><span class="nav-number">2.3.</span> <span class="nav-text">np.random.choice（）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#torch-nn-Conv1d"><span class="nav-number">2.4.</span> <span class="nav-text">torch.nn.Conv1d</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#torch-nn-Conv2d"><span class="nav-number">2.5.</span> <span class="nav-text">torch.nn.Conv2d</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#torch-max"><span class="nav-number">2.6.</span> <span class="nav-text">torch.max</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#torch-bmm"><span class="nav-number">2.7.</span> <span class="nav-text">torch.bmm()</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#np-eye-k"><span class="nav-number">2.8.</span> <span class="nav-text">np.eye(k)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#torch-repeat"><span class="nav-number">2.9.</span> <span class="nav-text">torch.repeat()</span></a></li></ol></li></ol></div>
             
 
           </div>
