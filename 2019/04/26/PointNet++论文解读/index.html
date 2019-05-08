@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="深度学习,卷积神经网络,">
+  <meta name="keywords" content="三维深度学习,">
 
 
 
@@ -79,21 +79,22 @@
 
 
 
-<meta name="description" content="提升网络性能一般都是提高网络的深度和宽度，这将带来参数过多，难以训练等问题。本文作者想着用稀疏结构来取代传统的密集连接。由于当下硬件更为支持密集数据的计算，作者提出了Inception这一架构近似的最优局部稀疏结构，将稀疏矩阵聚类为相对密集的子矩阵。 注意：Inception的作用可以近似地解释为：替代了人工确定卷积层中过滤器的类型或者是否创建卷积层和池化层，让网络自己学习它具体需要什么参数。 贡">
-<meta name="keywords" content="深度学习,卷积神经网络">
+<meta name="description" content="​    这篇论文在PointNet论文的基础上对点云网络进行修改，主要做了两个改进。一是增加对点云局部特征的提取，做法是学习CNN的层级网络；二是增加自适应尺寸特征提取层，增强对多尺寸的特征的鲁棒性。">
+<meta name="keywords" content="三维深度学习">
 <meta property="og:type" content="article">
-<meta property="og:title" content="GoogLeNet论文解读">
-<meta property="og:url" content="http://yoursite.com/2019/02/22/GoogLeNet论文解读/index.html">
+<meta property="og:title" content="PointNet++论文解读">
+<meta property="og:url" content="http://yoursite.com/2019/04/26/PointNet++论文解读/index.html">
 <meta property="og:site_name" content="摸鱼博客">
-<meta property="og:description" content="提升网络性能一般都是提高网络的深度和宽度，这将带来参数过多，难以训练等问题。本文作者想着用稀疏结构来取代传统的密集连接。由于当下硬件更为支持密集数据的计算，作者提出了Inception这一架构近似的最优局部稀疏结构，将稀疏矩阵聚类为相对密集的子矩阵。 注意：Inception的作用可以近似地解释为：替代了人工确定卷积层中过滤器的类型或者是否创建卷积层和池化层，让网络自己学习它具体需要什么参数。 贡">
+<meta property="og:description" content="​    这篇论文在PointNet论文的基础上对点云网络进行修改，主要做了两个改进。一是增加对点云局部特征的提取，做法是学习CNN的层级网络；二是增加自适应尺寸特征提取层，增强对多尺寸的特征的鲁棒性。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%B7%B1%E5%BA%A6%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E6%9E%B6%E6%9E%84/Inception.png">
-<meta property="og:image" content="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%B7%B1%E5%BA%A6%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E6%9E%B6%E6%9E%84/googLeNet.jpg">
-<meta property="og:updated_time" content="2019-02-22T04:24:20.166Z">
+<meta property="og:image" content="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E4%B8%89%E7%BB%B4%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/pointnet%2B%2B/1.png">
+<meta property="og:image" content="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E4%B8%89%E7%BB%B4%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/pointnet%2B%2B/2.png">
+<meta property="og:image" content="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E4%B8%89%E7%BB%B4%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/pointnet%2B%2B/3.png">
+<meta property="og:updated_time" content="2019-05-05T01:20:02.891Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="GoogLeNet论文解读">
-<meta name="twitter:description" content="提升网络性能一般都是提高网络的深度和宽度，这将带来参数过多，难以训练等问题。本文作者想着用稀疏结构来取代传统的密集连接。由于当下硬件更为支持密集数据的计算，作者提出了Inception这一架构近似的最优局部稀疏结构，将稀疏矩阵聚类为相对密集的子矩阵。 注意：Inception的作用可以近似地解释为：替代了人工确定卷积层中过滤器的类型或者是否创建卷积层和池化层，让网络自己学习它具体需要什么参数。 贡">
-<meta name="twitter:image" content="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%B7%B1%E5%BA%A6%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E6%9E%B6%E6%9E%84/Inception.png">
+<meta name="twitter:title" content="PointNet++论文解读">
+<meta name="twitter:description" content="​    这篇论文在PointNet论文的基础上对点云网络进行修改，主要做了两个改进。一是增加对点云局部特征的提取，做法是学习CNN的层级网络；二是增加自适应尺寸特征提取层，增强对多尺寸的特征的鲁棒性。">
+<meta name="twitter:image" content="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E4%B8%89%E7%BB%B4%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/pointnet%2B%2B/1.png">
 
 
 
@@ -123,13 +124,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2019/02/22/GoogLeNet论文解读/">
+  <link rel="canonical" href="http://yoursite.com/2019/04/26/PointNet++论文解读/">
 
 
 
 
 
-  <title>GoogLeNet论文解读 | 摸鱼博客</title>
+  <title>PointNet++论文解读 | 摸鱼博客</title>
   
 
 
@@ -288,7 +289,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/02/22/GoogLeNet论文解读/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/04/26/PointNet++论文解读/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="郭某人">
@@ -305,7 +306,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">GoogLeNet论文解读</h1>
+          <h1 class="post-title" itemprop="name headline">PointNet++论文解读</h1>
         
 
         <div class="post-meta">
@@ -317,8 +318,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-02-22T12:28:12+08:00">
-                2019-02-22
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-04-26T16:18:24+08:00">
+                2019-04-26
               </time>
             
 
@@ -340,8 +341,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/深度学习模型/" itemprop="url" rel="index">
-                    <span itemprop="name">深度学习模型</span>
+                  <a href="/categories/三维深度学习/" itemprop="url" rel="index">
+                    <span itemprop="name">三维深度学习</span>
                   </a>
                 </span>
 
@@ -377,27 +378,21 @@
       
 
       
-        <p>提升网络性能一般都是提高网络的深度和宽度，这将带来参数过多，难以训练等问题。本文作者想着用稀疏结构来取代传统的密集连接。由于当下硬件更为支持密集数据的计算，作者提出了<strong>Inception</strong>这一架构近似的最优局部稀疏结构，将稀疏矩阵聚类为相对密集的子矩阵。</p>
-<p><strong>注意：Inception的作用可以近似地解释为：替代了人工确定卷积层中过滤器的类型或者是否创建卷积层和池化层，让网络自己学习它具体需要什么参数。</strong></p>
-<h3 id="贡献点"><a href="#贡献点" class="headerlink" title="贡献点"></a>贡献点</h3><ul>
-<li><p>提出Inception这一全新架构，是稀疏连接的代表</p>
-</li>
-<li><p>多尺度卷积核，最后处理聚合</p>
-</li>
-<li><p>通过引进$1 \times 1$小卷积核来降低维度</p>
-</li>
-<li><p>为了避免梯度消失，在架构中增加了两个辅助的softmax用于向前传导梯度，并以较小的权重（0.3）加到最终分类结果，有些正则化的意思</p>
-</li>
-</ul>
+        <p>​    这篇论文在PointNet论文的基础上对点云网络进行修改，主要做了两个改进。一是增加对点云局部特征的提取，做法是学习CNN的层级网络；二是增加自适应尺寸特征提取层，增强对多尺寸的特征的鲁棒性。</p>
 <a id="more"></a>
-<h3 id="理论基础"><a href="#理论基础" class="headerlink" title="理论基础"></a>理论基础</h3><p>网络的规模的增大，有两个主要缺点。一是更大的尺寸需要更多的参数，也有着更大的过拟合的可能性。第二个缺点是更大的网络自然需要更大的训练集，而训练集的获得需要很大的成本。深度网络的实用性和性能的增长都陷入了瓶颈。</p>
-<p>作者引进稀疏性来解决以上问题，但是由于当下的计算架构不是很支持稀疏数据结构的数值计算。Inception就是利用滤波器水平的稀疏性，但又利用密集矩阵计算来利用目前的硬件。出于便利性，架构的滤波器仅有$1 \times 1$,$3 \times 3$,$5 \times 5$,由于池化操作的良好表现，又加入一个并行的池化路径。（玄学？）初始架构如下图（a),后加入$1 \times 1​$滤波器来降维，如下图（b).</p>
-<p><img src="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%B7%B1%E5%BA%A6%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E6%9E%B6%E6%9E%84/Inception.png" alt="1"></p>
-<h3 id="具体架构"><a href="#具体架构" class="headerlink" title="具体架构"></a>具体架构</h3><p>GoogLeNet是Inception的一个应用，前几层是常见的卷积网络，接下来就是以上所说的Inception结构，最后为了方便泛化到其他数据集还加上一个额外的线性层。虽然移除了全连接层，还是用了70%的dropout策略。（具体在哪用，论文没表述）</p>
-<p>为了有效的训练，同时考虑到中间层产生的特征具有一定的是别离，在中间层加了一些softmax层，并以一定权重直接加到最后的结果中，在后面的控制训练中，发现这些辅助网络影响相对较小，只需要一个就能取得一样的效果。</p>
-<p>训练方法就是正常的BP算法，图像块的采样是随机采样，在图像的$8\%-100\%$上，方向角限制在$[\frac{3}{4},\frac{4}{3}]​$之间，光度扭曲被使用。测试时采用多尺度多方位采样，在比赛中作者采样了144个，在实际中可能不需要这么多数据。</p>
-<p>详细框架如下图</p>
-<p><img src="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%B7%B1%E5%BA%A6%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E6%9E%B6%E6%9E%84/googLeNet.jpg" alt></p>
+<h3 id="网络架构"><a href="#网络架构" class="headerlink" title="网络架构"></a>网络架构</h3><p><img src="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E4%B8%89%E7%BB%B4%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/pointnet%2B%2B/1.png" alt></p>
+<p>该架构一共有三个关键点，以下进行一一说明</p>
+<h4 id="层级网络架构"><a href="#层级网络架构" class="headerlink" title="层级网络架构"></a>层级网络架构</h4><p>为了提取点云的局部特征，在子集点云采集特征，然后向上传播，越后面特征在点云上的感受野越大。该部分叫做set abstraction levels.该部分又可以分为三个子部分，sampling layer,grouping layering和PointNet layer</p>
+<h5 id="sampling-layer"><a href="#sampling-layer" class="headerlink" title="sampling layer"></a>sampling layer</h5><p>采样层主要是在点云中选取若干关键点，本文采用的是FPS(farthest point samping)方法去产生这些关键点，被称为centorid points.</p>
+<h5 id="grouping-layer"><a href="#grouping-layer" class="headerlink" title="grouping layer"></a>grouping layer</h5><p>该层为给的每一个centorid point生成若干相邻点，组成子区域。生成相邻点常用两种方法，一种是kNN也就是找距离最近的K个点；二是ball  query，在一定距离内的点都当成相邻点（但是指定k做为上限）。本文选的是后者，因为点云的采集往往没有均匀。</p>
+<h5 id="pointnet-layer"><a href="#pointnet-layer" class="headerlink" title="pointnet layer"></a>pointnet layer</h5><p>将上层传来的若干子区域提取特征，不过每一个子区域的点要以该区域的centorid point当做原点，将坐标规范化。</p>
+<h4 id="非统一密度学习"><a href="#非统一密度学习" class="headerlink" title="非统一密度学习"></a>非统一密度学习</h4><p>由于点云采集不均匀，对学习的成功率有很大影响，论文提出了自适应密度层，对不一样密度的点云有一定鲁棒性。主要有两种方法。</p>
+<p><img src="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E4%B8%89%E7%BB%B4%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/pointnet%2B%2B/2.png" alt></p>
+<h5 id="MSG"><a href="#MSG" class="headerlink" title="MSG"></a>MSG</h5><p>对不一样密度的区域进行训练，然后将特征级联在一起。具体的实现方法是对点采用dropout，就是每次随机抛弃一些点，对每一次选择进行训练，然后把提取的特征级联在一起。</p>
+<p>不过此方法有个明显的缺点，就是太耗费时间了。</p>
+<h5 id="MRG"><a href="#MRG" class="headerlink" title="MRG"></a>MRG</h5><p>因为该网络是层级网络，把之前层的特征和当前层的特征级联在一起，在进行训练，也一定程度上考虑了不同密度点的特征，大大减少了计算量，但是在后面实验中，准确率还是不如MSG。</p>
+<h4 id="在语义分割中，点的特征的传播"><a href="#在语义分割中，点的特征的传播" class="headerlink" title="在语义分割中，点的特征的传播"></a>在语义分割中，点的特征的传播</h4><p>由于在学习中，点是一直被下采样的。但是在语义分割中，需要对每一个点进行预测。一种方法是将所有的点都当作centorid point 然后分别训练，毫无疑问这样计算量太大了。另一种方法就是将根据当下的点进行插值，有L层特征插值得到L-1层的特征值，直到得到所有原始点的特征。具体公式如下，k取3，p取2.</p>
+<p><img src="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E4%B8%89%E7%BB%B4%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/pointnet%2B%2B/3.png" alt></p>
 
       
     </div>
@@ -415,9 +410,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/深度学习/" rel="tag"># 深度学习</a>
-          
-            <a href="/tags/卷积神经网络/" rel="tag"># 卷积神经网络</a>
+            <a href="/tags/三维深度学习/" rel="tag"># 三维深度学习</a>
           
         </div>
       
@@ -430,8 +423,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/02/21/VGG论文解读/" rel="next" title="VGG论文解读">
-                <i class="fa fa-chevron-left"></i> VGG论文解读
+              <a href="/2019/04/23/pointnet代码解读/" rel="next" title="Pointnet代码解读">
+                <i class="fa fa-chevron-left"></i> Pointnet代码解读
               </a>
             
           </div>
@@ -440,8 +433,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2019/02/23/ResNet论文解读/" rel="prev" title="ResNet论文解读">
-                ResNet论文解读 <i class="fa fa-chevron-right"></i>
+              <a href="/2019/05/08/Python的打包和分发/" rel="prev" title="python的打包和分发">
+                python的打包和分发 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -586,7 +579,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#贡献点"><span class="nav-number">1.</span> <span class="nav-text">贡献点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#理论基础"><span class="nav-number">2.</span> <span class="nav-text">理论基础</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#具体架构"><span class="nav-number">3.</span> <span class="nav-text">具体架构</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#网络架构"><span class="nav-number">1.</span> <span class="nav-text">网络架构</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#层级网络架构"><span class="nav-number">1.1.</span> <span class="nav-text">层级网络架构</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#sampling-layer"><span class="nav-number">1.1.1.</span> <span class="nav-text">sampling layer</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#grouping-layer"><span class="nav-number">1.1.2.</span> <span class="nav-text">grouping layer</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#pointnet-layer"><span class="nav-number">1.1.3.</span> <span class="nav-text">pointnet layer</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#非统一密度学习"><span class="nav-number">1.2.</span> <span class="nav-text">非统一密度学习</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#MSG"><span class="nav-number">1.2.1.</span> <span class="nav-text">MSG</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#MRG"><span class="nav-number">1.2.2.</span> <span class="nav-text">MRG</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#在语义分割中，点的特征的传播"><span class="nav-number">1.3.</span> <span class="nav-text">在语义分割中，点的特征的传播</span></a></li></ol></li></ol></div>
             
 
           </div>

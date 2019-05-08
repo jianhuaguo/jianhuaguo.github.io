@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="深度学习,卷积神经网络,">
+  <meta name="keywords" content="python,">
 
 
 
@@ -79,21 +79,18 @@
 
 
 
-<meta name="description" content="提升网络性能一般都是提高网络的深度和宽度，这将带来参数过多，难以训练等问题。本文作者想着用稀疏结构来取代传统的密集连接。由于当下硬件更为支持密集数据的计算，作者提出了Inception这一架构近似的最优局部稀疏结构，将稀疏矩阵聚类为相对密集的子矩阵。 注意：Inception的作用可以近似地解释为：替代了人工确定卷积层中过滤器的类型或者是否创建卷积层和池化层，让网络自己学习它具体需要什么参数。 贡">
-<meta name="keywords" content="深度学习,卷积神经网络">
+<meta name="description" content="为什么需要包管理python的模块或者源文件可以直接复制到目标项目进行使用，但是为了更多项目调用、共享给别人使用或者上传到网络就需要打包">
+<meta name="keywords" content="python">
 <meta property="og:type" content="article">
-<meta property="og:title" content="GoogLeNet论文解读">
-<meta property="og:url" content="http://yoursite.com/2019/02/22/GoogLeNet论文解读/index.html">
+<meta property="og:title" content="python的打包和分发">
+<meta property="og:url" content="http://yoursite.com/2019/05/08/Python的打包和分发/index.html">
 <meta property="og:site_name" content="摸鱼博客">
-<meta property="og:description" content="提升网络性能一般都是提高网络的深度和宽度，这将带来参数过多，难以训练等问题。本文作者想着用稀疏结构来取代传统的密集连接。由于当下硬件更为支持密集数据的计算，作者提出了Inception这一架构近似的最优局部稀疏结构，将稀疏矩阵聚类为相对密集的子矩阵。 注意：Inception的作用可以近似地解释为：替代了人工确定卷积层中过滤器的类型或者是否创建卷积层和池化层，让网络自己学习它具体需要什么参数。 贡">
+<meta property="og:description" content="为什么需要包管理python的模块或者源文件可以直接复制到目标项目进行使用，但是为了更多项目调用、共享给别人使用或者上传到网络就需要打包">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%B7%B1%E5%BA%A6%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E6%9E%B6%E6%9E%84/Inception.png">
-<meta property="og:image" content="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%B7%B1%E5%BA%A6%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E6%9E%B6%E6%9E%84/googLeNet.jpg">
-<meta property="og:updated_time" content="2019-02-22T04:24:20.166Z">
+<meta property="og:updated_time" content="2019-05-08T09:01:47.298Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="GoogLeNet论文解读">
-<meta name="twitter:description" content="提升网络性能一般都是提高网络的深度和宽度，这将带来参数过多，难以训练等问题。本文作者想着用稀疏结构来取代传统的密集连接。由于当下硬件更为支持密集数据的计算，作者提出了Inception这一架构近似的最优局部稀疏结构，将稀疏矩阵聚类为相对密集的子矩阵。 注意：Inception的作用可以近似地解释为：替代了人工确定卷积层中过滤器的类型或者是否创建卷积层和池化层，让网络自己学习它具体需要什么参数。 贡">
-<meta name="twitter:image" content="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%B7%B1%E5%BA%A6%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E6%9E%B6%E6%9E%84/Inception.png">
+<meta name="twitter:title" content="python的打包和分发">
+<meta name="twitter:description" content="为什么需要包管理python的模块或者源文件可以直接复制到目标项目进行使用，但是为了更多项目调用、共享给别人使用或者上传到网络就需要打包">
 
 
 
@@ -123,13 +120,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2019/02/22/GoogLeNet论文解读/">
+  <link rel="canonical" href="http://yoursite.com/2019/05/08/Python的打包和分发/">
 
 
 
 
 
-  <title>GoogLeNet论文解读 | 摸鱼博客</title>
+  <title>python的打包和分发 | 摸鱼博客</title>
   
 
 
@@ -288,7 +285,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/02/22/GoogLeNet论文解读/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/05/08/Python的打包和分发/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="郭某人">
@@ -305,7 +302,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">GoogLeNet论文解读</h1>
+          <h1 class="post-title" itemprop="name headline">python的打包和分发</h1>
         
 
         <div class="post-meta">
@@ -317,8 +314,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-02-22T12:28:12+08:00">
-                2019-02-22
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-05-08T15:18:24+08:00">
+                2019-05-08
               </time>
             
 
@@ -340,8 +337,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/深度学习模型/" itemprop="url" rel="index">
-                    <span itemprop="name">深度学习模型</span>
+                  <a href="/categories/python学习/" itemprop="url" rel="index">
+                    <span itemprop="name">python学习</span>
                   </a>
                 </span>
 
@@ -377,27 +374,38 @@
       
 
       
-        <p>提升网络性能一般都是提高网络的深度和宽度，这将带来参数过多，难以训练等问题。本文作者想着用稀疏结构来取代传统的密集连接。由于当下硬件更为支持密集数据的计算，作者提出了<strong>Inception</strong>这一架构近似的最优局部稀疏结构，将稀疏矩阵聚类为相对密集的子矩阵。</p>
-<p><strong>注意：Inception的作用可以近似地解释为：替代了人工确定卷积层中过滤器的类型或者是否创建卷积层和池化层，让网络自己学习它具体需要什么参数。</strong></p>
-<h3 id="贡献点"><a href="#贡献点" class="headerlink" title="贡献点"></a>贡献点</h3><ul>
-<li><p>提出Inception这一全新架构，是稀疏连接的代表</p>
+        <h3 id="为什么需要包管理"><a href="#为什么需要包管理" class="headerlink" title="为什么需要包管理"></a>为什么需要包管理</h3><p>python的模块或者源文件可以直接复制到目标项目进行使用，但是为了更多项目调用、共享给别人使用或者上传到网络就需要打包</p>
+<a id="more"></a>
+<h3 id="目前主要工具"><a href="#目前主要工具" class="headerlink" title="目前主要工具"></a>目前主要工具</h3><ul>
+<li><p>distutils             官方的库，使用setup.py来构建和安装包。2000年就停止开发了</p>
 </li>
-<li><p>多尺度卷积核，最后处理聚合</p>
+<li><p>setuptools        替代distutils的增强工具集，包含easy_install工具，支持egg格式的构建和安装。当前是包管理的核心模块。</p>
 </li>
-<li><p>通过引进$1 \times 1$小卷积核来降低维度</p>
-</li>
-<li><p>为了避免梯度消失，在架构中增加了两个辅助的softmax用于向前传导梯度，并以较小的权重（0.3）加到最终分类结果，有些正则化的意思</p>
+<li><p>pip                      构建在setuptools上，提供丰富的包管理功能</p>
 </li>
 </ul>
-<a id="more"></a>
-<h3 id="理论基础"><a href="#理论基础" class="headerlink" title="理论基础"></a>理论基础</h3><p>网络的规模的增大，有两个主要缺点。一是更大的尺寸需要更多的参数，也有着更大的过拟合的可能性。第二个缺点是更大的网络自然需要更大的训练集，而训练集的获得需要很大的成本。深度网络的实用性和性能的增长都陷入了瓶颈。</p>
-<p>作者引进稀疏性来解决以上问题，但是由于当下的计算架构不是很支持稀疏数据结构的数值计算。Inception就是利用滤波器水平的稀疏性，但又利用密集矩阵计算来利用目前的硬件。出于便利性，架构的滤波器仅有$1 \times 1$,$3 \times 3$,$5 \times 5$,由于池化操作的良好表现，又加入一个并行的池化路径。（玄学？）初始架构如下图（a),后加入$1 \times 1​$滤波器来降维，如下图（b).</p>
-<p><img src="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%B7%B1%E5%BA%A6%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E6%9E%B6%E6%9E%84/Inception.png" alt="1"></p>
-<h3 id="具体架构"><a href="#具体架构" class="headerlink" title="具体架构"></a>具体架构</h3><p>GoogLeNet是Inception的一个应用，前几层是常见的卷积网络，接下来就是以上所说的Inception结构，最后为了方便泛化到其他数据集还加上一个额外的线性层。虽然移除了全连接层，还是用了70%的dropout策略。（具体在哪用，论文没表述）</p>
-<p>为了有效的训练，同时考虑到中间层产生的特征具有一定的是别离，在中间层加了一些softmax层，并以一定权重直接加到最后的结果中，在后面的控制训练中，发现这些辅助网络影响相对较小，只需要一个就能取得一样的效果。</p>
-<p>训练方法就是正常的BP算法，图像块的采样是随机采样，在图像的$8\%-100\%$上，方向角限制在$[\frac{3}{4},\frac{4}{3}]​$之间，光度扭曲被使用。测试时采用多尺度多方位采样，在比赛中作者采样了144个，在实际中可能不需要这么多数据。</p>
-<p>详细框架如下图</p>
-<p><img src="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%B7%B1%E5%BA%A6%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E6%9E%B6%E6%9E%84/googLeNet.jpg" alt></p>
+<h3 id="包的格式"><a href="#包的格式" class="headerlink" title="包的格式"></a>包的格式</h3><p>python库打包的格式包括wheel和egg。egg是setuptools在2004年引入。而Wheel是2012年定义的，它的出现是为了替代egg,现在被认为是python的二进制包的标准格式。他们本质都是zip包。以下是主要区别</p>
+<ul>
+<li>wheel是一种分发格式，即打包格式。Egg即是分发格式，也是一种运行时安装的格式，并且可以被直接import</li>
+<li>Wheel文件不会包含.pyc文件</li>
+<li>wheel使用.dist-info目录，Egg使用.egg-info目录</li>
+</ul>
+<h3 id="具体使用"><a href="#具体使用" class="headerlink" title="具体使用"></a>具体使用</h3><h4 id="setup-py的编写"><a href="#setup-py的编写" class="headerlink" title="setup.py的编写"></a>setup.py的编写</h4><p>python库的打包分发的关键在于编写setup.py文件，编写规则是从setuptools或者distuils模块导入setup函数，并传入各类参数进行调用。比如</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># coding:utf-8</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> setuptools <span class="keyword">import</span> setup</span><br><span class="line"><span class="comment"># or</span></span><br><span class="line"><span class="comment"># from distutils.core import setup  </span></span><br><span class="line"></span><br><span class="line">setup(</span><br><span class="line">        name=<span class="string">'demo'</span>,     <span class="comment"># 包名字</span></span><br><span class="line">        version=<span class="string">'1.0'</span>,   <span class="comment"># 包版本</span></span><br><span class="line">        description=<span class="string">'This is a test of the setup'</span>,   <span class="comment"># 简单描述</span></span><br><span class="line">        author=<span class="string">'huoty'</span>,  <span class="comment"># 作者</span></span><br><span class="line">        author_email=<span class="string">'sudohuoty@163.com'</span>,  <span class="comment"># 作者邮箱</span></span><br><span class="line">        url=<span class="string">'https://www.konghy.com'</span>,      <span class="comment"># 包的主页</span></span><br><span class="line">        packages=[<span class="string">'demo'</span>],                 <span class="comment"># 包</span></span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<p>实际上还有很多其他重要参数，接下来对其中一些进行解释说明。</p>
+<h5 id="packages"><a href="#packages" class="headerlink" title="packages"></a>packages</h5><p>指定需要处理的包目录，但是对于复杂的工程来说，可能需要添加很多的包，setuptools提供了一个find_packages()函数，它默认在与setup.py文件的同一目录下搜索各个含有__init__.py的目录作为要添加的包。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">find_packages(where=<span class="string">'.'</span>, exclude=(), include=(<span class="string">'*'</span>,))</span><br><span class="line"><span class="comment">#where指定在哪个目录下搜索 exclude指定排除哪些包 include指定要包含的包</span></span><br></pre></td></tr></table></figure>
+<h5 id="ext-modules"><a href="#ext-modules" class="headerlink" title="ext_modules"></a>ext_modules</h5><p>用于构建C和C++扩展包，是Extension实例的列表，每一个Extension实例描述了一个独立的扩展模块，扩展模块可以设置扩展包名，头文件、源文件、链接库及其路径、宏定义和编辑参数等。如：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">setup(</span><br><span class="line">    <span class="comment"># other arguments here...</span></span><br><span class="line">    ext_modules=[</span><br><span class="line">        Extension(<span class="string">'foo'</span>,</span><br><span class="line">                  glob(path.join(here, <span class="string">'src'</span>, <span class="string">'*.c'</span>)),</span><br><span class="line">                  libraries = [ <span class="string">'rt'</span> ],</span><br><span class="line">                  include_dirs=[numpy.get_include()])</span><br><span class="line">    ]</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<h5 id="install-requires"><a href="#install-requires" class="headerlink" title="install_requires"></a>install_requires</h5><p>如果依赖其他包，可以指定包和版本号，在安装包时会自动从pypi仓库中下载指定的依赖包安装</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">install_requires=[</span><br><span class="line">    <span class="string">'requests&gt;=1.0'</span>,</span><br><span class="line">    <span class="string">'flask&gt;=1.0'</span></span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+<h4 id="setup-py使用"><a href="#setup-py使用" class="headerlink" title="setup.py使用"></a>setup.py使用</h4><p>setup.py有很多内置命令可供使用，以下查看所有支持的命令</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">python setup.py --help-commands</span><br><span class="line"></span><br><span class="line">python setup.py build  <span class="comment">#构建安装时所需的所有内容 类似于编译 </span></span><br><span class="line"></span><br><span class="line">python setup.py sdist   <span class="comment">#构建源码分发包  之后就会创建dist目录，里面有相应的.tar.gz格式的文件，使用者拿到这个文件之后解压，然后执行 python setup.py insatll 相关文件就会拷贝到相应文件下，以供导入使用</span></span><br><span class="line"></span><br><span class="line"> python setup.py build_ext  <span class="comment">#对ext_modules中的设定进行编译</span></span><br></pre></td></tr></table></figure>
+<h3 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h3><ul>
+<li><a href="http://blog.konghy.cn/2018/04/29/setup-dot-py/" target="_blank" rel="noopener"></a></li>
+<li><a href="https://lingxiankong.github.io/2013-12-23-python-setup.html" target="_blank" rel="noopener"></a></li>
+<li><a href="https://docs.python.org/3/distutils/setupscript.html" target="_blank" rel="noopener"></a></li>
+</ul>
 
       
     </div>
@@ -415,9 +423,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/深度学习/" rel="tag"># 深度学习</a>
-          
-            <a href="/tags/卷积神经网络/" rel="tag"># 卷积神经网络</a>
+            <a href="/tags/python/" rel="tag"># python</a>
           
         </div>
       
@@ -430,8 +436,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/02/21/VGG论文解读/" rel="next" title="VGG论文解读">
-                <i class="fa fa-chevron-left"></i> VGG论文解读
+              <a href="/2019/04/26/PointNet++论文解读/" rel="next" title="PointNet++论文解读">
+                <i class="fa fa-chevron-left"></i> PointNet++论文解读
               </a>
             
           </div>
@@ -439,10 +445,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2019/02/23/ResNet论文解读/" rel="prev" title="ResNet论文解读">
-                ResNet论文解读 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -586,7 +588,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#贡献点"><span class="nav-number">1.</span> <span class="nav-text">贡献点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#理论基础"><span class="nav-number">2.</span> <span class="nav-text">理论基础</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#具体架构"><span class="nav-number">3.</span> <span class="nav-text">具体架构</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#为什么需要包管理"><span class="nav-number">1.</span> <span class="nav-text">为什么需要包管理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#目前主要工具"><span class="nav-number">2.</span> <span class="nav-text">目前主要工具</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#包的格式"><span class="nav-number">3.</span> <span class="nav-text">包的格式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#具体使用"><span class="nav-number">4.</span> <span class="nav-text">具体使用</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#setup-py的编写"><span class="nav-number">4.1.</span> <span class="nav-text">setup.py的编写</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#packages"><span class="nav-number">4.1.1.</span> <span class="nav-text">packages</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#ext-modules"><span class="nav-number">4.1.2.</span> <span class="nav-text">ext_modules</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#install-requires"><span class="nav-number">4.1.3.</span> <span class="nav-text">install_requires</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#setup-py使用"><span class="nav-number">4.2.</span> <span class="nav-text">setup.py使用</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参考资料"><span class="nav-number">5.</span> <span class="nav-text">参考资料</span></a></li></ol></div>
             
 
           </div>
