@@ -284,6 +284,460 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/06/11/Sliding Shapes for 3D Object Detection in Depth Images/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="郭某人">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="摸鱼博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/06/11/Sliding Shapes for 3D Object Detection in Depth Images/" itemprop="url">Sliding Shapes for 3D Object Detection in Depth Images论文解读</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-06-11T15:18:24+08:00">
+                2019-06-11
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/三维检测/" itemprop="url" rel="index">
+                    <span itemprop="name">三维检测</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>现在整理论文的要求按照大师姐给的模板进行，也就是分成以下几点进行总结。</p>
+<h3 id="贡献点（文章的创新点）"><a href="#贡献点（文章的创新点）" class="headerlink" title="贡献点（文章的创新点）"></a>贡献点（文章的创新点）</h3><p>使用cad模型从不同角度渲染得到点云图集，为每一个点云图训练一个svm,将同一个类的所有svm组合起来，当做这一类的分类器。也就是有一个svm认为为正样本就可以。</p>
+<p><img src="https://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E4%B8%89%E7%BB%B4%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/Sliding%20Shapes%20for%203D%20Object%20Detection%20in%20Depth%20Images/1.png" alt="图片1"></p>
+<h3 id="处理数据类型（针对的数据是网格、点云或者是二维多视角图像等），是否数据校正（数据是同一姿态，还是不同姿态）"><a href="#处理数据类型（针对的数据是网格、点云或者是二维多视角图像等），是否数据校正（数据是同一姿态，还是不同姿态）" class="headerlink" title="处理数据类型（针对的数据是网格、点云或者是二维多视角图像等），是否数据校正（数据是同一姿态，还是不同姿态）"></a>处理数据类型（针对的数据是网格、点云或者是二维多视角图像等），是否数据校正（数据是同一姿态，还是不同姿态）</h3><p>训练：训练的时候用的是CAD模型，对每一个CAD取不一样的方向，大小，位置和摄像机的角度等，再对这些CAD从不同的角度进行渲染得到点云。假设cad是在重力方向，所以绕着z轴旋转。</p>
+<p>测试：局部搜索（假设一个SVM的数据是CAD在某一个位置渲染得到的，测试的时候窗口也只在这个位置附近进行滑动），排除一些空框和用CAD模型的边界来取代实际的边界。</p>
+<h3 id="网络结构（构架，损失函数等）"><a href="#网络结构（构架，损失函数等）" class="headerlink" title="网络结构（构架，损失函数等）"></a>网络结构（构架，损失函数等）</h3><p>传统方法没有什么架构。这里介绍一下它的特征子，由四个特征子组装成了一个特征。将3维空间分成0.1米宽的cell,在每一个cell上提取特征和滑动。</p>
+<p><img src="https://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E4%B8%89%E7%BB%B4%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/Sliding%20Shapes%20for%203D%20Object%20Detection%20in%20Depth%20Images/2.png" alt="图片2"></p>
+<p><strong>Point density feature</strong>  点密度特征，考虑到总体的点和cell内各个部分之间密度的关系</p>
+<p><strong>3D shape feature</strong>  cell内再划分成多个体素，考虑体素内的形状特征</p>
+<p><strong>3D normal feature</strong>  法线特征，数数的方式</p>
+<p><strong>Truncated Signed Distance Function (TSDF)</strong>  判断这个cell是在表面之后还是表面之前</p>
+<h3 id="训练方式（交替迭代方式训练，多步训练，还是整体训练）"><a href="#训练方式（交替迭代方式训练，多步训练，还是整体训练）" class="headerlink" title="训练方式（交替迭代方式训练，多步训练，还是整体训练）"></a>训练方式（交替迭代方式训练，多步训练，还是整体训练）</h3><p>训练SVM:使用某一个CAD的某一个视角的点云作为正样本，负样本为数据集里随便选的，用了hard negative mining。</p>
+<h3 id="数据集（数据集的名称，包含的模型类别和数目），和结果"><a href="#数据集（数据集的名称，包含的模型类别和数目），和结果" class="headerlink" title="数据集（数据集的名称，包含的模型类别和数目），和结果"></a>数据集（数据集的名称，包含的模型类别和数目），和结果</h3><p>RMRC dataset ，五个类，chair, toilet, bed, sofa, and table ，500个当训练，574当测试。</p>
+<p>PASCAL VOC  这是2D的检测数据集</p>
+<p><img src="https://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E4%B8%89%E7%BB%B4%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/Sliding%20Shapes%20for%203D%20Object%20Detection%20in%20Depth%20Images/3.png" alt="图片3"></p>
+<h3 id="代码（运行的框架，代码的语言）"><a href="#代码（运行的框架，代码的语言）" class="headerlink" title="代码（运行的框架，代码的语言）"></a>代码（运行的框架，代码的语言）</h3><p>代码语言是用matlab写的</p>
+<h3 id="改进点（文章中自己总结的可能的下一步方向，和自己想可能的方向）"><a href="#改进点（文章中自己总结的可能的下一步方向，和自己想可能的方向）" class="headerlink" title="改进点（文章中自己总结的可能的下一步方向，和自己想可能的方向）"></a>改进点（文章中自己总结的可能的下一步方向，和自己想可能的方向）</h3><p>现在的主要限制是缺少数据集。下一步方向计划从二维检测中学习，从数据中自动学习特征，和利用三维信息的上下文信息。</p>
+<h3 id="一些相关文件下载"><a href="#一些相关文件下载" class="headerlink" title="一些相关文件下载"></a>一些相关文件下载</h3><p><a href="https://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E4%B8%89%E7%BB%B4%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/Sliding%20Shapes%20for%203D%20Object%20Detection%20in%20Depth%20Images/Sliding%20Shapes%20for%203D%20Object%20Detection%20in%20Depth%20Images.pdf" target="_blank" rel="noopener">论文下载</a></p>
+<p><a href="https://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E4%B8%89%E7%BB%B4%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/Sliding%20Shapes%20for%203D%20Object%20Detection%20in%20Depth%20Images/Sliding%20Shapes%20for%203D%20Object%20Detection%20in%20Depth%20Images.pdf" target="_blank" rel="noopener">PPT下载</a></p>
+<p><a href="https://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E4%B8%89%E7%BB%B4%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/Sliding%20Shapes%20for%203D%20Object%20Detection%20in%20Depth%20Images/supp.pdf" target="_blank" rel="noopener">附加说明</a></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/05/14/Spatial Transformer Networks论文翻译/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="郭某人">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="摸鱼博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/05/14/Spatial Transformer Networks论文翻译/" itemprop="url">Spatial Transformer Networks论文翻译和个人理解</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-05-14T13:18:24+08:00">
+                2019-05-14
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/深度学习模型/" itemprop="url" rel="index">
+                    <span itemprop="name">深度学习模型</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h4 id="摘要"><a href="#摘要" class="headerlink" title="摘要"></a>摘要</h4><p>​    卷积神经网络定义了一组十分强大的模型，但是无法在以计算和参数都有效率的方式下实现对输入数据的空间不变性。在这篇论文中，我们介绍一种新的可学习的模块，Spatial Transformer,这个模块显式地实现了在网络架构中对数据的空间变换操作。这个可微分的模块可以被插入已经存在的卷积网络架构，使神经网络主动对特征图进行空间变换，而且是以特征图本身为条件，无需任何额外的培训监督或修改优化过程。我们展示了空间转换器的使用所产生的模型能够学习平移、缩放、旋转和更一般的弯曲的不变性，从而在多个基准测试和许多类转换上获得最先进的表现。</p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2019/05/14/Spatial Transformer Networks论文翻译/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/05/10/PointNet++代码解读/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="郭某人">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="摸鱼博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/05/10/PointNet++代码解读/" itemprop="url">Pointnet++代码解读</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-05-10T21:18:24+08:00">
+                2019-05-10
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/三维深度学习/" itemprop="url" rel="index">
+                    <span itemprop="name">三维深度学习</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>代码链接如下，由于服务器gpu满载，这个代码还没有跑</p>
+<p><a href="https://github.com/erikwijmans/Pointnet2_PyTorch" target="_blank" rel="noopener"><a href="https://github.com/erikwijmans/Pointnet2_PyTorch" target="_blank" rel="noopener">https://github.com/erikwijmans/Pointnet2_PyTorch</a></a></p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2019/05/10/PointNet++代码解读/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/05/08/Python的打包和分发/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1297,444 +1751,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/04/13/SPP论文解读/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="郭某人">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/avatar.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="摸鱼博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/04/13/SPP论文解读/" itemprop="url">SPP论文解读</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-04-13T11:18:24+08:00">
-                2019-04-13
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/目标检测/" itemprop="url" rel="index">
-                    <span itemprop="name">目标检测</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p> SPPNet考虑到图像中大小不一，而之前的网络每次输入固定大小，引进空间金字塔池化使网络可以对各个尺寸的图片进行处理。用SPP替代最后一个池化层。（实际上在处理之前也需要知道图像的大小，才能在SPP部分做相应变化）</p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2019/04/13/SPP论文解读/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/04/03/Git和Github/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="郭某人">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/avatar.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="摸鱼博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/04/03/Git和Github/" itemprop="url">Git和Github</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-04-03T11:18:24+08:00">
-                2019-04-03
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/工具/" itemprop="url" rel="index">
-                    <span itemprop="name">工具</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>本篇学习笔记主要基于廖雪峰的git教程</p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2019/04/03/Git和Github/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/04/01/机器学习笔记_李宏毅（22-23）/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="郭某人">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/avatar.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="摸鱼博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/04/01/机器学习笔记_李宏毅（22-23）/" itemprop="url">机器学习笔记_李宏毅（22-23）</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-04-01T20:18:24+08:00">
-                2019-04-01
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/机器学习/" itemprop="url" rel="index">
-                    <span itemprop="name">机器学习</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h2 id="Lecture-22-Ensemble"><a href="#Lecture-22-Ensemble" class="headerlink" title="Lecture 22 Ensemble"></a>Lecture 22 Ensemble</h2><p>综合一些不同的分类器，提升perform</p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2019/04/01/机器学习笔记_李宏毅（22-23）/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -1787,7 +1803,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">44</span>
+                  <span class="site-state-item-count">47</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -1798,7 +1814,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">11</span>
+                  <span class="site-state-item-count">12</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -1809,7 +1825,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">12</span>
+                  <span class="site-state-item-count">13</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>

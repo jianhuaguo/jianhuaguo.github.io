@@ -1,0 +1,1176 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="深度学习,卷积神经网络,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="摘要​    卷积神经网络定义了一组十分强大的模型，但是无法在以计算和参数都有效率的方式下实现对输入数据的空间不变性。在这篇论文中，我们介绍一种新的可学习的模块，Spatial Transformer,这个模块显式地实现了在网络架构中对数据的空间变换操作。这个可微分的模块可以被插入已经存在的卷积网络架构，使神经网络主动对特征图进行空间变换，而且是以特征图本身为条件，无需任何额外的培训监督或修改优化">
+<meta name="keywords" content="深度学习,卷积神经网络">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Spatial Transformer Networks论文翻译和个人理解">
+<meta property="og:url" content="http://yoursite.com/2019/05/14/Spatial Transformer Networks论文翻译/index.html">
+<meta property="og:site_name" content="摸鱼博客">
+<meta property="og:description" content="摘要​    卷积神经网络定义了一组十分强大的模型，但是无法在以计算和参数都有效率的方式下实现对输入数据的空间不变性。在这篇论文中，我们介绍一种新的可学习的模块，Spatial Transformer,这个模块显式地实现了在网络架构中对数据的空间变换操作。这个可微分的模块可以被插入已经存在的卷积网络架构，使神经网络主动对特征图进行空间变换，而且是以特征图本身为条件，无需任何额外的培训监督或修改优化">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%B7%B1%E5%BA%A6%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E6%9E%B6%E6%9E%84/spatial_transformer_network/1.png">
+<meta property="og:image" content="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%B7%B1%E5%BA%A6%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E6%9E%B6%E6%9E%84/spatial_transformer_network/2.png">
+<meta property="og:image" content="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%B7%B1%E5%BA%A6%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E6%9E%B6%E6%9E%84/spatial_transformer_network/3.png">
+<meta property="og:image" content="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%B7%B1%E5%BA%A6%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E6%9E%B6%E6%9E%84/spatial_transformer_network/4.png">
+<meta property="og:image" content="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%B7%B1%E5%BA%A6%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E6%9E%B6%E6%9E%84/spatial_transformer_network/5.png">
+<meta property="og:image" content="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%B7%B1%E5%BA%A6%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E6%9E%B6%E6%9E%84/spatial_transformer_network/6.png">
+<meta property="og:image" content="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%B7%B1%E5%BA%A6%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E6%9E%B6%E6%9E%84/spatial_transformer_network/7.png">
+<meta property="og:image" content="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%B7%B1%E5%BA%A6%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E6%9E%B6%E6%9E%84/spatial_transformer_network/8.png">
+<meta property="og:image" content="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%B7%B1%E5%BA%A6%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E6%9E%B6%E6%9E%84/spatial_transformer_network/9.png">
+<meta property="og:image" content="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%B7%B1%E5%BA%A6%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E6%9E%B6%E6%9E%84/spatial_transformer_network/10.jpg">
+<meta property="og:updated_time" content="2019-05-14T08:33:08.144Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Spatial Transformer Networks论文翻译和个人理解">
+<meta name="twitter:description" content="摘要​    卷积神经网络定义了一组十分强大的模型，但是无法在以计算和参数都有效率的方式下实现对输入数据的空间不变性。在这篇论文中，我们介绍一种新的可学习的模块，Spatial Transformer,这个模块显式地实现了在网络架构中对数据的空间变换操作。这个可微分的模块可以被插入已经存在的卷积网络架构，使神经网络主动对特征图进行空间变换，而且是以特征图本身为条件，无需任何额外的培训监督或修改优化">
+<meta name="twitter:image" content="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%B7%B1%E5%BA%A6%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E6%9E%B6%E6%9E%84/spatial_transformer_network/1.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/05/14/Spatial Transformer Networks论文翻译/">
+
+
+
+
+
+  <title>Spatial Transformer Networks论文翻译和个人理解 | 摸鱼博客</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">摸鱼博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/05/14/Spatial Transformer Networks论文翻译/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="郭某人">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="摸鱼博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Spatial Transformer Networks论文翻译和个人理解</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-05-14T13:18:24+08:00">
+                2019-05-14
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/深度学习模型/" itemprop="url" rel="index">
+                    <span itemprop="name">深度学习模型</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h4 id="摘要"><a href="#摘要" class="headerlink" title="摘要"></a>摘要</h4><p>​    卷积神经网络定义了一组十分强大的模型，但是无法在以计算和参数都有效率的方式下实现对输入数据的空间不变性。在这篇论文中，我们介绍一种新的可学习的模块，Spatial Transformer,这个模块显式地实现了在网络架构中对数据的空间变换操作。这个可微分的模块可以被插入已经存在的卷积网络架构，使神经网络主动对特征图进行空间变换，而且是以特征图本身为条件，无需任何额外的培训监督或修改优化过程。我们展示了空间转换器的使用所产生的模型能够学习平移、缩放、旋转和更一般的弯曲的不变性，从而在多个基准测试和许多类转换上获得最先进的表现。</p>
+<a id="more"></a>
+<h4 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h4><p>​    在最近几年，由于采用了一个快速的，可量化的，端对端的学习框架—卷积神经网络（CNN)，计算机视觉的发展已经被极大的改变和推动。即使不是最近的发明，我们可以看到基于CNN的众多模型已经在分类、定位、语义分割和动作识别任务等方面达到了最先进的结果。</p>
+<p>​    能够对图像进行推理的系统的一个理想特性是将物体的姿态和部分变形从纹理和形状中分离出来。在卷积神经网络中局部最大池化层的引进是为了满足这个特性，通过网络在一定程度上对特征的位置具有空间不变性。然而，由于对最大池的空间支持通常很小(如2×2像素)，这种空间不变性只在池化和卷积的深层层次结构上实现，而CNN中的中间特征图(卷积层激活)对于输入数据的大的变换并不是真正的不变性。CNN的这种限制是由于只有一个有限的、预先定义的池机制来处理数据空间排列的变化。</p>
+<p>​    在这项工作中，我们介绍了Spatial Transformer 模块，能够被包含进标准的神经网络架构来提供空间转换能力。这个空间转换器的动作是以独立的数据例子为条件，以及在任务训练期间所习得的适当行为(没有额外监督)。与感受野是固定和局部的池化层不同，空间转换器模块是一种动态机制，通过为每个输入样本生成适当的转换，可以主动地对图像(或特征图)进行空间转换。然后这个转换是体现在整个特征图(非局部)，具体操作可以包括缩放、裁剪、旋转以及非刚性变形。这使得包含空间转换器的网络不仅可以选择图像中最相关的区域(注意)，还可以将这些区域转换为规范的、期望的姿态，从而简化后续层的推理。值得注意的是，空间变压器可以用标准的反向传播进行训练，允许对注入的模型进行端到端训练。</p>
+<p><img src="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%B7%B1%E5%BA%A6%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E6%9E%B6%E6%9E%84/spatial_transformer_network/1.png" alt></p>
+<p>图片1：将一个空间转换器作为一个训练扭曲的MNIST数字分类的全连接网络的第一层的结果。(a)空间转换网络的输入是一个被随机平移、缩放、旋转和杂波扭曲的MNIST数字图片.(b)空间转换器的定位网络预测了一个转换应用于输入的图片(c)在应用了这个转换之后，空间转换器的输出(d)在空间转换器的输出上经过一系列的全连接层的网络产生的分类预测。这个空间转换器网络（一个包含空间转换模块的卷积神经网络）只通过类的标签进行端到端的训练，没有正确转换的答案给这个系统。</p>
+<p>​    空间转换器可以被插入卷积神经网络帮助各种任务，例如（i)图像分类：假设一个CNN被训练来根据图像是否包含一个特定的数字来对图像进行多路分类——这个数字的位置和大小可能会随着每个样本的不同而显著变化(并且与类无关);将适当的区域裁剪出来并进行尺度规格化的空间转换器，可以简化后续的分类任务，提高分类性能，如图1(ii)共定位:给定一组包含相同(但未知)类的不同实例的图像，可以使用空间转换器在每个图像中对它们进行定位;(iii)空间注意:空间转换器可以用于需要注意机制的任务，如[11,29]，但更灵活，可以纯粹通过反向传播进行训练，无需强化学习。使用注意力的一个关键好处是，经过转换(并因此得到关注)后，可以使用分辨率较低的输入来支持分辨率较高的原始输入，从而提高计算效率。</p>
+<p>​    本文的其余部分组织如下:第2节讨论了一些与我们自己相关的工作，我们在第3节中介绍了空间转换器的设计和实现，最后第4节，给了一些实验结果。附加的实验和实现细节在补充材料中给出，或者可以在arXiv版本中找到。</p>
+<h4 id="相关工作"><a href="#相关工作" class="headerlink" title="相关工作"></a>相关工作</h4><p>​    在本节中,我们讨论了之前的相关工作,包括了神经网络模型转换的核心观点[12,13,27],学习和分析转换不变性表达[3,5,8,17,19,25],以及特征选择的注意力和检测机制[1,6,9,11,23]。</p>
+<p>Hinton[12]的早期工作着眼于为物体的部件分配规范的参考帧，这是一个在[13]中反复出现的主题，其中二维仿射转换被建模成一个由被转换的子部件组成的产生式模型。产生式训练方案的目标(target,也就是模板)是转换后的输入图像，将输入图像与目标之间的转换作为网络的附加输入。这个结果是一个产生式模型，该模型可以通过组合零件来学习生成转换后的物体图像。Tieleman[27]进一步提出了变换部分组成的概念，其中学习的部分被显式仿射变换，并由网络预测变换。这样的生成的压缩模型能够从监督转换中学习重要的特征进行分类。</p>
+<p>在[19]中，通过估计原始图像和转换图像的表示之间的线性关系，研究了CNN的表达方式对输入图像转换的不变性和相等性。Cohen &amp; Welling[5]分析了关于对称组之间的行为，在Gens &amp; Domingos[8]提出的框架中也利用了这种行为，得到了对对称组具有不变性的特征图。设计变换不变表示的其他尝试包括散射网络[3]和构造变换滤波器的滤波器组的CNNs[17,25]。Stollenga等人的[26]使用一种基于网络激活的策略，用来控制对相同图片的一系列前向传播的网络架构过滤器的响应，从而允许注意特定特征。在这项工作中，我们的目标是通过操作数据而不是特性提取器来实现不变的表示，这在[7]中用于集群。</p>
+<p>具有选择性注意的神经网络通过裁剪来对数据进行处理，从而学习平移不变性。像[1,2,3]这样的工作都是经过强化学习训练来避免需要一个可微分的注意力机制。而[11]在产生式模型中利用高斯核来使用可微分注意力机制。Girshick等人的工作[9]使用区域建议算法作为注意的一种形式，[6]表明了CNN可以对显著区域进行回归。我们在本文中提出的框架可以看作是对任何空间变换的可微注意力的一般化。</p>
+<h4 id="空间转换器"><a href="#空间转换器" class="headerlink" title="空间转换器"></a>空间转换器</h4><p>在本节中，我们将描述空间转换器的规划。这是一个可微模块，它在单向前传递过程中对特征图应用空间转换，在此过程中，转换取决于特定的输入，从而生成单个输出特征图。对于多通道输入，对每个通道应用相同的弯曲。为简单起见，在本节中，我们考虑单个转换和每个转换器的单个输出，但是我们可以归一化为多个转换，如实验所示。</p>
+<p>空间转换器机制分为三部分，如图2所示。为了便于计算，首先一个<strong>局部化网络</strong>(3.1节)获取输入的特征图，通过多个隐藏层，输出应该应用于特征图的空间转换参数，给出了一个基于输入的转换。然后，预测的转换参数被用来创建一个<strong>采样网格</strong>，它是一组点，应该在这些点上采样输入图以生成转换后的输出。这是由网格生成器完成的，见第3.2节所示。最后，这个特征图和采样的网格被当做<strong>采样器</strong>的输入，生成输出图，输出图是采样自之前网格点的输入。</p>
+<p>这三个部分的联合组成了一个空间转换器，并且在接下来的章节中会描述更多的细节。</p>
+<p><img src="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%B7%B1%E5%BA%A6%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E6%9E%B6%E6%9E%84/spatial_transformer_network/2.png" alt></p>
+<p>图2：空间转换器模块的架构。输入的特征图U被传递给一个局部化网络，局部化网络回归得到转换参数θ。在V上的正则空间网格被转换成采样网格$T_θ(G)$,$T_θ（G)$被应用到U上，正如3.3节所示，产生了被扭曲的输出图V。局部化网络架构和采样机制的联合定义了一个空间转换器。</p>
+<h5 id="3-1Localisation-Network（局部化网络）"><a href="#3-1Localisation-Network（局部化网络）" class="headerlink" title="3.1Localisation Network（局部化网络）"></a>3.1Localisation Network（局部化网络）</h5><p>局部化网络将特征图U当做输入，输出θ，θ是被用于特征图的$T_θ（G）$的参数，$θ=f_loc（U)$。θ的大小取决于转换类型的参数化形式，例如，对于一个仿射变换，θ是六维的。</p>
+<p>局部化网络函数$f_loc()$可以采取任何形式,如全连接网络或卷积网络,但应包括一个最终回归层来产生转换参数θ。</p>
+<h5 id="3-2Parameterised-Sampling-Grid"><a href="#3-2Parameterised-Sampling-Grid" class="headerlink" title="3.2Parameterised Sampling Grid"></a>3.2Parameterised Sampling Grid</h5><p>为了对输入特征图进行扭曲，每个输出像素都会通过一个在输入图中以特定位置为中心的采样内核来计算。<em>：</em>通过像素，我们涉及了一般化的特征图的元素，而不一定是图像。出于一般化，输出像素被定义于位于像素$G={(x_i^t,y_i^t)}$的规则网格$G = {G_i}$上，形成输出特征图$V∈R^{H’×W’×C}$，其中H’和w’为网格的高度和宽度，C为和输入相同通道数。</p>
+<p>为了清晰的阐述,假设$T_\theta$是一个二维仿射变换$A_\theta$。我们将在下面讨论其他转换。在这种仿射情况下，基于点的转换如下。其中$(x_i^t,y_i^t)$是输出特征图规范网格的目标坐标，$(x_i^s,y_i^s)$是在原输入图中定义采样点的坐标，并且$A_\theta$是仿射变换矩阵。我们使用高度和宽度的归一化坐标，比如$-1\leqslant x_i^t,y_i^t,x_i^s,y_i^s \leqslant1$。源/目标转换和采样相当于图形中使用的标准纹理映射和坐标。</p>
+<p><img src="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%B7%B1%E5%BA%A6%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E6%9E%B6%E6%9E%84/spatial_transformer_network/3.png" alt></p>
+<p>[1]中定义的变换允许裁剪,平移、旋转、尺度,和倾斜被应用到输入特征图,只需要局部化网络产生的6个参数($A_{\theta}$的6要素)。它允许裁剪，因为如果转换是一个收缩(即左2×2子矩阵的行列式的大小小于单位矩阵)，那么映射的规则网格将位于一个面积小于$x_i^s,y_i^s$范围的平行四边形中。与恒等变换相比，这种变换对网格的影响如图3所示。</p>
+<p><img src="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%B7%B1%E5%BA%A6%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E6%9E%B6%E6%9E%84/spatial_transformer_network/4.png" alt></p>
+<p>图三：将参数化采样网格应用于图像U生成输出V的两个例子。(a)采样网格是规范网格，$G=T_I(G)$,其中T是恒等变换参数（b)采样网格是使用一个仿射转换$T_{\theta}(G)$扭曲一个正则网格的结果。</p>
+<p>转换$T_ \theta$的类可能会有更多的限制，比如$A_\theta=[\begin{matrix}  s&amp;0&amp;t_x\\0 &amp;s &amp;t_y \end{matrix}]$,被用于注意力，通过不一样的$s,t_x,t_y$允许裁剪，转移，各向同性的转移。这个变换$T_\theta$也可以更加一般化，比如有八个参数的平面投影，分段仿射，或薄板样条。事实上,转换可以有任何参数化形式,提供,只要它关于参数可微——这是至关重要的是，允许梯度从采样点$T_θ(Gi)$反向传播到局部化网络的输出θ。如果转换是被设置成固定的，低维的，这会减少最终结果传播到局部化网络的复杂度。例如，一个结构化的可微分的一般的转换类，是注意力、仿射、投影和细条插样转换的超集，$T_\theta=M_\theta B$,B是一个目标的网格表达（比如在[1]中，B是齐次坐标下的正则网格G），并且$M_\theta$是一个由θ定义的矩阵。在这种情况下，可能不仅学习到一个例子的θ，同时学到了这个任务的B。</p>
+<h5 id="3-3-Differentiable-Image-Sampling-可微分的图片采样"><a href="#3-3-Differentiable-Image-Sampling-可微分的图片采样" class="headerlink" title="3.3 Differentiable Image Sampling(可微分的图片采样)"></a>3.3 Differentiable Image Sampling(可微分的图片采样)</h5><p>为了在输入图上表现空间转换，一个采样器必须输入采样的点集和输入特征图U,输出被采样的特征图V。</p>
+<p>在$T_\theta(G)$中的每一个$(x_i^s,y_i^s)$坐标定义输入的空间坐标，应用采样核被获取输出V中特定像素的值。可以被写作<img src="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%B7%B1%E5%BA%A6%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E6%9E%B6%E6%9E%84/spatial_transformer_network/5.png" alt></p>
+<p>其中$\Phi_x 和 \Phi_y$是定义图片插值的采样核的参数.$U_{nm}^c$是输入在定位（n,m)在通道c上的值，$V_i^c$是输出中在$(x_i^t,y_i^t)$在通道c的值。注意，对于输入的每个通道，采样都是相同的，因此每个通道都以相同的方式进行转换(这保持了通道之间的空间一致性)。</p>
+<p>理论来说，任何采样核可以被用，只要关于$x_i^s和y_i^s$的梯度可以被定义。比如使用整数采样核，上式可变为</p>
+<p><img src="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%B7%B1%E5%BA%A6%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E6%9E%B6%E6%9E%84/spatial_transformer_network/6.png" alt></p>
+<p>可选择的，一个双线性插值也可以被使用，得到以下</p>
+<p><img src="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%B7%B1%E5%BA%A6%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E6%9E%B6%E6%9E%84/spatial_transformer_network/7.png" alt></p>
+<p>为了允许损失通过这种采样机制反向传播，我们可以定义关于U和g的梯度。对于以上双线性采样，偏导数为</p>
+<p><img src="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%B7%B1%E5%BA%A6%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E6%9E%B6%E6%9E%84/spatial_transformer_network/8.png" alt></p>
+<p>这给了我们一个可微的采样机制,不仅允许损失梯度回流到输入特征图,而且回流到采样网格坐标,因此可回流到转换参数θ和局部化网络.由于采样函数的不连续性，必须使用子梯度。这种采样机制可以在GPU上非常有效地实现，通过忽略所有输入位置的和，而只查看每个输出像素的内核支持区域。</p>
+<h5 id="3-4-空间转换网络"><a href="#3-4-空间转换网络" class="headerlink" title="3.4 空间转换网络"></a>3.4 空间转换网络</h5><p>局部化网络、网格生成器和采样器的联合组成了空间转换器，这是一个自包含的模块，可以放在CNN架构中的任何位置，任何数量，产生空间转换器网络。该模块的计算速度非常快，不会影响训练速度，在自然地使用时只会造成很少的时间开销，在注意力模型中，由于可以应用于转换器输出的后续下采样，甚至可能会加速。</p>
+<p>在CNN中放置空间转换器可以让网络学习如何积极地转换特征图，以帮助在训练期间将网络的总体成本降到最低。在训练过程中，如何转换每个训练样本的知识被压缩并缓存在局部化网络的权重中(以及空间转换器之前各层的权重)。对于一些任务,局部化网络的输出θ也可能是有用的，将它传播给网络的剩下部分,因为它显式地进行一个物体或者区域的编码转换,以及姿势。</p>
+<p>还可以使用空间转换器去下采样或者过采样一个特征图,因为我们可以定义的输出尺寸$H’$和$W’$和输入尺寸H和W不一样。然而,与一个固定的采样内核,小空间(如双线性内核)的支持,将空间转换器的下采样可能导致混叠效应。</p>
+<p>最后，在CNN中可以有多个空间转换器。将多个空间转换器放置在网络的越来越深的位置，允许对越来越抽象的表示进行转换，同时也为局部化网络提供了潜在的更有信息的表示，以便根据预测的转换参数进行转换。还可以同时使用多个空间转换器——如果在一个特征图中有多个对象或感兴趣的部分需要单独关注，这将非常有用。这种架构在纯前馈网络中的一个限制是，并行空间转换器的数量限制了网络能够建模的对象的数量。</p>
+<h4 id="实验"><a href="#实验" class="headerlink" title="实验"></a>实验</h4><h4 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h4><p>在这篇论文中，我们提出对于神经网络独立的模块—空间转换器。该模块可以放入网络中，对特征进行显式的空间变换，为神经网络对模型数据的处理开辟了新的途径，并以端到端方式学习，而不需要对损失函数做任何改变。。虽然CNNs提供了一个令人难以置信的强大功能呢，但我们看到在多个任务中使用空间转换器可以提高精确度，从而获得最先进的性能。此外，空间转换器的回归转换参数可以作为输出，并可用于后续任务。虽然我们在这项工作中只研究前馈网络，但早期的实验表明，空间转换器在递归模型中是强大的，并且对于要求处理物体参照框架的任务是有用的。</p>
+<h4 id="个人理解"><a href="#个人理解" class="headerlink" title="个人理解"></a>个人理解</h4><p>空间转换器需要学习的是两个东西，一是如何转换，二是取哪些点进行转换。整个结构有三个主要部分，局部化网络，网格产生器和采样。</p>
+<p>局部化网络是通过回归网络来产生变换的参数θ，网格产生器利用参数θ和结果坐标来得到原坐标的位置，这里使用了所谓双线性插值，然后在将得到的原坐标和传进来的原像素生成目标像素。以下贴上两张帮助理解的图</p>
+<p><img src="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%B7%B1%E5%BA%A6%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E6%9E%B6%E6%9E%84/spatial_transformer_network/9.png" alt></p>
+<p><img src="http://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E6%B7%B1%E5%BA%A6%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E6%9E%B6%E6%9E%84/spatial_transformer_network/10.jpg" alt></p>
+<p><a href="https://arleyzhang.github.io/articles/7c7952f0/" target="_blank" rel="noopener">分析参考链接1</a></p>
+<p><a href="https://zhuanlan.zhihu.com/p/41738716" target="_blank" rel="noopener">分析参考链接2</a></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/深度学习/" rel="tag"># 深度学习</a>
+          
+            <a href="/tags/卷积神经网络/" rel="tag"># 卷积神经网络</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/05/10/PointNet++代码解读/" rel="next" title="Pointnet++代码解读">
+                <i class="fa fa-chevron-left"></i> Pointnet++代码解读
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/06/11/Sliding Shapes for 3D Object Detection in Depth Images/" rel="prev" title="Sliding Shapes for 3D Object Detection in Depth Images论文解读">
+                Sliding Shapes for 3D Object Detection in Depth Images论文解读 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/avatar.png" alt="郭某人">
+            
+              <p class="site-author-name" itemprop="name">郭某人</p>
+              <p class="site-description motion-element" itemprop="description">在校计算机研究生一个，主要做视觉和机器学习。专业打酱油。</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">47</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">12</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">13</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="http://weibo.com/u/2237338111" target="_blank" title="微博">
+                      
+                        <i class="fa fa-fw fa-globe"></i>微博</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#摘要"><span class="nav-number">1.</span> <span class="nav-text">摘要</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#介绍"><span class="nav-number">2.</span> <span class="nav-text">介绍</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#相关工作"><span class="nav-number">3.</span> <span class="nav-text">相关工作</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#空间转换器"><span class="nav-number">4.</span> <span class="nav-text">空间转换器</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#3-1Localisation-Network（局部化网络）"><span class="nav-number">4.1.</span> <span class="nav-text">3.1Localisation Network（局部化网络）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3-2Parameterised-Sampling-Grid"><span class="nav-number">4.2.</span> <span class="nav-text">3.2Parameterised Sampling Grid</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3-3-Differentiable-Image-Sampling-可微分的图片采样"><span class="nav-number">4.3.</span> <span class="nav-text">3.3 Differentiable Image Sampling(可微分的图片采样)</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3-4-空间转换网络"><span class="nav-number">4.4.</span> <span class="nav-text">3.4 空间转换网络</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#实验"><span class="nav-number">5.</span> <span class="nav-text">实验</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#结论"><span class="nav-number">6.</span> <span class="nav-text">结论</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#个人理解"><span class="nav-number">7.</span> <span class="nav-text">个人理解</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">郭某人</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('-1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+</body>
+</html>
