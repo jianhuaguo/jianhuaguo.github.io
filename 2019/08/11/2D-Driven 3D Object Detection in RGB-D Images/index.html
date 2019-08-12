@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="Hexo, NexT">
+  <meta name="keywords" content="三维检测,三维深度学习,">
 
 
 
@@ -79,16 +79,24 @@
 
 
 
-<meta name="description" content="在校计算机研究生一个，主要做视觉和机器学习。专业打酱油。">
-<meta property="og:type" content="website">
-<meta property="og:title" content="摸鱼博客">
-<meta property="og:url" content="http://yoursite.com/archives/page/5/index.html">
+<meta name="description" content="贡献点（文章的创新点）这篇论文比frustum pointnet还早了一点，也是利用二维检测的框投影到三维世界中，利用二维检测的结果缩小甚至是直接限定三维中的搜索空间。之后用法线和Manhattan Frame Estimation(MFE)来估计方向，用各个密度直方图来回归框，最后用了因子图微调各个框的得分，每一个步骤都是一种思路，挺多做法我都是第一次看见，当然也是因为我看的论文不多。 最后效果">
+<meta name="keywords" content="三维检测,三维深度学习">
+<meta property="og:type" content="article">
+<meta property="og:title" content="2D-Driven 3D Object Detection in RGB-D Images">
+<meta property="og:url" content="http://yoursite.com/2019/08/11/2D-Driven 3D Object Detection in RGB-D Images/index.html">
 <meta property="og:site_name" content="摸鱼博客">
-<meta property="og:description" content="在校计算机研究生一个，主要做视觉和机器学习。专业打酱油。">
+<meta property="og:description" content="贡献点（文章的创新点）这篇论文比frustum pointnet还早了一点，也是利用二维检测的框投影到三维世界中，利用二维检测的结果缩小甚至是直接限定三维中的搜索空间。之后用法线和Manhattan Frame Estimation(MFE)来估计方向，用各个密度直方图来回归框，最后用了因子图微调各个框的得分，每一个步骤都是一种思路，挺多做法我都是第一次看见，当然也是因为我看的论文不多。 最后效果">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E4%B8%89%E7%BB%B4%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/2D-Driven%203D%20Object%20Detection%20in%20RGB-D%20Images/1.png">
+<meta property="og:image" content="https://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E4%B8%89%E7%BB%B4%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/2D-Driven%203D%20Object%20Detection%20in%20RGB-D%20Images/2.png">
+<meta property="og:image" content="https://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E4%B8%89%E7%BB%B4%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/2D-Driven%203D%20Object%20Detection%20in%20RGB-D%20Images/3.png">
+<meta property="og:image" content="https://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E4%B8%89%E7%BB%B4%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/2D-Driven%203D%20Object%20Detection%20in%20RGB-D%20Images/4.png">
+<meta property="og:image" content="https://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E4%B8%89%E7%BB%B4%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/2D-Driven%203D%20Object%20Detection%20in%20RGB-D%20Images/5.png">
+<meta property="og:updated_time" content="2019-08-11T13:59:38.263Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="摸鱼博客">
-<meta name="twitter:description" content="在校计算机研究生一个，主要做视觉和机器学习。专业打酱油。">
+<meta name="twitter:title" content="2D-Driven 3D Object Detection in RGB-D Images">
+<meta name="twitter:description" content="贡献点（文章的创新点）这篇论文比frustum pointnet还早了一点，也是利用二维检测的框投影到三维世界中，利用二维检测的结果缩小甚至是直接限定三维中的搜索空间。之后用法线和Manhattan Frame Estimation(MFE)来估计方向，用各个密度直方图来回归框，最后用了因子图微调各个框的得分，每一个步骤都是一种思路，挺多做法我都是第一次看见，当然也是因为我看的论文不多。 最后效果">
+<meta name="twitter:image" content="https://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E4%B8%89%E7%BB%B4%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/2D-Driven%203D%20Object%20Detection%20in%20RGB-D%20Images/1.png">
 
 
 
@@ -118,13 +126,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/archives/page/5/">
+  <link rel="canonical" href="http://yoursite.com/2019/08/11/2D-Driven 3D Object Detection in RGB-D Images/">
 
 
 
 
 
-  <title>归档 | 摸鱼博客</title>
+  <title>2D-Driven 3D Object Detection in RGB-D Images | 摸鱼博客</title>
   
 
 
@@ -143,7 +151,7 @@
     
   
 
-  <div class="container sidebar-position-left page-archive">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -269,390 +277,212 @@
           <div id="content" class="content">
             
 
-  
-  
-  
-  <div class="post-block archive">
-    <div id="posts" class="posts-collapse">
-      <span class="archive-move-on"></span>
+  <div id="posts" class="posts-expand">
+    
 
-      <span class="archive-page-counter">
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/11/2D-Driven 3D Object Detection in RGB-D Images/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="郭某人">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="摸鱼博客">
+    </span>
+
+    
+      <header class="post-header">
+
         
         
-         
+          <h1 class="post-title" itemprop="name headline">2D-Driven 3D Object Detection in RGB-D Images</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-08-11T17:18:24+08:00">
+                2019-08-11
+              </time>
+            
+
+            
+
+            
+          </span>
+
           
-        好! 目前共计 55 篇日志。 继续努力。
-      </span>
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/三维检测/" itemprop="url" rel="index">
+                    <span itemprop="name">三维检测</span>
+                  </a>
+                </span>
 
-      
-
-        
-        
-        
-
-        
+                
+                
+              
+            </span>
           
-          <div class="collection-title">
-            <h1 class="archive-year" id="archive-year-2019">2019</h1>
-          </div>
-        
-        
 
-        
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/08/11/2D-Driven 3D Object Detection in RGB-D Images/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count gitment-comments-count" data-xid="/2019/08/11/2D-Driven 3D Object Detection in RGB-D Images/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
 
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
+          
+          
 
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2019/02/25/了解Anaconda和Conda/" itemprop="url">
-              
-                <span itemprop="name">了解Anaconda和Conda</span>
-              
-            </a>
-        
-      </h2>
+          
 
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2019-02-25T18:18:24+08:00" content="2019-02-25">
-          02-25
-        </time>
-      </div>
+          
 
-    </header>
-  </article>
+          
 
+        </div>
+      </header>
+    
 
-
-      
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2019/02/25/莫烦_关于linux服务器的使用/" itemprop="url">
-              
-                <span itemprop="name">莫烦_关于linux服务器的使用</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2019-02-25T10:18:24+08:00" content="2019-02-25">
-          02-25
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
 
       
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2019/02/23/2019 2_17-2_23周报/" itemprop="url">
-              
-                <span itemprop="name">2019 2_17-2_23周报</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2019-02-23T19:18:24+08:00" content="2019-02-23">
-          02-23
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
       
 
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2019/02/23/ResNet论文解读/" itemprop="url">
-              
-                <span itemprop="name">ResNet论文解读</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2019-02-23T17:28:12+08:00" content="2019-02-23">
-          02-23
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
+      
+        <h3 id="贡献点（文章的创新点）"><a href="#贡献点（文章的创新点）" class="headerlink" title="贡献点（文章的创新点）"></a>贡献点（文章的创新点）</h3><p>这篇论文比frustum pointnet还早了一点，也是利用二维检测的框投影到三维世界中，利用二维检测的结果缩小甚至是直接限定三维中的搜索空间。之后用法线和Manhattan Frame Estimation(MFE)来估计方向，用各个密度直方图来回归框，最后用了因子图微调各个框的得分，每一个步骤都是一种思路，挺多做法我都是第一次看见，当然也是因为我看的论文不多。</p>
+<p>最后效果一般，论文突出了速度快。</p>
+<a id="more"></a>
+<h3 id="处理数据类型（针对的数据是网格、点云或者是二维多视角图像等），是否数据校正（数据是同一姿态，还是不同姿态）"><a href="#处理数据类型（针对的数据是网格、点云或者是二维多视角图像等），是否数据校正（数据是同一姿态，还是不同姿态）" class="headerlink" title="处理数据类型（针对的数据是网格、点云或者是二维多视角图像等），是否数据校正（数据是同一姿态，还是不同姿态）"></a>处理数据类型（针对的数据是网格、点云或者是二维多视角图像等），是否数据校正（数据是同一姿态，还是不同姿态）</h3><p>二维图片和RGB-D 图片</p>
+<h3 id="网络结构（构架，损失函数等）"><a href="#网络结构（构架，损失函数等）" class="headerlink" title="网络结构（构架，损失函数等）"></a>网络结构（构架，损失函数等）</h3><p><img src="https://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E4%B8%89%E7%BB%B4%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/2D-Driven%203D%20Object%20Detection%20in%20RGB-D%20Images/1.png" alt="1"></p>
+<p>整个网络架构一共四个部分，第一个是用二维的faster-rcnn先检测出来可能的框，然后拓展成一个椎体。第二个模块是给每一个物体分配一个方向，第三个是多层感知机进行回归框，最后一个模块是利用上下文信息（主要是共同出现的概率和类和类之间的距离）进行微调，下面来详细讲一下这四个模块。</p>
+<h4 id="二维检测模块"><a href="#二维检测模块" class="headerlink" title="二维检测模块"></a>二维检测模块</h4><p>使用的是以VGG-16为基本框架的Faster R-CNN方法，然后拓展成椎体，只要三维的点的投影在二维平面的框内，这个三维的点自然就在这个椎体之内，或者说相机中心和二维的框组成的三维椎体中就包含我们想要的物体。</p>
+<h4 id="估计三维物体的方向"><a href="#估计三维物体的方向" class="headerlink" title="估计三维物体的方向"></a>估计三维物体的方向</h4><p>提出曼哈顿结构，找到资料不多，大概就是正正方方的物体，利用Manhattan Frame Estimation (MFE)  独立的估计每一个椎体里的方向。由于是室内检测，假设每一个物体的方向调整只在z轴上旋转，角度$R$可以估计为</p>
+<p>$\min _{\mathbf{R}, \mathbf{X}} \frac{1}{2}|\mathbf{X}-\mathbf{R} \mathbf{N}|_{F}^{2}+\lambda|\mathbf{X}|_{1,1}$</p>
+<p>其中X是松弛变量，N为椎体中每一个点的法线的矩阵，λ是常数。</p>
+<h4 id="包围框回归"><a href="#包围框回归" class="headerlink" title="包围框回归"></a>包围框回归</h4><p>已经得到椎体和物体的方向，以点云的中心点为原点，方向为坐标轴方向建立直角坐标系。统计xyz每一个方向的点的密度直方图（如图二所示）,对每一个类的每一个维度训练一个mlp,作为多层感知机的输入，输出包围框的大小.</p>
+<p><img src="https://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E4%B8%89%E7%BB%B4%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/2D-Driven%203D%20Object%20Detection%20in%20RGB-D%20Images/2.png" alt="2"></p>
+<p>一旦得到三维回归框，要给三维框一个得分，二维框的得分和三维密度得分的线性组合，三维密度得分是在所有类的点云密度上训练SVM.(The 3D point density score is computed by training a linear SVM classifier on the 3D point cloud density of the 3D cuboids for all classes. )</p>
+<h4 id="利用上下文微调"><a href="#利用上下文微调" class="headerlink" title="利用上下文微调"></a>利用上下文微调</h4><p>假设所有的候选框的标签是符合玻尔兹曼分布(Gibbs distribution)的离散变量，就可以用这些变量当做变量节点和两个候选框之间组成因子节点，画出一个因子图，如下图。</p>
+<p><img src="https://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E4%B8%89%E7%BB%B4%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/2D-Driven%203D%20Object%20Detection%20in%20RGB-D%20Images/3.png" alt="3"></p>
+<p>就可以有式子，$P_{U, B}(l) \propto \exp \left(\sum_{i=1}^{n_{b}} U_{i}\left(l_{i}\right)+\sum_{(i, j) \in P} B\left(l_{i}, l_{j}\right)\right)$，nb是框的数目，U和B分别是一元和二元函数，然后要求得一个标签序列L,使得</p>
+<p>$L=\arg \max _{l} P_{U, B}(l)$</p>
+<p>这个式子可以引进局部边缘变量$p_u和p_b$来解决，其中$p_u和p_b$表达式如下，u代表unary,b代表binary</p>
+<p>$\left(p_{u}, p_{b}\right)=\arg \max \sum_{i=1}^{n_{b}} \mathbb{E}_{p_{u}}\left[U_{i}\left(l_{i}\right)\right]+\sum_{(i, j) \in P} \mathbb{E}_{p_{b}}\left[B\left(l_{i}, l_{j}\right)\right]$</p>
+<p>$p_u$表示某个框i为某标签的概率，用SVM训练，在这个实验中共有十个标签加上背景，训练的特征包括几何特征和深度特征，几何特征包括长宽高体积等，深度特征是fast-rcnn的全连接层的特征，将svm的分类得分当成先验得分。</p>
+<p>$p_b$表示一个框为标签i，另一个框为标签j的可能性。一共有两部分组成，一个是共同出现的概率$p_0$，另一个是两个共同出现之间距离的概率$p_d$,$p_0$就是在训练集中简单的计数，$p_d$是在一对框的Hausdorff distance 下使用核密度估计，最后$p_{b}=p_{o}^{\alpha} p_{d}^{1-\alpha}$，α取0.1。</p>
+<p>微调之后标签和原来一样的，加百分二十的分，不然减百分二十的分</p>
+<h3 id="训练方式（交替迭代方式训练，多步训练，还是整体训练）"><a href="#训练方式（交替迭代方式训练，多步训练，还是整体训练）" class="headerlink" title="训练方式（交替迭代方式训练，多步训练，还是整体训练）"></a>训练方式（交替迭代方式训练，多步训练，还是整体训练）</h3><p>fast-rcnn用在imagenet预训练过的</p>
+<h3 id="数据集（数据集的名称，包含的模型类别和数目），和结果"><a href="#数据集（数据集的名称，包含的模型类别和数目），和结果" class="headerlink" title="数据集（数据集的名称，包含的模型类别和数目），和结果"></a>数据集（数据集的名称，包含的模型类别和数目），和结果</h3><p>SUN RGB-D数据库中的十类</p>
+<p>做了三个消融实验，分别是二三四三个模块去掉，结果如下图</p>
+<p><img src="https://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E4%B8%89%E7%BB%B4%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/2D-Driven%203D%20Object%20Detection%20in%20RGB-D%20Images/4.png" alt="4"></p>
+<p>和其他两种方法的比较，在准确度没有下降很多的情况下，速度的确快很多</p>
+<p><img src="https://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E4%B8%89%E7%BB%B4%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/2D-Driven%203D%20Object%20Detection%20in%20RGB-D%20Images/5.png" alt="5"></p>
+<h3 id="代码（运行的框架，代码的语言）"><a href="#代码（运行的框架，代码的语言）" class="headerlink" title="代码（运行的框架，代码的语言）"></a>代码（运行的框架，代码的语言）</h3><p>引用量比较少，也没有找到代码。论文中说用的faster-rcnn代码用的caffe,之后的都是用matlab.</p>
+<h3 id="改进点（文章中自己总结的可能的下一步方向，和自己想可能的方向）"><a href="#改进点（文章中自己总结的可能的下一步方向，和自己想可能的方向）" class="headerlink" title="改进点（文章中自己总结的可能的下一步方向，和自己想可能的方向）"></a>改进点（文章中自己总结的可能的下一步方向，和自己想可能的方向）</h3><p>以2D检测为基本还是会受限于2D检测的诸多弊病，这篇论文是2017年的，之后有篇frustum也是在二维检测的结果上做，不过由于用的POINTNET，map从这篇的45升到54。</p>
+<h3 id="论文"><a href="#论文" class="headerlink" title="论文"></a>论文</h3><p><a href="https://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E4%B8%89%E7%BB%B4%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/2D-Driven%203D%20Object%20Detection%20in%20RGB-D%20Images/CVPR2017-2D-Driven%203D%20Object%20Detection%20in%20RGB-D%20Images.pdf" target="_blank" rel="noopener">论文</a></p>
+<p><a href="https://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E4%B8%89%E7%BB%B4%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/2D-Driven%203D%20Object%20Detection%20in%20RGB-D%20Images/2D-Driven%203D%20Object%20Detection%20in%20RGB-D%20Images_supp.pdf" target="_blank" rel="noopener">附录</a></p>
 
       
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2019/02/22/GoogLeNet论文解读/" itemprop="url">
-              
-                <span itemprop="name">GoogLeNet论文解读</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2019-02-22T12:28:12+08:00" content="2019-02-22">
-          02-22
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-      
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2019/02/21/VGG论文解读/" itemprop="url">
-              
-                <span itemprop="name">VGG论文解读</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2019-02-21T11:28:12+08:00" content="2019-02-21">
-          02-21
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-      
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2019/02/19/ZFNet论文解读/" itemprop="url">
-              
-                <span itemprop="name">ZFNet论文解读</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2019-02-19T11:18:56+08:00" content="2019-02-19">
-          02-19
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-      
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2019/02/17/AlexNet/" itemprop="url">
-              
-                <span itemprop="name">AlexNet论文解读</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2019-02-17T15:18:24+08:00" content="2019-02-17">
-          02-17
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-      
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2019/02/16/TensorFlow基本概念/" itemprop="url">
-              
-                <span itemprop="name">TensorFlow基本概念</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2019-02-16T10:18:24+08:00" content="2019-02-16">
-          02-16
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-      
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2019/02/11/第十章 认识与学习BASH/" itemprop="url">
-              
-                <span itemprop="name">linux私房菜第10章学习总结</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2019-02-11T22:18:24+08:00" content="2019-02-11">
-          02-11
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-      
-
     </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/三维检测/" rel="tag"># 三维检测</a>
+          
+            <a href="/tags/三维深度学习/" rel="tag"># 三维深度学习</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/08/05/美亚柏科夏令营心得/" rel="next" title="美亚柏科夏令营心得">
+                <i class="fa fa-chevron-left"></i> 美亚柏科夏令营心得
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
   </div>
   
   
   
-
-  
-  <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/archives/page/4/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/archives/">1</a><span class="space">&hellip;</span><a class="page-number" href="/archives/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/archives/page/6/">6</a><a class="extend next" rel="next" href="/archives/page/6/"><i class="fa fa-angle-right"></i></a>
-  </nav>
+  </article>
 
 
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -660,6 +490,17 @@
 
 
           
+
+  
+    <div class="comments" id="comments">
+      
+        <div id="gitment-container"></div>
+      
+    </div>
+
+  
+
+
 
         </div>
         
@@ -680,8 +521,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -753,6 +603,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#贡献点（文章的创新点）"><span class="nav-number">1.</span> <span class="nav-text">贡献点（文章的创新点）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#处理数据类型（针对的数据是网格、点云或者是二维多视角图像等），是否数据校正（数据是同一姿态，还是不同姿态）"><span class="nav-number">2.</span> <span class="nav-text">处理数据类型（针对的数据是网格、点云或者是二维多视角图像等），是否数据校正（数据是同一姿态，还是不同姿态）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#网络结构（构架，损失函数等）"><span class="nav-number">3.</span> <span class="nav-text">网络结构（构架，损失函数等）</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#二维检测模块"><span class="nav-number">3.1.</span> <span class="nav-text">二维检测模块</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#估计三维物体的方向"><span class="nav-number">3.2.</span> <span class="nav-text">估计三维物体的方向</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#包围框回归"><span class="nav-number">3.3.</span> <span class="nav-text">包围框回归</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#利用上下文微调"><span class="nav-number">3.4.</span> <span class="nav-text">利用上下文微调</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#训练方式（交替迭代方式训练，多步训练，还是整体训练）"><span class="nav-number">4.</span> <span class="nav-text">训练方式（交替迭代方式训练，多步训练，还是整体训练）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#数据集（数据集的名称，包含的模型类别和数目），和结果"><span class="nav-number">5.</span> <span class="nav-text">数据集（数据集的名称，包含的模型类别和数目），和结果</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#代码（运行的框架，代码的语言）"><span class="nav-number">6.</span> <span class="nav-text">代码（运行的框架，代码的语言）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#改进点（文章中自己总结的可能的下一步方向，和自己想可能的方向）"><span class="nav-number">7.</span> <span class="nav-text">改进点（文章中自己总结的可能的下一步方向，和自己想可能的方向）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#论文"><span class="nav-number">8.</span> <span class="nav-text">论文</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -893,6 +759,10 @@
 
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
 
   
 
@@ -939,6 +809,30 @@
 
     
 
+    
+      <script type="text/javascript">
+      function renderGitment(){
+        var gitment = new Gitmint({
+            id: window.location.pathname, 
+            owner: 'jianhuaguo',
+            repo: 'comment',
+            
+            lang: "" || navigator.language || navigator.systemLanguage || navigator.userLanguage,
+            
+            oauth: {
+            
+            
+                client_secret: '5f8a04d2c8f6c247ba873ed055becce7fd8e8d4e# EITHER this or proxy_gateway, Github access secret token for the Gitment',
+            
+                client_id: 'c64f76b98218903e21c9'
+            }});
+        gitment.render('gitment-container');
+      }
+
+      
+      renderGitment();
+      
+      </script>
     
 
 

@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="三维深度学习,三维检测,">
+  <meta name="keywords" content="三维检测,三维深度学习,">
 
 
 
@@ -80,7 +80,7 @@
 
 
 <meta name="description" content="现在整理论文的要求按照大师姐给的模板进行，也就是分成以下几点进行总结。 贡献点（文章的创新点）使用cad模型从不同角度渲染得到点云图集，为每一个点云图训练一个svm,将同一个类的所有svm组合起来，当做这一类的分类器。也就是有一个svm认为为正样本就可以。">
-<meta name="keywords" content="三维深度学习,三维检测">
+<meta name="keywords" content="三维检测,三维深度学习">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Sliding Shapes for 3D Object Detection in Depth Images论文解读">
 <meta property="og:url" content="http://yoursite.com/2019/06/11/Sliding Shapes for 3D Object Detection in Depth Images/index.html">
@@ -354,6 +354,16 @@
 
           
             
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/06/11/Sliding Shapes for 3D Object Detection in Depth Images/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count gitment-comments-count" data-xid="/2019/06/11/Sliding Shapes for 3D Object Detection in Depth Images/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
           
 
           
@@ -419,9 +429,9 @@
       
         <div class="post-tags">
           
-            <a href="/tags/三维深度学习/" rel="tag"># 三维深度学习</a>
-          
             <a href="/tags/三维检测/" rel="tag"># 三维检测</a>
+          
+            <a href="/tags/三维深度学习/" rel="tag"># 三维深度学习</a>
           
         </div>
       
@@ -476,6 +486,13 @@
           
 
   
+    <div class="comments" id="comments">
+      
+        <div id="gitment-container"></div>
+      
+    </div>
+
+  
 
 
 
@@ -525,7 +542,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">54</span>
+                  <span class="site-state-item-count">55</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -774,6 +791,43 @@
 
 
 
+
+
+<!-- LOCAL: You can save these files to your site and update links -->
+    
+        
+        <link rel="stylesheet" href="https://aimingoo.github.io/gitmint/style/default.css">
+        <script src="https://aimingoo.github.io/gitmint/dist/gitmint.browser.js"></script>
+    
+<!-- END LOCAL -->
+
+    
+
+    
+      <script type="text/javascript">
+      function renderGitment(){
+        var gitment = new Gitmint({
+            id: window.location.pathname, 
+            owner: 'jianhuaguo',
+            repo: 'comment',
+            
+            lang: "" || navigator.language || navigator.systemLanguage || navigator.userLanguage,
+            
+            oauth: {
+            
+            
+                client_secret: '5f8a04d2c8f6c247ba873ed055becce7fd8e8d4e# EITHER this or proxy_gateway, Github access secret token for the Gitment',
+            
+                client_id: 'c64f76b98218903e21c9'
+            }});
+        gitment.render('gitment-container');
+      }
+
+      
+      renderGitment();
+      
+      </script>
+    
 
 
 

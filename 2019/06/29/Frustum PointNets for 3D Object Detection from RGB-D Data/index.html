@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="三维深度学习,三维检测,">
+  <meta name="keywords" content="三维检测,三维深度学习,">
 
 
 
@@ -80,7 +80,7 @@
 
 
 <meta name="description" content="贡献点（文章的创新点）本文提出了一种结构叫做Frustum PointNets ，利用二维图片和点云数据进行三维检测，先在二维图片检测框，利用锥截体反投影到点云上。得到点云上的锥截体，接着用Pointnet变形进行语义分割，排除掉一些不用的点，解决阻塞和扰乱等问题。接着将得到的点使用Pointnet的另一变形进行回归。 为如何结合二维图片和三维点云进行点云提供了一种思路，中间加上实例分割的子网络也">
-<meta name="keywords" content="三维深度学习,三维检测">
+<meta name="keywords" content="三维检测,三维深度学习">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Frustum PointNets for 3D Object Detection from RGB-D Data">
 <meta property="og:url" content="http://yoursite.com/2019/06/29/Frustum PointNets for 3D Object Detection from RGB-D Data/index.html">
@@ -358,6 +358,16 @@
 
           
             
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/06/29/Frustum PointNets for 3D Object Detection from RGB-D Data/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count gitment-comments-count" data-xid="/2019/06/29/Frustum PointNets for 3D Object Detection from RGB-D Data/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
           
 
           
@@ -429,9 +439,9 @@
       
         <div class="post-tags">
           
-            <a href="/tags/三维深度学习/" rel="tag"># 三维深度学习</a>
-          
             <a href="/tags/三维检测/" rel="tag"># 三维检测</a>
+          
+            <a href="/tags/三维深度学习/" rel="tag"># 三维深度学习</a>
           
         </div>
       
@@ -486,6 +496,13 @@
           
 
   
+    <div class="comments" id="comments">
+      
+        <div id="gitment-container"></div>
+      
+    </div>
+
+  
 
 
 
@@ -535,7 +552,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">54</span>
+                  <span class="site-state-item-count">55</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -784,6 +801,43 @@
 
 
 
+
+
+<!-- LOCAL: You can save these files to your site and update links -->
+    
+        
+        <link rel="stylesheet" href="https://aimingoo.github.io/gitmint/style/default.css">
+        <script src="https://aimingoo.github.io/gitmint/dist/gitmint.browser.js"></script>
+    
+<!-- END LOCAL -->
+
+    
+
+    
+      <script type="text/javascript">
+      function renderGitment(){
+        var gitment = new Gitmint({
+            id: window.location.pathname, 
+            owner: 'jianhuaguo',
+            repo: 'comment',
+            
+            lang: "" || navigator.language || navigator.systemLanguage || navigator.userLanguage,
+            
+            oauth: {
+            
+            
+                client_secret: '5f8a04d2c8f6c247ba873ed055becce7fd8e8d4e# EITHER this or proxy_gateway, Github access secret token for the Gitment',
+            
+                client_id: 'c64f76b98218903e21c9'
+            }});
+        gitment.render('gitment-container');
+      }
+
+      
+      renderGitment();
+      
+      </script>
+    
 
 
 

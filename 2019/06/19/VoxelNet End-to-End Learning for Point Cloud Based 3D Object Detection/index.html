@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="三维深度学习,三维检测,">
+  <meta name="keywords" content="三维检测,三维深度学习,">
 
 
 
@@ -80,7 +80,7 @@
 
 
 <meta name="description" content="贡献点（文章的创新点）检测很重要的点就是为了生成候选框，最近看的几篇论文大多学习了faster-rcnn的rpn,这就是需要获取特征，但是稀疏的点云和二维图像处理起来不太一样，在百度的那篇MV3D，是将点云投影到俯瞰图在提取特征，这篇文章是生成体素，然后提取特征。 VoxelNet的贡献点，提出了体素网络的框架，用以目标检测">
-<meta name="keywords" content="三维深度学习,三维检测">
+<meta name="keywords" content="三维检测,三维深度学习">
 <meta property="og:type" content="article">
 <meta property="og:title" content="VoxelNet:End-to-End Learning for Point Cloud Based 3D Object Detection">
 <meta property="og:url" content="http://yoursite.com/2019/06/19/VoxelNet End-to-End Learning for Point Cloud Based 3D Object Detection/index.html">
@@ -355,6 +355,16 @@
 
           
             
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/06/19/VoxelNet End-to-End Learning for Point Cloud Based 3D Object Detection/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count gitment-comments-count" data-xid="/2019/06/19/VoxelNet End-to-End Learning for Point Cloud Based 3D Object Detection/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
           
 
           
@@ -421,9 +431,9 @@
       
         <div class="post-tags">
           
-            <a href="/tags/三维深度学习/" rel="tag"># 三维深度学习</a>
-          
             <a href="/tags/三维检测/" rel="tag"># 三维检测</a>
+          
+            <a href="/tags/三维深度学习/" rel="tag"># 三维深度学习</a>
           
         </div>
       
@@ -478,6 +488,13 @@
           
 
   
+    <div class="comments" id="comments">
+      
+        <div id="gitment-container"></div>
+      
+    </div>
+
+  
 
 
 
@@ -527,7 +544,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">54</span>
+                  <span class="site-state-item-count">55</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -776,6 +793,43 @@
 
 
 
+
+
+<!-- LOCAL: You can save these files to your site and update links -->
+    
+        
+        <link rel="stylesheet" href="https://aimingoo.github.io/gitmint/style/default.css">
+        <script src="https://aimingoo.github.io/gitmint/dist/gitmint.browser.js"></script>
+    
+<!-- END LOCAL -->
+
+    
+
+    
+      <script type="text/javascript">
+      function renderGitment(){
+        var gitment = new Gitmint({
+            id: window.location.pathname, 
+            owner: 'jianhuaguo',
+            repo: 'comment',
+            
+            lang: "" || navigator.language || navigator.systemLanguage || navigator.userLanguage,
+            
+            oauth: {
+            
+            
+                client_secret: '5f8a04d2c8f6c247ba873ed055becce7fd8e8d4e# EITHER this or proxy_gateway, Github access secret token for the Gitment',
+            
+                client_id: 'c64f76b98218903e21c9'
+            }});
+        gitment.render('gitment-container');
+      }
+
+      
+      renderGitment();
+      
+      </script>
+    
 
 
 
