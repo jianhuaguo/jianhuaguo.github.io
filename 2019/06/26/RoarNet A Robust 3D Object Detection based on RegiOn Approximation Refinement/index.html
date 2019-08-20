@@ -94,7 +94,7 @@
 <meta property="og:image" content="https://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E4%B8%89%E7%BB%B4%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/RoarNet%20A%20Robust%203D%20Object%20Detection%20based%20on%20RegiOn%20Approximation%20Refinement/5.png">
 <meta property="og:image" content="https://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E4%B8%89%E7%BB%B4%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/RoarNet%20A%20Robust%203D%20Object%20Detection%20based%20on%20RegiOn%20Approximation%20Refinement/6.png">
 <meta property="og:image" content="https://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E4%B8%89%E7%BB%B4%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/RoarNet%20A%20Robust%203D%20Object%20Detection%20based%20on%20RegiOn%20Approximation%20Refinement/7.png">
-<meta property="og:updated_time" content="2019-06-26T10:13:58.265Z">
+<meta property="og:updated_time" content="2019-08-20T13:43:16.730Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="RoarNet:A Robust 3D Object Detection based on RegiOn Approximation Refinement">
 <meta name="twitter:description" content="贡献点（文章的创新点）这篇论文提出了RoarNet结构，利用二维图片找到三维物体的框，再进一步进行微调。由于取样多个候选框，所以对图片采样和点云采样的同步性拥有一定的鲁棒性。 实际上多次微调预测定位应该是这篇论文的关键 有点新颖的点是Geometric agreement search ，通过poseCNN和投影等原理来通过二维中的框来确定三维中的框">
@@ -393,30 +393,31 @@
 <h4 id="RoarNet-2D"><a href="#RoarNet-2D" class="headerlink" title="RoarNet_2D"></a>RoarNet_2D</h4><p><img src="https://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E4%B8%89%E7%BB%B4%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/RoarNet%20A%20Robust%203D%20Object%20Detection%20based%20on%20RegiOn%20Approximation%20Refinement/2.png" alt="图片2"></p>
 <p>该子网络读入二维图片，先学习到二维框，再找到物体在三维中的框。同时还有类别</p>
 <h5 id="geometric-agreement-search"><a href="#geometric-agreement-search" class="headerlink" title="geometric agreement search"></a>geometric agreement search</h5><p>思想是找到一个三维的框，使它在二维平面上投影与二维平面上学习到的框最接近。</p>
-<p>一个三维的框可以由七元组决定，（$X, Y, Z, W, H, L, \Theta$），分别是坐标的三个点，长宽高以及偏转角度。而一个物体可以通过网络学习到$W, H, L, \Theta$,于是有$b_{3 D}^{c}=B\left(W, H, L, \Theta ; c, b_{2 D}\right)$，只要有参数c,就可以得到三维的框，将该三维框投影到二维平面，与已知的二维框最接近的C就是我们想要的参数C。</p>
+<p>一个三维的框可以由七元组决定，（$X, Y, Z, W, H, L, \Theta$），分别是坐标的三个点，长宽高以及偏转角度。而一个物体可以通过网络学习到$W, H, L, \Theta$,于是有$b_{3 D}^{c}=B\left(W, H, L, \Theta ; c, b_{2 D}\right)$，只要有参数c,就可以得到三维的框，将该三维框投影到二维平面，与已知的二维框最接近的C就是我们想要的参数C。这里的B是受约束的线性方程组。</p>
 <p>$\begin{aligned} b_{P R O J}^{c} &amp;=T\left(b_{3 D}^{c} ; P\right) \\ c^{*} &amp;=\underset{c \in C}{\arg \max } \operatorname{IoU}\left(b_{2 D}, b_{P R O J}^{c}\right) \end{aligned}$</p>
-<p>有个疑问，二维的图片怎么能学到长宽高和角度呢？ PoseCNN是什么？</p>
-<h5 id="Spatial-scattering"><a href="#Spatial-scattering" class="headerlink" title="Spatial scattering"></a>Spatial scattering</h5><p>为了提高召回率，增加候选框。对长宽高进行缩放，从而坐标也会变。在两个坐标之间取等长的m个，那么一个物体就会有m+1个候选框。</p>
+<p>这个思想是PoseCNN的， PoseCNN是什么？</p>
+<p>PoseCNN是一种用于6D物体姿态估计的新型卷积神经网络，通过二维图片估计物体的三维姿态</p>
+<h5 id="Spatial-scattering"><a href="#Spatial-scattering" class="headerlink" title="Spatial scattering"></a>Spatial scattering</h5><p>为了提高召回率，增加候选框。对长宽高进行缩放，代入上一部分的式子，从而坐标也会变。在两个坐标之间取等长的m个，那么一个物体就会有m+1个候选框。</p>
 <p>$\begin{aligned} b_{3 D}^{c^{<em>}} s m a l l &amp;=B\left((1-s) W,(1-s) H,(1-s) L, \Theta ; c^{</em>}, b_{2 D}\right) \\ b_{3 D}^{c^{<em>}} \operatorname{large} &amp;=B\left((1+s) W,(1+s) H,(1+s) L, \Theta ; c^{</em>}, b_{2 D}\right) \end{aligned}$</p>
 <h4 id="RoarNet-3D"><a href="#RoarNet-3D" class="headerlink" title="RoarNet_3D"></a>RoarNet_3D</h4><p><img src="https://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E4%B8%89%E7%BB%B4%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/RoarNet%20A%20Robust%203D%20Object%20Detection%20based%20on%20RegiOn%20Approximation%20Refinement/3.png" alt="图片3"></p>
 <p><img src="https://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E4%B8%89%E7%BB%B4%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/RoarNet%20A%20Robust%203D%20Object%20Detection%20based%20on%20RegiOn%20Approximation%20Refinement/4.png" alt="图片4"></p>
-<p>该子网络是对一个框一个框进行处理的，直接对框内的点云进行处理。</p>
-<p>RoarNet_3D由RPN(regionproposal network )和BRN(box regression network )两个更小的网络组成。两个子网络都是由pointnet的架构组成，只是输出不一样。RPN只预测定位和物体得分，BRN针对不一样的类回归了定位旋转角，和大小。具体的网络输出如下图</p>
+<p>该子网络是对一个框一个框进行处理的，直接对框内的点云进行处理。在训练时候对框内随机取256个点，测试的时候取512个点。</p>
+<p>RoarNet_3D由RPN(regionproposal network )和BRN(box regression network )两个更小的网络组成，两个子网络是两级训练的。两个子网络都是由pointnet的架构组成，只是输出不一样。RPN只预测定位和物体得分，BRN针对不一样的类回归了定位旋转角，和大小。具体的网络输出如下图</p>
 <p><img src="https://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E4%B8%89%E7%BB%B4%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/RoarNet%20A%20Robust%203D%20Object%20Detection%20based%20on%20RegiOn%20Approximation%20Refinement/5.png" alt="图片5"></p>
-<p>2$N_R$和4$N_C$分别是$\left(t_{r_{-} \operatorname{cls}(i)}, t_{r_{-} \operatorname{reg}(i)}\right)_{i=1}^{N_{R}}$和$\left(t_{\text {size-cls}(i)}, t_{h(i)}, t_{w(i)}, t_{l(i)}\right)_{i=1}^{N_{C}}$，针对每一类求误差，$N_R和N_C$分别是分别把π分成$N_R$个和聚类成$N_C$个，实际上每一个物体进来，应该只考虑当前类有关的参数，具体损失函数如下</p>
+<p>2$N_R$和4$N_C$分别是$\left(t_{r_{-} \operatorname{cls}(i)}, t_{r_{-} \operatorname{reg}(i)}\right)_{i=1}^{N_{R}}$和$\left(t_{\text {size-cls}(i)}, t_{h(i)}, t_{w(i)}, t_{l(i)}\right)_{i=1}^{N_{C}}$，针对每一类求误差，$N_R和N_C$分别是分别把π分成$N_R$个和把大小聚类成$N_C$个，变成one-hot形式。实际上每一个物体进来，应该只考虑当前类有关的参数，具体损失函数如下</p>
 <h5 id="损失函数"><a href="#损失函数" class="headerlink" title="损失函数"></a>损失函数</h5><p>$L_{\mathrm{RPN}}=\lambda_{\mathrm{obj}} * L_{\mathrm{obj}}+\mathbb{1}^{\mathrm{obj}}\left[L_{\mathrm{loc}}\right]$</p>
 <p>$L_{\mathrm{BRN}}=\mathbb{1}^{3 \mathrm{D} \mathrm{IoU}&lt;0.8}\left[L_{\mathrm{loc}}+L_{\mathrm{rot-cls}}+\mathbb{1}^{\mathrm{rot-cls}}\left[L_{\mathrm{rot}-\mathrm{reg}}\right]\right.$<br>$+L_{\mathrm{size}-\mathrm{cls}}+\mathbb{1}^{\mathrm{size-cls}}\left[L_{\mathrm{size}-\mathrm{reg}}\right] ]$</p>
 <p>$L_{\mathrm{loc}}, L_{\text { rot-reg }},$ 和 $L_{\text { size-reg }}$是考虑回归损失，具体是huber loss</p>
 <p>$L_{\mathrm{obj}}, L_{\mathrm{rot}-\mathrm{cls}},$ 和 $L_{\mathrm{size}-\mathrm{cls}}$是考虑分类损失，具体是交叉熵损失</p>
 <p>对于RPN,考虑物体的损失，只有包含物体再考虑定位损失</p>
 <p>对于BRN,对于IOU小于0.8的,考虑定位损失和当前类的损失，这个类的预测应该是之前2D网络生成的，只有确定是当前类，再考虑回归损失。</p>
-<h3 id="训练方式（交替迭代方式训练，多步训练，还是整体训练）"><a href="#训练方式（交替迭代方式训练，多步训练，还是整体训练）" class="headerlink" title="训练方式（交替迭代方式训练，多步训练，还是整体训练）"></a>训练方式（交替迭代方式训练，多步训练，还是整体训练）</h3><p>我们用512的batch训练，迭代50万次。初始10万次学习速率为5e-3，其余步骤学习速率为5e-4，这应该是针对三维网络</p>
+<h3 id="训练方式（交替迭代方式训练，多步训练，还是整体训练）"><a href="#训练方式（交替迭代方式训练，多步训练，还是整体训练）" class="headerlink" title="训练方式（交替迭代方式训练，多步训练，还是整体训练）"></a>训练方式（交替迭代方式训练，多步训练，还是整体训练）</h3><p>对每一个网络512的batch训练，迭代50万次。初始10万次学习速率为5e-3，其余步骤学习速率为5e-4</p>
 <h3 id="数据集（数据集的名称，包含的模型类别和数目），和结果"><a href="#数据集（数据集的名称，包含的模型类别和数目），和结果" class="headerlink" title="数据集（数据集的名称，包含的模型类别和数目），和结果"></a>数据集（数据集的名称，包含的模型类别和数目），和结果</h3><p>KITTI数据集中的车</p>
 <p><img src="https://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E4%B8%89%E7%BB%B4%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/RoarNet%20A%20Robust%203D%20Object%20Detection%20based%20on%20RegiOn%20Approximation%20Refinement/6.png" alt="图片6"></p>
 <p>因为这篇文章突出对不同传感器不同步的健壮性，所以还做了不同步的实验</p>
 <p><img src="https://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E4%B8%89%E7%BB%B4%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/RoarNet%20A%20Robust%203D%20Object%20Detection%20based%20on%20RegiOn%20Approximation%20Refinement/7.png" alt="图片7"></p>
 <h3 id="代码（运行的框架，代码的语言）"><a href="#代码（运行的框架，代码的语言）" class="headerlink" title="代码（运行的框架，代码的语言）"></a>代码（运行的框架，代码的语言）</h3><h3 id="改进点（文章中自己总结的可能的下一步方向，和自己想可能的方向）"><a href="#改进点（文章中自己总结的可能的下一步方向，和自己想可能的方向）" class="headerlink" title="改进点（文章中自己总结的可能的下一步方向，和自己想可能的方向）"></a>改进点（文章中自己总结的可能的下一步方向，和自己想可能的方向）</h3><p>作者认为：时间不同步可以用以对视频帧的理解</p>
-<p>对于混合模型，如何将在二维图片投影到三维上是一个很重要的问题，这篇使用了Geometric agreement search（虽然也是借鉴别人的）让人耳目一新，而且效果还不错</p>
+<p>对于混合模型，如何将在二维图片投影到三维上是一个很重要的问题，这篇使用了Geometric agreement search（虽然也是借鉴别人的）是个创新点，而且效果还不错</p>
 <h4 id="注解过的论文"><a href="#注解过的论文" class="headerlink" title="注解过的论文"></a>注解过的论文</h4><p><a href="https://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E4%B8%89%E7%BB%B4%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/RoarNet%20A%20Robust%203D%20Object%20Detection%20based%20on%20RegiOn%20Approximation%20Refinement/RoarNet%20A%20Robust%203D%20Object%20Detection%20based%20on%20RegiOn%20Approximation%20Refinement.pdf" target="_blank" rel="noopener">论文</a></p>
 
       
@@ -548,7 +549,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">55</span>
+                  <span class="site-state-item-count">58</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -802,8 +803,8 @@
 <!-- LOCAL: You can save these files to your site and update links -->
     
         
-        <link rel="stylesheet" href="https://www.wenjunjiang.win/css/gitment.css">
-        <script src="https://www.wenjunjiang.win/js/gitment.js"></script>
+        <link rel="stylesheet" href="https://billts.site/extra_css/gitment.css">
+        <script src="https://billts.site/js/gitment.js"></script>
     
 <!-- END LOCAL -->
 

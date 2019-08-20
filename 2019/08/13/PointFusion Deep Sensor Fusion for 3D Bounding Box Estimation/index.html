@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="Hexo, NexT">
+  <meta name="keywords" content="三维检测,三维深度学习,">
 
 
 
@@ -79,16 +79,25 @@
 
 
 
-<meta name="description" content="在校计算机研究生一个，主要做视觉和机器学习。专业打酱油。">
-<meta property="og:type" content="website">
-<meta property="og:title" content="摸鱼博客">
-<meta property="og:url" content="http://yoursite.com/archives/2019/index.html">
+<meta name="description" content="贡献点（文章的创新点）​    本篇文章将图片特征和点云特征直接进行级联，在之后的预测步骤中框中将点云当成锚点，预测和框的偏差。实际上，还是利用了二维的检测，先限定了大概的范围。和FPointnet比，多了颜色信息，但是效果比FPointnet差很多。">
+<meta name="keywords" content="三维检测,三维深度学习">
+<meta property="og:type" content="article">
+<meta property="og:title" content="PointFusion:Deep Sensor Fusion for 3D Bounding Box Estimation">
+<meta property="og:url" content="http://yoursite.com/2019/08/13/PointFusion Deep Sensor Fusion for 3D Bounding Box Estimation/index.html">
 <meta property="og:site_name" content="摸鱼博客">
-<meta property="og:description" content="在校计算机研究生一个，主要做视觉和机器学习。专业打酱油。">
+<meta property="og:description" content="贡献点（文章的创新点）​    本篇文章将图片特征和点云特征直接进行级联，在之后的预测步骤中框中将点云当成锚点，预测和框的偏差。实际上，还是利用了二维的检测，先限定了大概的范围。和FPointnet比，多了颜色信息，但是效果比FPointnet差很多。">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E4%B8%89%E7%BB%B4%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/CVPR2018-PointFusion-%20Deep%20Sensor%20Fusion%20for%203D%20Bounding%20Box%20Estimation/1.png">
+<meta property="og:image" content="https://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E4%B8%89%E7%BB%B4%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/CVPR2018-PointFusion-%20Deep%20Sensor%20Fusion%20for%203D%20Bounding%20Box%20Estimation/2.png">
+<meta property="og:image" content="https://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E4%B8%89%E7%BB%B4%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/CVPR2018-PointFusion-%20Deep%20Sensor%20Fusion%20for%203D%20Bounding%20Box%20Estimation/3.png">
+<meta property="og:image" content="https://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E4%B8%89%E7%BB%B4%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/CVPR2018-PointFusion-%20Deep%20Sensor%20Fusion%20for%203D%20Bounding%20Box%20Estimation/4.png">
+<meta property="og:image" content="https://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E4%B8%89%E7%BB%B4%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/CVPR2018-PointFusion-%20Deep%20Sensor%20Fusion%20for%203D%20Bounding%20Box%20Estimation/5.png">
+<meta property="og:image" content="https://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E4%B8%89%E7%BB%B4%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/CVPR2018-PointFusion-%20Deep%20Sensor%20Fusion%20for%203D%20Bounding%20Box%20Estimation/6.png">
+<meta property="og:updated_time" content="2019-08-20T13:43:40.369Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="摸鱼博客">
-<meta name="twitter:description" content="在校计算机研究生一个，主要做视觉和机器学习。专业打酱油。">
+<meta name="twitter:title" content="PointFusion:Deep Sensor Fusion for 3D Bounding Box Estimation">
+<meta name="twitter:description" content="贡献点（文章的创新点）​    本篇文章将图片特征和点云特征直接进行级联，在之后的预测步骤中框中将点云当成锚点，预测和框的偏差。实际上，还是利用了二维的检测，先限定了大概的范围。和FPointnet比，多了颜色信息，但是效果比FPointnet差很多。">
+<meta name="twitter:image" content="https://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E4%B8%89%E7%BB%B4%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/CVPR2018-PointFusion-%20Deep%20Sensor%20Fusion%20for%203D%20Bounding%20Box%20Estimation/1.png">
 
 
 
@@ -118,13 +127,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/archives/2019/">
+  <link rel="canonical" href="http://yoursite.com/2019/08/13/PointFusion Deep Sensor Fusion for 3D Bounding Box Estimation/">
 
 
 
 
 
-  <title>归档 | 摸鱼博客</title>
+  <title>PointFusion:Deep Sensor Fusion for 3D Bounding Box Estimation | 摸鱼博客</title>
   
 
 
@@ -143,7 +152,7 @@
     
   
 
-  <div class="container sidebar-position-left page-archive">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -269,390 +278,196 @@
           <div id="content" class="content">
             
 
-  
-  
-  
-  <div class="post-block archive">
-    <div id="posts" class="posts-collapse">
-      <span class="archive-move-on"></span>
+  <div id="posts" class="posts-expand">
+    
 
-      <span class="archive-page-counter">
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/13/PointFusion Deep Sensor Fusion for 3D Bounding Box Estimation/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="郭某人">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="摸鱼博客">
+    </span>
+
+    
+      <header class="post-header">
+
         
         
-         
+          <h1 class="post-title" itemprop="name headline">PointFusion:Deep Sensor Fusion for 3D Bounding Box Estimation</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-08-13T16:18:24+08:00">
+                2019-08-13
+              </time>
+            
+
+            
+
+            
+          </span>
+
           
-        好! 目前共计 58 篇日志。 继续努力。
-      </span>
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/三维检测/" itemprop="url" rel="index">
+                    <span itemprop="name">三维检测</span>
+                  </a>
+                </span>
 
-      
-
-        
-        
-        
-
-        
+                
+                
+              
+            </span>
           
-          <div class="collection-title">
-            <h1 class="archive-year" id="archive-year-2019">2019</h1>
-          </div>
-        
-        
 
-        
+          
+            
+          
 
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
+          
+          
 
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2019/08/20/SSD代码要点/" itemprop="url">
-              
-                <span itemprop="name">SSD代码要点</span>
-              
-            </a>
-        
-      </h2>
+          
 
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2019-08-20T21:18:24+08:00" content="2019-08-20">
-          08-20
-        </time>
-      </div>
+          
 
-    </header>
-  </article>
+          
 
+        </div>
+      </header>
+    
 
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
 
       
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2019/08/14/PointPillars Fast Encoders for Object Detection from Point Clouds/" itemprop="url">
-              
-                <span itemprop="name">PointPillars:Fast Encoders for Object Detection from Point Clouds</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2019-08-14T21:18:24+08:00" content="2019-08-14">
-          08-14
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
       
 
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2019/08/13/PointFusion Deep Sensor Fusion for 3D Bounding Box Estimation/" itemprop="url">
-              
-                <span itemprop="name">PointFusion:Deep Sensor Fusion for 3D Bounding Box Estimation</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2019-08-13T16:18:24+08:00" content="2019-08-13">
-          08-13
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
+      
+        <h3 id="贡献点（文章的创新点）"><a href="#贡献点（文章的创新点）" class="headerlink" title="贡献点（文章的创新点）"></a>贡献点（文章的创新点）</h3><p>​    本篇文章将图片特征和点云特征直接进行级联，在之后的预测步骤中框中将点云当成锚点，预测和框的偏差。实际上，还是利用了二维的检测，先限定了大概的范围。和FPointnet比，多了颜色信息，但是效果比FPointnet差很多。</p>
+<a id="more"></a>
+<h3 id="处理数据类型（针对的数据是网格、点云或者是二维多视角图像等），是否数据校正（数据是同一姿态，还是不同姿态）"><a href="#处理数据类型（针对的数据是网格、点云或者是二维多视角图像等），是否数据校正（数据是同一姿态，还是不同姿态）" class="headerlink" title="处理数据类型（针对的数据是网格、点云或者是二维多视角图像等），是否数据校正（数据是同一姿态，还是不同姿态）"></a>处理数据类型（针对的数据是网格、点云或者是二维多视角图像等），是否数据校正（数据是同一姿态，还是不同姿态）</h3><p>RGB图片和点云</p>
+<h3 id="网络结构（构架，损失函数等）"><a href="#网络结构（构架，损失函数等）" class="headerlink" title="网络结构（构架，损失函数等）"></a>网络结构（构架，损失函数等）</h3><p><img src="https://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E4%B8%89%E7%BB%B4%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/CVPR2018-PointFusion-%20Deep%20Sensor%20Fusion%20for%203D%20Bounding%20Box%20Estimation/1.png" alt="1"></p>
+<p>这个架构主要有三个部分，输入的数据是二维检测的框和相应的点云数据。一个Pointnet提取点云特征，一个resnet提取二维图片的特征，之后将这两种特征融合在一起的网络。</p>
+<h4 id="Point-Cloud-Network"><a href="#Point-Cloud-Network" class="headerlink" title="Point Cloud Network"></a>Point Cloud Network</h4><p>提取点云中每一个点的特征和全局特征，基本上是pointnet的框架做了两个改变。</p>
+<p>第一个是去掉所有的batchnorm，在实验中发现去掉batchnorm会提高准确度，作者认为归一化会对框的回归有所影响。</p>
+<p>第二个是去掉Pointnet中受Spatial Transformer Network(STN)启发引入的T-Net模块，本来大概是解决平移不变性。作者提出直接用相机内参将候选框的中心旋转到相机坐标的Z轴。大概就是将下图的黑线移动到和蓝线平行，候选框内的点云也会发生一定的矫正</p>
+<p><img src="https://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E4%B8%89%E7%BB%B4%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/CVPR2018-PointFusion-%20Deep%20Sensor%20Fusion%20for%203D%20Bounding%20Box%20Estimation/2.png" alt="2"></p>
+<h4 id="Fusion-Network"><a href="#Fusion-Network" class="headerlink" title="Fusion Network"></a>Fusion Network</h4><p>直接将两个特征级联之后，提出了两种预测网络。一是图1中的D，直接回归网络，叫做Global fusion network ；二是图1中的C,称为Dense fusion network ，将各个点算出一个预测框和置信度，预测框的预测是用这个点到八个角的相对坐标，也就是3*8个数，取置信度最高的点的预测框。</p>
+<p>第二种是最后采用的架构，损失函数为$L=\frac{1}{N} \sum_{i} \operatorname{smoothL} 1\left(\mathbf{x}_{\text { offset }}^{\mathrm{i} *}, \mathbf{x}_{\text { offset }}^{\mathrm{i}}\right)+L_{\text { score }}+L_{\mathrm{stn}}$，$L_{stn}$是正则化的损失，下面来分析$L_{score}$,</p>
+<p>我们即希望当前置信度最高的点在框内，但是他的置信度又导致他的误差比其他点的误差大，这是一个相互矛盾的点。所以最后的损失函数设计如下</p>
+<p>$L=\frac{1}{N} \sum\left(L_{\text { offset }}^{i} \cdot c_{i}-w \cdot \log \left(c_{i}\right)\right)+L_{\text { stn }}$，$c_i$就是当前点的置信度，w是协调的一个超参数</p>
+<h3 id="训练方式（交替迭代方式训练，多步训练，还是整体训练）"><a href="#训练方式（交替迭代方式训练，多步训练，还是整体训练）" class="headerlink" title="训练方式（交替迭代方式训练，多步训练，还是整体训练）"></a>训练方式（交替迭代方式训练，多步训练，还是整体训练）</h3><p>在二维检测时候图片裁剪为224*224,并且采用一定的数据增强。一个框里最多取400个点。</p>
+<h3 id="数据集（数据集的名称，包含的模型类别和数目），和结果"><a href="#数据集（数据集的名称，包含的模型类别和数目），和结果" class="headerlink" title="数据集（数据集的名称，包含的模型类别和数目），和结果"></a>数据集（数据集的名称，包含的模型类别和数目），和结果</h3><p><img src="https://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E4%B8%89%E7%BB%B4%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/CVPR2018-PointFusion-%20Deep%20Sensor%20Fusion%20for%203D%20Bounding%20Box%20Estimation/3.png" alt="3"></p>
+<p><img src="https://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E4%B8%89%E7%BB%B4%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/CVPR2018-PointFusion-%20Deep%20Sensor%20Fusion%20for%203D%20Bounding%20Box%20Estimation/4.png" alt="4"></p>
+<p>还做了一些对照试验，直接回归还是密集预测，损失函数是监督还是非监督，有没有运用运用rgb图片，已经采样的点云为多少比较合适。</p>
+<p><img src="https://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E4%B8%89%E7%BB%B4%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/CVPR2018-PointFusion-%20Deep%20Sensor%20Fusion%20for%203D%20Bounding%20Box%20Estimation/5.png" alt></p>
+<p><img src="https://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E4%B8%89%E7%BB%B4%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/CVPR2018-PointFusion-%20Deep%20Sensor%20Fusion%20for%203D%20Bounding%20Box%20Estimation/6.png" alt="6"></p>
+<h3 id="代码（运行的框架，代码的语言）"><a href="#代码（运行的框架，代码的语言）" class="headerlink" title="代码（运行的框架，代码的语言）"></a>代码（运行的框架，代码的语言）</h3><h3 id="改进点（文章中自己总结的可能的下一步方向，和自己想可能的方向）"><a href="#改进点（文章中自己总结的可能的下一步方向，和自己想可能的方向）" class="headerlink" title="改进点（文章中自己总结的可能的下一步方向，和自己想可能的方向）"></a>改进点（文章中自己总结的可能的下一步方向，和自己想可能的方向）</h3><p>想法其实很简单，主要创新点就是考虑点云中每一个点和包围框的关系。作者认为可以把二维检测的框架和这个融合在一起，形成一个端到端。</p>
+<p>我觉得这个框的微调的方法值得借鉴</p>
+<h3 id="论文"><a href="#论文" class="headerlink" title="论文"></a>论文</h3><p><a href="https://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E4%B8%89%E7%BB%B4%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/CVPR2018-PointFusion-%20Deep%20Sensor%20Fusion%20for%203D%20Bounding%20Box%20Estimation/CVPR2018-PointFusion-%20Deep%20Sensor%20Fusion%20for%203D%20Bounding%20Box%20Estimation.pdf" target="_blank" rel="noopener">https://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E4%B8%89%E7%BB%B4%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/CVPR2018-PointFusion-%20Deep%20Sensor%20Fusion%20for%203D%20Bounding%20Box%20Estimation/CVPR2018-PointFusion-%20Deep%20Sensor%20Fusion%20for%203D%20Bounding%20Box%20Estimation.pdf</a></p>
 
       
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2019/08/11/2D-Driven 3D Object Detection in RGB-D Images/" itemprop="url">
-              
-                <span itemprop="name">2D-Driven 3D Object Detection in RGB-D Images</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2019-08-11T17:18:24+08:00" content="2019-08-11">
-          08-11
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-      
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2019/08/05/美亚柏科夏令营心得/" itemprop="url">
-              
-                <span itemprop="name">美亚柏科夏令营心得</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2019-08-05T19:18:24+08:00" content="2019-08-05">
-          08-05
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-      
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2019/06/29/Frustum PointNets for 3D Object Detection from RGB-D Data/" itemprop="url">
-              
-                <span itemprop="name">Frustum PointNets for 3D Object Detection from RGB-D Data</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2019-06-29T21:18:24+08:00" content="2019-06-29">
-          06-29
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-      
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2019/06/26/RoarNet A Robust 3D Object Detection based on RegiOn Approximation Refinement/" itemprop="url">
-              
-                <span itemprop="name">RoarNet:A Robust 3D Object Detection based on RegiOn Approximation Refinement</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2019-06-26T18:18:24+08:00" content="2019-06-26">
-          06-26
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-      
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2019/06/21/Deep Sliding Shapes for Amodal 3D Object Detection in RGB-D Images/" itemprop="url">
-              
-                <span itemprop="name">Deep Sliding Shapes for Amodal 3D Object Detection in RGB-D Images</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2019-06-21T17:18:24+08:00" content="2019-06-21">
-          06-21
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-      
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2019/06/19/VoxelNet End-to-End Learning for Point Cloud Based 3D Object Detection/" itemprop="url">
-              
-                <span itemprop="name">VoxelNet:End-to-End Learning for Point Cloud Based 3D Object Detection</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2019-06-19T19:18:24+08:00" content="2019-06-19">
-          06-19
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-      
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2019/06/16/Multi-View 3D Object Detection Network for Autonomous Driving论文理解/" itemprop="url">
-              
-                <span itemprop="name">Multi-View 3D Object Detection Network for Autonomous Driving论文理解</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2019-06-16T15:59:24+08:00" content="2019-06-16">
-          06-16
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-      
-
     </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/三维检测/" rel="tag"># 三维检测</a>
+          
+            <a href="/tags/三维深度学习/" rel="tag"># 三维深度学习</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/08/11/2D-Driven 3D Object Detection in RGB-D Images/" rel="next" title="2D-Driven 3D Object Detection in RGB-D Images">
+                <i class="fa fa-chevron-left"></i> 2D-Driven 3D Object Detection in RGB-D Images
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/08/14/PointPillars Fast Encoders for Object Detection from Point Clouds/" rel="prev" title="PointPillars:Fast Encoders for Object Detection from Point Clouds">
+                PointPillars:Fast Encoders for Object Detection from Point Clouds <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
   </div>
   
   
   
-
-  
-  <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/archives/2019/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/archives/2019/page/6/">6</a><a class="extend next" rel="next" href="/archives/2019/page/2/"><i class="fa fa-angle-right"></i></a>
-  </nav>
+  </article>
 
 
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -660,6 +475,17 @@
 
 
           
+
+  
+    <div class="comments" id="comments">
+      
+        <div id="gitment-container"></div>
+      
+    </div>
+
+  
+
+
 
         </div>
         
@@ -680,8 +506,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -753,6 +588,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#贡献点（文章的创新点）"><span class="nav-number">1.</span> <span class="nav-text">贡献点（文章的创新点）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#处理数据类型（针对的数据是网格、点云或者是二维多视角图像等），是否数据校正（数据是同一姿态，还是不同姿态）"><span class="nav-number">2.</span> <span class="nav-text">处理数据类型（针对的数据是网格、点云或者是二维多视角图像等），是否数据校正（数据是同一姿态，还是不同姿态）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#网络结构（构架，损失函数等）"><span class="nav-number">3.</span> <span class="nav-text">网络结构（构架，损失函数等）</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Point-Cloud-Network"><span class="nav-number">3.1.</span> <span class="nav-text">Point Cloud Network</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Fusion-Network"><span class="nav-number">3.2.</span> <span class="nav-text">Fusion Network</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#训练方式（交替迭代方式训练，多步训练，还是整体训练）"><span class="nav-number">4.</span> <span class="nav-text">训练方式（交替迭代方式训练，多步训练，还是整体训练）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#数据集（数据集的名称，包含的模型类别和数目），和结果"><span class="nav-number">5.</span> <span class="nav-text">数据集（数据集的名称，包含的模型类别和数目），和结果</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#代码（运行的框架，代码的语言）"><span class="nav-number">6.</span> <span class="nav-text">代码（运行的框架，代码的语言）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#改进点（文章中自己总结的可能的下一步方向，和自己想可能的方向）"><span class="nav-number">7.</span> <span class="nav-text">改进点（文章中自己总结的可能的下一步方向，和自己想可能的方向）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#论文"><span class="nav-number">8.</span> <span class="nav-text">论文</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -893,6 +744,10 @@
 
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
 
   
 
@@ -939,6 +794,28 @@
 
     
 
+    
+      <script type="text/javascript">
+      function renderGitment(){
+        var gitment = new Gitment({
+            id: window.location.pathname, 
+            owner: 'jianhuaguo',
+            repo: 'comment',
+            
+            oauth: {
+            
+            
+                client_secret: '5f8a04d2c8f6c247ba873ed055becce7fd8e8d4e',
+            
+                client_id: 'c64f76b98218903e21c9'
+            }});
+        gitment.render('gitment-container');
+      }
+
+      
+      renderGitment();
+      
+      </script>
     
 
 
