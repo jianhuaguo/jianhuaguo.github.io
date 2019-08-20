@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="Hexo, NexT">
+  <meta name="keywords" content="pytorch,python,">
 
 
 
@@ -79,16 +79,18 @@
 
 
 
-<meta name="description" content="在校计算机研究生一个，主要做视觉和机器学习。专业打酱油。">
-<meta property="og:type" content="website">
-<meta property="og:title" content="摸鱼博客">
-<meta property="og:url" content="http://yoursite.com/tags/三维检测/index.html">
+<meta name="description" content="说明本文是对SSD: Single Shot MultiBox Detector 一文的pytorch代码解读,主要工作在github的代码加了注释 代码地址https://github.com/amdegroot/ssd.pytorch">
+<meta name="keywords" content="pytorch,python">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SSD代码要点">
+<meta property="og:url" content="http://yoursite.com/2019/08/20/SSD代码要点/index.html">
 <meta property="og:site_name" content="摸鱼博客">
-<meta property="og:description" content="在校计算机研究生一个，主要做视觉和机器学习。专业打酱油。">
+<meta property="og:description" content="说明本文是对SSD: Single Shot MultiBox Detector 一文的pytorch代码解读,主要工作在github的代码加了注释 代码地址https://github.com/amdegroot/ssd.pytorch">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-08-20T13:32:05.049Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="摸鱼博客">
-<meta name="twitter:description" content="在校计算机研究生一个，主要做视觉和机器学习。专业打酱油。">
+<meta name="twitter:title" content="SSD代码要点">
+<meta name="twitter:description" content="说明本文是对SSD: Single Shot MultiBox Detector 一文的pytorch代码解读,主要工作在github的代码加了注释 代码地址https://github.com/amdegroot/ssd.pytorch">
 
 
 
@@ -118,13 +120,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/tags/三维检测/">
+  <link rel="canonical" href="http://yoursite.com/2019/08/20/SSD代码要点/">
 
 
 
 
 
-  <title>标签: 三维检测 | 摸鱼博客</title>
+  <title>SSD代码要点 | 摸鱼博客</title>
   
 
 
@@ -143,7 +145,7 @@
     
   
 
-  <div class="container sidebar-position-left ">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -269,208 +271,216 @@
           <div id="content" class="content">
             
 
+  <div id="posts" class="posts-expand">
+    
+
+  
+
   
   
   
-  <div class="post-block tag">
-
-    <div id="posts" class="posts-collapse">
-      <div class="collection-title">
-        <h1>三维检测<small>标签</small>
-        </h1>
-      </div>
-
-      
-        
 
   <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/20/SSD代码要点/">
 
-      <h2 class="post-title">
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="郭某人">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="摸鱼博客">
+    </span>
+
+    
+      <header class="post-header">
+
         
-            <a class="post-title-link" href="/2019/08/11/2D-Driven 3D Object Detection in RGB-D Images/" itemprop="url">
-              
-                <span itemprop="name">2D-Driven 3D Object Detection in RGB-D Images</span>
-              
-            </a>
         
-      </h2>
+          <h1 class="post-title" itemprop="name headline">SSD代码要点</h1>
+        
 
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2019-08-11T17:18:24+08:00" content="2019-08-11">
-          08-11
-        </time>
-      </div>
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-08-20T21:18:24+08:00">
+                2019-08-20
+              </time>
+            
 
-    </header>
-  </article>
+            
 
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/目标检测/" itemprop="url" rel="index">
+                    <span itemprop="name">目标检测</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
 
       
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2019/06/29/Frustum PointNets for 3D Object Detection from RGB-D Data/" itemprop="url">
-              
-                <span itemprop="name">Frustum PointNets for 3D Object Detection from RGB-D Data</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2019-06-29T21:18:24+08:00" content="2019-06-29">
-          06-29
-        </time>
-      </div>
-
-    </header>
-  </article>
-
+      
 
       
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2019/06/21/Deep Sliding Shapes for Amodal 3D Object Detection in RGB-D Images/" itemprop="url">
-              
-                <span itemprop="name">Deep Sliding Shapes for Amodal 3D Object Detection in RGB-D Images</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2019-06-21T17:18:24+08:00" content="2019-06-21">
-          06-21
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-      
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2019/06/19/VoxelNet End-to-End Learning for Point Cloud Based 3D Object Detection/" itemprop="url">
-              
-                <span itemprop="name">VoxelNet:End-to-End Learning for Point Cloud Based 3D Object Detection</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2019-06-19T19:18:24+08:00" content="2019-06-19">
-          06-19
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-      
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2019/06/16/Multi-View 3D Object Detection Network for Autonomous Driving论文理解/" itemprop="url">
-              
-                <span itemprop="name">Multi-View 3D Object Detection Network for Autonomous Driving论文理解</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2019-06-16T15:59:24+08:00" content="2019-06-16">
-          06-16
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-      
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2019/06/13/Object Detection in 3D Scenes Using CNNs in Multi-view Images/" itemprop="url">
-              
-                <span itemprop="name">Object Detection in 3D Scenes Using CNNs in Multi-view Images论文解读</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2019-06-13T12:18:24+08:00" content="2019-06-13">
-          06-13
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-      
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2019/06/11/Sliding Shapes for 3D Object Detection in Depth Images/" itemprop="url">
-              
-                <span itemprop="name">Sliding Shapes for 3D Object Detection in Depth Images论文解读</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2019-06-11T15:18:24+08:00" content="2019-06-11">
-          06-11
-        </time>
-      </div>
-
-    </header>
-  </article>
-
+        <h3 id="说明"><a href="#说明" class="headerlink" title="说明"></a>说明</h3><p>本文是对SSD: Single Shot MultiBox Detector 一文的pytorch代码解读,主要工作在github的代码加了注释</p>
+<h3 id="代码地址"><a href="#代码地址" class="headerlink" title="代码地址"></a>代码地址</h3><p><a href="https://github.com/amdegroot/ssd.pytorch" target="_blank" rel="noopener">https://github.com/amdegroot/ssd.pytorch</a></p>
+<a id="more"></a>
+<h3 id="代码架构"><a href="#代码架构" class="headerlink" title="代码架构"></a>代码架构</h3><ul>
+<li>data<ul>
+<li>scripts （这里有三个自动下载数据库并组装数据库的脚本）</li>
+<li>coco.py  （组装好的coco数据库，因为暂时用不到这个数据库，就没看）</li>
+<li>config.py   (一些超参数，包括基本路径，各个数据库的参数等)</li>
+<li>voc0712.py （组装好的voc数据库，因为暂时用不到这个数据库，就没看）</li>
+</ul>
+</li>
+<li>demo</li>
+<li>doc</li>
+<li>layers<ul>
+<li>functions<ul>
+<li>detection.py （检测时直接得到相应的框和得分）</li>
+<li>prior_box.py （最后的结果是生成特征图上候选框在原图上相对位置）</li>
+</ul>
+</li>
+<li>modules<ul>
+<li>l2norm.py   （L2正则化）</li>
+<li>multibox_loss.py （损失函数，很重要的一部分，包括如何匹配）</li>
+</ul>
+</li>
+<li>box_utils.py（工具类，包括nms,match等）</li>
+</ul>
+</li>
+<li>utils<ul>
+<li>augmentations.py  （各种数据增强）</li>
+</ul>
+</li>
+<li>eval.py</li>
+<li>ssd.py  （搭建基本框架）</li>
+<li>test.py</li>
+<li>train.py  （各个流程聚合地）</li>
+</ul>
+<h3 id="语法点"><a href="#语法点" class="headerlink" title="语法点"></a>语法点</h3><ul>
+<li><p>_ _new _ _()在类中用以创建实例，_ _init_ _()初始化一个实例，为了将一个类实例当做函数调用，我们需要在类中实现<strong>call_ _()方法。如A是类，a=A(),写了__call\</strong>()就可以调用a(),那为什么不直接调用函数呢，因为一般来说函数不能存储数值。<a href="https://blog.csdn.net/ll845876425/article/details/87307237" target="_blank" rel="noopener">参考链接</a></p>
+</li>
+<li><p>cv2.cvtColor()  颜色空间转换，如image = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)，这里hsv是另一种颜色空间，h是色调，s是饱和度，v是透明度</p>
+</li>
+<li><p>itertools.product(*iterables[, repeat])，创建一个迭代器，repeat是一个关键字参数，指定重复生成序列的次数。如product(range(2), repeat=3) —&gt; 000 001 010 011 100 101 110 111</p>
+</li>
+</ul>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>总的来说，代码不算复杂。损失函数那里没有细看，了解了每一段的代码，看了两天代码，觉得还是要自己写才能感触深一点，明天开始看Pointpillar的代码。我把写了注释的代码传到github上了，地址在下面，不过应该是不能跑，这个我是远程服务器代码在本地的拷贝，数据库什么也没有一起传上去。只有这些注释仅供参考。</p>
+<h3 id="加了注释的代码"><a href="#加了注释的代码" class="headerlink" title="加了注释的代码"></a>加了注释的代码</h3><p><a href="https://github.com/jianhuaguo/SSD-annotation" target="_blank" rel="noopener">代码</a></p>
 
       
     </div>
+    
+    
+    
 
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/pytorch/" rel="tag"># pytorch</a>
+          
+            <a href="/tags/python/" rel="tag"># python</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/08/11/2D-Driven 3D Object Detection in RGB-D Images/" rel="next" title="2D-Driven 3D Object Detection in RGB-D Images">
+                <i class="fa fa-chevron-left"></i> 2D-Driven 3D Object Detection in RGB-D Images
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
   </div>
   
   
   
+  </article>
 
-  
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -478,6 +488,17 @@
 
 
           
+
+  
+    <div class="comments" id="comments">
+      
+        <div id="gitment-container"></div>
+      
+    </div>
+
+  
+
+
 
         </div>
         
@@ -498,8 +519,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -571,6 +601,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#说明"><span class="nav-number">1.</span> <span class="nav-text">说明</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#代码地址"><span class="nav-number">2.</span> <span class="nav-text">代码地址</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#代码架构"><span class="nav-number">3.</span> <span class="nav-text">代码架构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#语法点"><span class="nav-number">4.</span> <span class="nav-text">语法点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#总结"><span class="nav-number">5.</span> <span class="nav-text">总结</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#加了注释的代码"><span class="nav-number">6.</span> <span class="nav-text">加了注释的代码</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -711,6 +757,10 @@
 
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
 
   
 
@@ -757,6 +807,28 @@
 
     
 
+    
+      <script type="text/javascript">
+      function renderGitment(){
+        var gitment = new Gitment({
+            id: window.location.pathname, 
+            owner: 'jianhuaguo',
+            repo: 'comment',
+            
+            oauth: {
+            
+            
+                client_secret: '5f8a04d2c8f6c247ba873ed055becce7fd8e8d4e',
+            
+                client_id: 'c64f76b98218903e21c9'
+            }});
+        gitment.render('gitment-container');
+      }
+
+      
+      renderGitment();
+      
+      </script>
     
 
 
