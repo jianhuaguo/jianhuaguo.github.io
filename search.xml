@@ -1,6 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[PointSIFT:A SIFT-like Network Module for 3D Point Cloud Semantic Segmentation]]></title>
+    <url>%2F2019%2F11%2F12%2FPointSIFT%20A%20SIFT-like%20Network%20Module%20for%203D%20Point%20Cloud%20Semantic%2F</url>
+    <content type="text"><![CDATA[贡献点（文章的创新点）这篇论文是针对语义分割，借鉴二维的SIFT提取特征的方法，对三维局部的点有针对性的提取特征，称为OE（Orientation-encoding ）模块，另外提出用不同的数量堆叠来学习尺寸不变性。 处理数据类型（针对的数据是网格、点云或者是二维多视角图像等），是否数据校正（数据是同一姿态，还是不同姿态）点云 网络结构（构架，损失函数等） 如上图所示，这个框架主要由三种模块组成，Set abstraction (SA) 和feature propagation (FP)是PointNet++里的模块，本文提出的PointSIFT，主要由两个部分组成，Orientation-encoding和Scale-awareness。 PointSIFTOrientation-encoding 提取每一个点的八个象限里距离最近的点，如果超出一定范围则取自己。这样就得到$2\times 2 \times 2 \times d$的特征，再沿着xyz轴三个方向做卷积，最终得到一个$1\times 1 \times 1\times d$的特征。 Scale-awareness 为了学习到多尺寸的特征，堆叠不同数目的OE模块，并且最后融合。 SA(Set abstraction)利用聚类得到K个中心点，将中心点周围的点赋值给中心点并计算特征，比如输入$N \times d$的特征，输出$N^{\prime} \times d^{\prime}$，N是点云所有的点数目，$N^{\prime}$是中心点的数目 FP(Feature propagation)基于得到的中心点特征，上采样恢复到本来的点的数目，具体方法是线性插值 训练方式（交替迭代方式训练，多步训练，还是整体训练）数据集（数据集的名称，包含的模型类别和数目），和结果 代码（运行的框架，代码的语言）代码 改进点（文章中自己总结的可能的下一步方向，和自己想可能的方向）主要想要为三维检测做预处理，但是好像没有大的三维语义分割的户外的数据库，所以还是得从二维分割入手 论文论文]]></content>
+      <categories>
+        <category>三维深度学习</category>
+      </categories>
+      <tags>
+        <tag>三维语义分割</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[SEG-VoxelNet for 3D Vehicle Detection from RGB and LiDAR Data]]></title>
     <url>%2F2019%2F10%2F24%2FSEG-VoxelNet%20for%203D%20Vehicle%20Detection%20from%20RGB%20and%20LiDAR%20Data%2F</url>
     <content type="text"><![CDATA[贡献点（文章的创新点）这篇文章是对voxelnet的另一种改进，增加语义分割的信息。效果比FPN还好一点，不过FPN用的框架是PointPillar，这篇文章用的是voxelnet原来的框架。 处理数据类型（针对的数据是网格、点云或者是二维多视角图像等），是否数据校正（数据是同一姿态，还是不同姿态）点云和二维图片 网络结构（构架，损失函数等） 该网络框架主要由三部分组成，二维语义分割，二维像素点和点云的匹配，体素的检测组成。 SEG-Net 用的LightNet的变种，主要有两个模块。 SCSE（Spatial Channel Squeeze and Excitation ），大概是压缩特征的通道，增大有用信息的权重。 RFB（The Receptive Field Block ）,不同步长和卷积核的大小的空洞卷积，就是得到不同大小感受野的特征。 最后得到的结果是每一个点对于每一个类的可能性，$\left(p_{\text {car }}, p_{\text {person}}, p_{\text {other}}\right)$ Alignment$w=\mathrm{K}[\mathrm{R} \mathbf{t}] \mathbf{p}$，w是二维上的点，k是相机的内参，R和t是物体的旋转矩阵和移动矩阵 Improved-VoxelNet 和正常的Voxel主要在提取特征不一样，多加了个语义分割的特征。每一个点的特征都是十维的，$\begin{aligned} \overline{\mathbf{p}}_{i}=&amp;\left[x_{i}, y_{i}, z_{i}, r_{i}, x_{i}-x_{c}, y_{i}-y_{c}, z_{i}-z_{c}，p_{i, c a r}, p_{i, p e r s o n}, p_{i, o t h e r}\right]^{T} \end{aligned}$，然后每一个FCN完之后都加上分割特征，可能是为了增强重要性。 损失函数语义分割的损失网络为$L_{s e g}\left(w_{1}\right)=-\sum_{x=1}^{m} \sum_{y=1}^{n} 1\left\{S_{(x, y)}=l\right\} \log \left(S_{(x, y)}\right)$，整个网络架构除了voxelnet的损失还要考虑语义分割的损失，所以自然就成了$L_{\text {total}}(w)=\lambda L_{\text {seg}}\left(w_{1}\right)+L_{\text {voxel}}\left(w_{2}\right)$。但是由于KITTI没有分割数据集，所以只能分开训练，先训练二维分割，然后固定二维分割网络。 训练方式（交替迭代方式训练，多步训练，还是整体训练）用CityScapes先训练SegNet，再用Kitti的几百个分割微调SegNet，然后固定二维分割网络。 最后使用随机梯度下降法，训练70epochs. 数据集（数据集的名称，包含的模型类别和数目），和结果 代码（运行的框架，代码的语言）无 改进点（文章中自己总结的可能的下一步方向，和自己想可能的方向）直接用三维分割，和上次看多层次的结合 论文论文]]></content>
