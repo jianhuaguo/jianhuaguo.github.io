@@ -56,6 +56,31 @@
     
     
     <entry>
+      <title>SECOND:Sparsely Embedded Convolutional Detection</title>
+      <link href="/2019/08/17/SECOND%20Sparsely%20Embedded%20Convolutional%20Detection/"/>
+      <url>/2019/08/17/SECOND%20Sparsely%20Embedded%20Convolutional%20Detection/</url>
+      
+        <content type="html"><![CDATA[<h3 id="贡献点（文章的创新点）"><a href="#贡献点（文章的创新点）" class="headerlink" title="贡献点（文章的创新点）"></a>贡献点（文章的创新点）</h3><p>这篇文章主要是对voxel的改进，主要的贡献点在三个方面，一是导入sparse convolution将voxelnet的三维卷积改进为二维卷积，提高速度，二是提出一个角度损失函数，三是提出一个新的数据增强方式。最大的改进点应该是导入sparse convolution。</p><a id="more"></a><h3 id="处理数据类型（针对的数据是网格、点云或者是二维多视角图像等），是否数据校正（数据是同一姿态，还是不同姿态）"><a href="#处理数据类型（针对的数据是网格、点云或者是二维多视角图像等），是否数据校正（数据是同一姿态，还是不同姿态）" class="headerlink" title="处理数据类型（针对的数据是网格、点云或者是二维多视角图像等），是否数据校正（数据是同一姿态，还是不同姿态）"></a>处理数据类型（针对的数据是网格、点云或者是二维多视角图像等），是否数据校正（数据是同一姿态，还是不同姿态）</h3><p>点云</p><h3 id="网络结构（构架，损失函数等）"><a href="#网络结构（构架，损失函数等）" class="headerlink" title="网络结构（构架，损失函数等）"></a>网络结构（构架，损失函数等）</h3><p><img src="https://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E4%B8%89%E7%BB%B4%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/SECOND%3A%20Sparsely%20Embedded%20Convolutional%20Detection/1.png" alt="1"></p><p>这个架构主要有三个部分，和voxelnet基本差不多，就是将三维卷积改成sparse convolution，实现了实时检测。第一部分将点云划分成体素，第二部分将体素的特征进行卷积，第三个部分就是常用的RPN,RPN之后的损失增加了一项，用以方向的检测矫正</p><h4 id="Point-Cloud-Grouping"><a href="#Point-Cloud-Grouping" class="headerlink" title="Point Cloud Grouping"></a>Point Cloud Grouping</h4><p>首先预设体素数目，遍历点，不断往体素里添加点，直到体素里的点到达超参数。最后可以得到体素的坐标，体素里的点的数目。体素的大小预设是唯一的，$0.4 \times 0.2 \times 0.2$</p><p>接着用VoxelNet的VFE提取体素层面特征</p><h4 id="Sparse-Convolutional-Middle-Extractor"><a href="#Sparse-Convolutional-Middle-Extractor" class="headerlink" title="Sparse Convolutional Middle Extractor"></a>Sparse Convolutional Middle Extractor</h4><p>Sparse Convolution的思想是有很多空结点会影响计算效率，所以讲空点直接赋为零，也不考虑后面的bias。</p><p>除了常规的Sparse convolution，作者采用了submainfold convolution，进一步节省了时间，由于我没看过这两篇论文，只能按照这篇论文里的解释大概了解一下。</p><p>主要是将三维的数据压缩成一维卷积的存储，然后利用算法将输入特征的索引和输出特征的索引相对应起来</p><h4 id="Region-Proposal-Network"><a href="#Region-Proposal-Network" class="headerlink" title="Region Proposal Network"></a>Region Proposal Network</h4><p>用的常用的类似SSD的二维检测方式，不过因为对方向重新编码，最后要多得到一个关于方向的得分</p><h4 id="关于角度的损失函数"><a href="#关于角度的损失函数" class="headerlink" title="关于角度的损失函数"></a>关于角度的损失函数</h4><p>直接用弧度差的话，对于0和π实际上是同一个框，却有很大的误差，所以用了以下新的损失函数</p><p>$L_{\theta}=\operatorname{SmoothL} 1\left(\sin \left(\theta_{p}-\theta_{t}\right)\right)$，但是这么定义损失函数的话，对于方向相反的框损失函数为零，所以额外加入一个方向分类器，用以判断这个方向是正还是负。</p><p>这个有点没办法理解，因为对于方向相反的框而言，IOU和GT应该是一样的，为什么要加个分类器呢。</p><p>是不是因为计算得分的时候也需要计算具体方向</p><h4 id="Focal-Loss"><a href="#Focal-Loss" class="headerlink" title="Focal Loss"></a>Focal Loss</h4><p>为了解决正负样本不均衡的问题，用了Focal Loss ，具体为$F L\left(p_{t}\right)=-\alpha_{t}\left(1-p_{t}\right)^{\gamma} \log \left(p_{t}\right)$，α和γ是超参数，pt是分类的可能性大小</p><h4 id="数据增强"><a href="#数据增强" class="headerlink" title="数据增强"></a>数据增强</h4><p>有一个比较新颖的方法，Sample Ground Truths from the Database ，就是从数据库找一些正样本随机加到点云去训练，同时也检测是否出现不合理的情况。</p><p>还有一些点云的翻转以及全部翻转等等</p><h3 id="训练方式（交替迭代方式训练，多步训练，还是整体训练）"><a href="#训练方式（交替迭代方式训练，多步训练，还是整体训练）" class="headerlink" title="训练方式（交替迭代方式训练，多步训练，还是整体训练）"></a>训练方式（交替迭代方式训练，多步训练，还是整体训练）</h3><p>one-stage，所以速度很快，学习率为2*10-4，adam下降方法</p><h3 id="数据集（数据集的名称，包含的模型类别和数目），和结果"><a href="#数据集（数据集的名称，包含的模型类别和数目），和结果" class="headerlink" title="数据集（数据集的名称，包含的模型类别和数目），和结果"></a>数据集（数据集的名称，包含的模型类别和数目），和结果</h3><p><img src="https://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E4%B8%89%E7%BB%B4%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/SECOND%3A%20Sparsely%20Embedded%20Convolutional%20Detection/2.png" alt></p><p><img src="https://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E4%B8%89%E7%BB%B4%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/SECOND%3A%20Sparsely%20Embedded%20Convolutional%20Detection/3.png" alt></p><p><img src="https://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E4%B8%89%E7%BB%B4%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/SECOND%3A%20Sparsely%20Embedded%20Convolutional%20Detection/4.png" alt></p><h3 id="代码（运行的框架，代码的语言）"><a href="#代码（运行的框架，代码的语言）" class="headerlink" title="代码（运行的框架，代码的语言）"></a>代码（运行的框架，代码的语言）</h3><p>pytorch</p><p>(<a href="https://github.com/nutonomy/second.pytorch" target="_blank" rel="noopener">https://github.com/nutonomy/second.pytorch</a>) </p><h3 id="改进点（文章中自己总结的可能的下一步方向，和自己想可能的方向）"><a href="#改进点（文章中自己总结的可能的下一步方向，和自己想可能的方向）" class="headerlink" title="改进点（文章中自己总结的可能的下一步方向，和自己想可能的方向）"></a>改进点（文章中自己总结的可能的下一步方向，和自己想可能的方向）</h3><p>这篇的离散卷积看得不太明白，大概就是排除掉0，当成一维卷积吧。</p><p>接下来要考虑如何用图结构做三维检测，或者加入图片，做个深层次的融合</p><h3 id="论文"><a href="#论文" class="headerlink" title="论文"></a>论文</h3><p><a href="https://guojianhua-site.oss-cn-shenzhen.aliyuncs.com/%E4%B8%89%E7%BB%B4%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/SECOND%3A%20Sparsely%20Embedded%20Convolutional%20Detection/SECOND%20Sparsely%20Embedded.pdf" target="_blank" rel="noopener">论文</a></p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 三维检测 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 三维检测 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>PointPillars:Fast Encoders for Object Detection from Point Clouds</title>
       <link href="/2019/08/14/PointPillars%20Fast%20Encoders%20for%20Object%20Detection%20from%20Point%20Clouds/"/>
       <url>/2019/08/14/PointPillars%20Fast%20Encoders%20for%20Object%20Detection%20from%20Point%20Clouds/</url>
